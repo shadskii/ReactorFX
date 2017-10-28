@@ -14,19 +14,42 @@
  * limitations under the License.
  */
 
-package freetimelabs.io.reactorfx.sources;
+package freetimelabs.io.reactorfx.flux;
 
+import freetimelabs.io.reactorfx.schedulers.FXScheduler;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-public class EventSource
+import java.util.Optional;
+
+public final class FxFluxFrom
 {
+    private FxFluxFrom()
+    {
+        // No instance
+    }
+
+    /**
+     * @param source
+     * @param <T>
+     * @return
+     */
+    public static <T> Mono<T> dialog(final Dialog<T> source)
+    {
+        return Mono.fromCallable(source::showAndWait)
+                   .subscribeOn(FXScheduler.getFxThread())
+                   .filter(Optional::isPresent)
+                   .map(Optional::get);
+    }
 
     /**
      * Creates a {@link Flux} which emits all Events of the argument {@link EventType} from the argument {@link Node}
@@ -36,7 +59,7 @@ public class EventSource
      * @param <T>
      * @return
      */
-    public static <T extends Event> Flux<T> fromNode(Node source, EventType<T> eventType)
+    public static <T extends Event> Flux<T> nodeEvent(Node source, EventType<T> eventType)
     {
         return Flux.create(emitter -> source.addEventHandler(eventType, emitter::next));
     }
@@ -47,7 +70,7 @@ public class EventSource
      * @param <T>
      * @return
      */
-    public static <T extends Event> Flux<T> fromScene(Scene source, EventType<T> eventType)
+    public static <T extends Event> Flux<T> sceneEvent(Scene source, EventType<T> eventType)
     {
         return Flux.create(emitter -> source.addEventHandler(eventType, emitter::next));
     }
@@ -58,7 +81,7 @@ public class EventSource
      * @param <T>
      * @return
      */
-    public static <T extends Event> Flux<T> fromStage(Stage source, EventType<T> eventType)
+    public static <T extends Event> Flux<T> stageEvent(Stage source, EventType<T> eventType)
     {
         return Flux.create(emitter -> source.addEventHandler(eventType, emitter::next));
     }
@@ -69,7 +92,7 @@ public class EventSource
      * @param <T>
      * @return
      */
-    public static <T extends Event> Flux<T> fromWindow(Window source, EventType<T> eventType)
+    public static <T extends Event> Flux<T> windowEvent(Window source, EventType<T> eventType)
     {
         return Flux.create(emitter ->
         {
@@ -78,4 +101,13 @@ public class EventSource
         });
     }
 
+    /**
+     * @param observableValue
+     * @param <T>
+     * @return
+     */
+    public static <T> Flux<T> oberservable(ObservableValue<T> observableValue)
+    {
+        return Flux.create(emitter -> observableValue.addListener((obs, oldVal, newVal) -> emitter.next(newVal)));
+    }
 }
