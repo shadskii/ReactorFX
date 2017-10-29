@@ -20,6 +20,8 @@ import freetimelabs.io.reactorfx.schedulers.FXScheduler;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -165,6 +167,23 @@ public final class FxFluxFrom
     public static Flux<ActionEvent> nodeActionEvent(Node source)
     {
         return nodeEvent(source, ActionEvent.ANY);
+    }
+
+    /**
+     * Creates a Flux that emits the argument {@link ObservableList} every time it has been updated.
+     *
+     * @param source - The ObservableList to listen to.
+     * @param <T>    - The type of the ObservableList
+     * @return A Flux that emits the argument list whenever it has ben changed.
+     */
+    public static <T> Flux<ObservableList<T>> observableList(ObservableList<T> source)
+    {
+        return Flux.create(emitter ->
+        {
+            final ListChangeListener<T> listener = c -> emitter.next(source);
+            source.addListener(listener);
+            emitter.onDispose(onFx(() -> source.removeListener(listener)));
+        });
     }
 
     private static Disposable onFx(Runnable task)
