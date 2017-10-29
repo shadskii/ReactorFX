@@ -18,6 +18,7 @@ package freetimelabs.io.reactorfx.flux;
 
 import freetimelabs.io.reactorfx.schedulers.FXScheduler;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -109,5 +110,14 @@ public final class FxFluxFrom
     public static <T> Flux<T> oberservable(ObservableValue<T> observableValue)
     {
         return Flux.create(emitter -> observableValue.addListener((obs, oldVal, newVal) -> emitter.next(newVal)));
+    }
+
+    public static Flux<ActionEvent> nodeActionEvent(Node source)
+    {
+        return Flux.create(emitter ->
+        {
+            final EventHandler<ActionEvent> handler = emitter::next;
+            source.addEventHandler(ActionEvent.ANY, handler);
+        });
     }
 }
