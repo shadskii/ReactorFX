@@ -17,6 +17,7 @@
 package freetimelabs.io.reactorfx.flux;
 
 import freetimelabs.io.reactorfx.schedulers.FXScheduler;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -30,6 +31,7 @@ import javafx.stage.Window;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public final class FxFluxFrom
@@ -55,14 +57,19 @@ public final class FxFluxFrom
     /**
      * Creates a {@link Flux} which emits all Events of the argument {@link EventType} from the argument {@link Node}
      *
-     * @param source
-     * @param eventType
-     * @param <T>
-     * @return
+     * @param source    - The target Node where UI events are emitted from.
+     * @param eventType - The type of event to listen for.
+     * @param <T>       - The event type.
+     * @return A Flux that emits all events of the argument type that originate from the argument node.
      */
     public static <T extends Event> Flux<T> nodeEvent(Node source, EventType<T> eventType)
     {
-        return Flux.create(emitter -> source.addEventHandler(eventType, emitter::next));
+        return Flux.create(emitter ->
+        {
+            final EventHandler<T> handler = emitter::next;
+            source.addEventHandler(eventType, handler);
+            emitter.onDispose(() -> source.removeEventHandler(eventType, handler));
+        });
     }
 
     /**
@@ -73,7 +80,12 @@ public final class FxFluxFrom
      */
     public static <T extends Event> Flux<T> sceneEvent(Scene source, EventType<T> eventType)
     {
-        return Flux.create(emitter -> source.addEventHandler(eventType, emitter::next));
+        return Flux.create(emitter ->
+        {
+            final EventHandler<T> handler = emitter::next;
+            source.addEventHandler(eventType, handler);
+            emitter.onDispose(() -> source.removeEventHandler(eventType, handler));
+        });
     }
 
     /**
@@ -84,7 +96,12 @@ public final class FxFluxFrom
      */
     public static <T extends Event> Flux<T> stageEvent(Stage source, EventType<T> eventType)
     {
-        return Flux.create(emitter -> source.addEventHandler(eventType, emitter::next));
+        return Flux.create(emitter ->
+        {
+            final EventHandler<T> handler = emitter::next;
+            source.addEventHandler(eventType, handler);
+            emitter.onDispose(() -> source.removeEventHandler(eventType, handler));
+        });
     }
 
     /**
@@ -99,6 +116,7 @@ public final class FxFluxFrom
         {
             final EventHandler<T> handler = emitter::next;
             source.addEventHandler(eventType, handler);
+            emitter.onDispose(() -> source.removeEventFilter(eventType, handler));
         });
     }
 
@@ -109,15 +127,22 @@ public final class FxFluxFrom
      */
     public static <T> Flux<T> oberservable(ObservableValue<T> observableValue)
     {
-        return Flux.create(emitter -> observableValue.addListener((obs, oldVal, newVal) -> emitter.next(newVal)));
+        return Flux.create(emitter ->
+        {
+            final ChangeListener<T> handler = (obs, oldVal, newVal) ->
+            {
+                if (Objects.nonNull(newVal))
+                {
+                    emitter.next(newVal);
+                }
+            };
+            observableValue.addListener(handler);
+            emitter.onDispose(() -> observableValue.removeListener(handler));
+        });
     }
 
     public static Flux<ActionEvent> nodeActionEvent(Node source)
     {
-        return Flux.create(emitter ->
-        {
-            final EventHandler<ActionEvent> handler = emitter::next;
-            source.addEventHandler(ActionEvent.ANY, handler);
-        });
+        return nodeEvent(source, ActionEvent.ANY);
     }
 }
