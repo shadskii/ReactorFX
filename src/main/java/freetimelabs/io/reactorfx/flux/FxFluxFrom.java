@@ -38,6 +38,9 @@ import reactor.core.publisher.Mono;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * This class allows for easy creation of listeners to JavaFX components.
+ */
 public final class FxFluxFrom
 {
     private FxFluxFrom()
