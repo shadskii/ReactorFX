@@ -16,7 +16,7 @@
 
 package freetimelabs.io.reactorfx.flux;
 
-import freetimelabs.io.reactorfx.schedulers.FXScheduler;
+import freetimelabs.io.reactorfx.schedulers.FxSchedulers;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -59,7 +59,7 @@ public final class FxFluxFrom
     public static <T> Mono<T> dialog(final Dialog<T> source)
     {
         return Mono.fromCallable(source::showAndWait)
-                   .subscribeOn(FXScheduler.getFxThread())
+                   .subscribeOn(FxSchedulers.getFxSchedulerFromReactor())
                    .filter(Optional::isPresent)
                    .map(Optional::get);
     }
