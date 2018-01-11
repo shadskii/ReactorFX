@@ -29,6 +29,7 @@ import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import reactor.core.Disposable;
@@ -62,6 +63,25 @@ public final class FxFluxFrom
                    .subscribeOn(FxSchedulers.getFxSchedulerFromReactor())
                    .filter(Optional::isPresent)
                    .map(Optional::get);
+    }
+
+    /**
+     * Creates a {@link Flux} which emits all {@link Event} of the argument {@link EventType} from the argument {@link
+     * MenuItem}.
+     *
+     * @param source    - The target MenuItem where UI events are emitted from.
+     * @param eventType - The type of event to listen for.
+     * @param <T>       - The event type
+     * @return A Flux that emits all events of the argument tyipe that originate form the argument node.
+     */
+    public static <T extends Event> Flux<T> menuItemEvent(MenuItem source, EventType<T> eventType)
+    {
+        return Flux.create(emitter ->
+        {
+            final EventHandler<T> handler = emitter::next;
+            source.addEventHandler(eventType, handler);
+            emitter.onDispose(onFx(() -> source.removeEventHandler(eventType, handler)));
+        });
     }
 
     /**
