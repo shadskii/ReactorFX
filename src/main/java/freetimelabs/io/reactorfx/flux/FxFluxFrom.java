@@ -72,7 +72,7 @@ public final class FxFluxFrom
      * @param source    - The target MenuItem where UI events are emitted from.
      * @param eventType - The type of event to listen for.
      * @param <T>       - The event type
-     * @return A Flux that emits all events of the argument tyipe that originate form the argument node.
+     * @return A Flux that emits all events of the argument type that originate form the argument node.
      */
     public static <T extends Event> Flux<T> menuItemEvent(MenuItem source, EventType<T> eventType)
     {
