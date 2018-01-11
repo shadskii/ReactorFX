@@ -35,6 +35,7 @@ import javafx.stage.Window;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -51,7 +52,9 @@ public final class FxFluxFrom
 
     /**
      * Creates a {@link Mono} which emits when the argument Dialog has been finished. This will not emit if nothing is
-     * selected from the dialog.
+     * selected from the dialog. The {@link Scheduler} used to listen for events will be {@link
+     * FxSchedulers#getFxSchedulerFromReactor()}. Equivalent to calling {@link FxFluxFrom#dialog(Dialog, Scheduler)}
+     * with {@link FxSchedulers#getFxSchedulerFromReactor()}.
      *
      * @param source - The dialog to listen to.
      * @param <T>    - The type of the dialog.
@@ -59,8 +62,23 @@ public final class FxFluxFrom
      */
     public static <T> Mono<T> dialog(final Dialog<T> source)
     {
+        return dialog(source, FxSchedulers.getFxSchedulerFromReactor());
+    }
+
+    /**
+     * Creates a {@link Mono} which emits when the argument Dialog has been finished. This will not emit if nothing is
+     * selected from the dialog. The argument {@link Scheduler} will be used for listening for events
+     *
+     * @param source    - The dialog ot listen to.
+     * @param scheduler - The Schedueler that the dialog will show on. This should provide access to the JavaFX
+     *                  application thread.
+     * @param <T>       - The type of the dialog
+     * @return A mono which emits when the dialog has been selected.
+     */
+    public static <T> Mono<T> dialog(final Dialog<T> source, Scheduler scheduler)
+    {
         return Mono.fromCallable(source::showAndWait)
-                   .subscribeOn(FxSchedulers.getFxSchedulerFromReactor())
+                   .subscribeOn(scheduler)
                    .filter(Optional::isPresent)
                    .map(Optional::get);
     }
