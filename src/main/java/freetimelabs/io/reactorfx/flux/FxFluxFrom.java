@@ -70,7 +70,7 @@ public final class FxFluxFrom
      * selected from the dialog. The argument {@link Scheduler} will be used for listening for events
      *
      * @param source    - The dialog ot listen to.
-     * @param scheduler - The Schedueler that the dialog will show on. This should provide access to the JavaFX
+     * @param scheduler - The Scheduler that the dialog will show on. This should provide access to the JavaFX
      *                  application thread.
      * @param <T>       - The type of the dialog
      * @return A mono which emits when the dialog has been selected.
