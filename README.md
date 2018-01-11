@@ -7,6 +7,7 @@ This library allows for better integration between Project Reactor and JavaFX. `
 private Button btn;
 
 FxFluxFrom.nodeActionEvent(btn)
+          .subscribeOn(fxThead)
           .publishOn(anotherScheduler)
           .map(ActionEvent::getSource)
           .subscribe(System.out::println);
