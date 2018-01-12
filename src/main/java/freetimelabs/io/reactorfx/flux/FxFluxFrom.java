@@ -182,7 +182,7 @@ public final class FxFluxFrom
      * @param <T>             - The type of the observable.
      * @return A Flux that emits the newest value of the argument observable when it has been changed.
      */
-    public static <T> Flux<T> oberservable(ObservableValue<T> observableValue)
+    public static <T> Flux<T> observable(ObservableValue<T> observableValue)
     {
         return Flux.create(emitter ->
         {
