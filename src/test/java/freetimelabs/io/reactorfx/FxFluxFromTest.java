@@ -26,6 +26,9 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -117,6 +120,37 @@ public class FxFluxFromTest
               .fireEvent(e);
         assertThat(event.get()
                         .getSource()).isEqualTo(pane);
+    }
+
+    @Test
+    public void testMenuItemActionEvent() throws TimeoutException, InterruptedException
+    {
+        AtomicReference<MenuItem> actual = new AtomicReference<>();
+        setStage(stage ->
+        {
+            MenuItem item = new MenuItem("look I'm a menu");
+            MenuBar bar = new MenuBar();
+            Menu menu = new Menu();
+            menu.getItems()
+                .add(item);
+            bar.getMenus()
+               .add(menu);
+            actual.set(item);
+            stage.setScene(new Scene(bar));
+        });
+
+        AtomicReference<Event> event = new AtomicReference<>();
+        MenuItem menuItem = actual.get();
+        FxFluxFrom.menuItemEvent(menuItem, ActionEvent.ANY)
+                  .publishOn(thread)
+                  .subscribe(event::set);
+
+
+        ActionEvent e = new ActionEvent();
+        menuItem
+                .fire();
+        assertThat(event.get()
+                        .getSource()).isEqualTo(menuItem);
     }
 
     @Test
