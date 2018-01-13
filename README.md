@@ -1,4 +1,6 @@
 # reactor-javafx
+[![Build Status](https://travis-ci.org/shadskii/reactor-javafx.svg?branch=master)](https://travis-ci.org/shadskii/reactor-javafx)
+
 This library allows for better integration between Project Reactor and JavaFX. `FxFluxFrom` minimizes the effort required for using Project Reactor for JavaFX event handling.
 
 ### Example Usage
