@@ -12,13 +12,12 @@ repositories {
 }
 
 jacocoTestReport {
-    additionalSourceDirs = files(sourceSets.main.allSource.srcDirs)
-    sourceDirectories = files(sourceSets.main.allSource.srcDirs)
-    classDirectories =  files(sourceSets.main.output)
     reports {
         xml.enabled true
         html.enabled false
     }
+    classDirectories = fileTree(dir: 'build/classes/main', include: 'freetimelabs/io/**')
+    sourceDirectories = fileTree(dir: 'scr/main/java', include: 'freetimelabs/io/**')
 }
 
 dependencies {
