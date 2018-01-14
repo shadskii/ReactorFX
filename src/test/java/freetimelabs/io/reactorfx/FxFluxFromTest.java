@@ -211,6 +211,33 @@ public class FxFluxFromTest
                         .getSource()).isEqualTo(scene);
     }
 
+    @Test
+    public void testStageEvent() throws TimeoutException, InterruptedException
+    {
+        AtomicReference<Stage> actual = new AtomicReference<>();
+        AtomicReference<Node> actualNode = new AtomicReference<>();
+        setStage(stage ->
+        {
+            Pane pane = new Pane();
+            Scene scene = new Scene(pane);
+            actualNode.set(pane);
+            actual.set(stage);
+            stage.setScene(scene);
+        });
+
+        AtomicReference<Event> event = new AtomicReference<>();
+        Stage stage = actual.get();
+
+        FxFluxFrom.stageEvent(stage, KeyEvent.KEY_TYPED)
+                  .publishOn(thread)
+                  .subscribe(event::set);
+
+        actualNode.get()
+                  .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false));
+        assertThat(event.get()
+                        .getSource()).isEqualTo(stage);
+    }
+
     public static final class TestApp extends Application
     {
         private static final AtomicReference<TestApp> TEST_APP = new AtomicReference<>();
