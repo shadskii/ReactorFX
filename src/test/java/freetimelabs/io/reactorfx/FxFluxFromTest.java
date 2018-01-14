@@ -33,6 +33,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import reactor.core.scheduler.Scheduler;
@@ -236,6 +237,33 @@ public class FxFluxFromTest
                   .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false));
         assertThat(event.get()
                         .getSource()).isEqualTo(stage);
+    }
+
+    @Test
+    public void testWindowEvent() throws TimeoutException, InterruptedException
+    {
+        AtomicReference<Window> actual = new AtomicReference<>();
+        AtomicReference<Node> actualNode = new AtomicReference<>();
+        setStage(stage ->
+        {
+            Pane pane = new Pane();
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+            actualNode.set(pane);
+            actual.set(stage);
+        });
+
+        AtomicReference<Event> event = new AtomicReference<>();
+        Window window = actual.get();
+
+        FxFluxFrom.windowEvent(window, KeyEvent.KEY_TYPED)
+                  .publishOn(thread)
+                  .subscribe(event::set);
+
+        actualNode.get()
+                  .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false));
+        assertThat(event.get()
+                        .getSource()).isEqualTo(window);
     }
 
     public static final class TestApp extends Application
