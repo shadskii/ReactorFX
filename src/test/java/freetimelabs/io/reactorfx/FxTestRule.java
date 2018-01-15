@@ -109,5 +109,11 @@ public class FxTestRule implements TestRule
             stage = primaryStage;
             p.arrive();
         }
+
+        @Override
+        public void stop()
+        {
+            APP_INITIALIZED.set(false);
+        }
     }
 }

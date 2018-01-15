@@ -17,7 +17,6 @@
 package freetimelabs.io.reactorfx;
 
 import freetimelabs.io.reactorfx.flux.FxFluxFrom;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -32,7 +31,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 import reactor.core.Disposable;
 import reactor.core.scheduler.Scheduler;
@@ -43,36 +42,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.*;
+import java.util.concurrent.Phaser;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FxFluxFromTest
 {
-    private static final Phaser p = new Phaser(2);
-    private static final ExecutorService SERVICE = Executors.newSingleThreadExecutor();
     private Scheduler thread = Schedulers.immediate();
 
-    @BeforeClass
-    public static void initApplication() throws TimeoutException, InterruptedException
-    {
-        SERVICE.submit(() -> Application.launch(TestApp.class));
-        p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
-    }
+    @ClassRule
+    public static final FxTestRule FX_RULE = new FxTestRule();
 
-    private void setStage(Consumer<Stage> stageConsumer) throws TimeoutException, InterruptedException
-    {
-        Phaser barrier = new Phaser(2);
-        Platform.runLater(() ->
-        {
-            stageConsumer.accept(TestApp.primaryStage());
-            barrier.arrive();
-        });
-        barrier.awaitAdvanceInterruptibly(barrier.arrive(), 3, TimeUnit.SECONDS);
-
-    }
 
     @Test
     public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException
@@ -132,7 +115,7 @@ public class FxFluxFromTest
     public void testNodeEvent() throws TimeoutException, InterruptedException
     {
         AtomicReference<Node> actual = new AtomicReference<>();
-        setStage(stage ->
+        FX_RULE.onStage(stage ->
         {
             Pane pane = new Pane();
             actual.set(pane);
@@ -157,7 +140,7 @@ public class FxFluxFromTest
     public void testNodeActionEvent() throws TimeoutException, InterruptedException
     {
         AtomicReference<Node> actual = new AtomicReference<>();
-        setStage(stage ->
+        FX_RULE.onStage(stage ->
         {
             Pane pane = new Pane();
             actual.set(pane);
@@ -182,7 +165,7 @@ public class FxFluxFromTest
     public void testMenuItemActionEvent() throws TimeoutException, InterruptedException
     {
         AtomicReference<MenuItem> actual = new AtomicReference<>();
-        setStage(stage ->
+        FX_RULE.onStage(stage ->
         {
             MenuItem item = new MenuItem("look I'm a menu");
             MenuBar bar = new MenuBar();
@@ -251,7 +234,7 @@ public class FxFluxFromTest
     {
         AtomicReference<Scene> actual = new AtomicReference<>();
         AtomicReference<Node> actualNode = new AtomicReference<>();
-        setStage(stage ->
+        FX_RULE.onStage(stage ->
         {
             Pane pane = new Pane();
             Scene scene = new Scene(pane);
@@ -279,7 +262,7 @@ public class FxFluxFromTest
     {
         AtomicReference<Stage> actual = new AtomicReference<>();
         AtomicReference<Node> actualNode = new AtomicReference<>();
-        setStage(stage ->
+        FX_RULE.onStage(stage ->
         {
             Pane pane = new Pane();
             Scene scene = new Scene(pane);
@@ -306,7 +289,7 @@ public class FxFluxFromTest
     {
         AtomicReference<Window> actual = new AtomicReference<>();
         AtomicReference<Node> actualNode = new AtomicReference<>();
-        setStage(stage ->
+        FX_RULE.onStage(stage ->
         {
             Pane pane = new Pane();
             Scene scene = new Scene(pane);
@@ -328,29 +311,4 @@ public class FxFluxFromTest
                         .getSource()).isEqualTo(window);
     }
 
-    public static final class TestApp extends Application
-    {
-        private static final AtomicReference<TestApp> TEST_APP = new AtomicReference<>();
-        private Stage stage;
-
-        public TestApp()
-        {
-            synchronized (TEST_APP)
-            {
-                TEST_APP.getAndSet(this);
-            }
-        }
-
-        public static Stage primaryStage()
-        {
-            return TEST_APP.get().stage;
-        }
-
-        @Override
-        public void start(Stage primaryStage) throws Exception
-        {
-            stage = primaryStage;
-            p.arrive();
-        }
-    }
 }
