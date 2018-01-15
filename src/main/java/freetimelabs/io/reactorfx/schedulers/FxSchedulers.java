@@ -43,19 +43,9 @@ public final class FxSchedulers
      *
      * @return A Scheduler that provides access to the JavaFX application thread.
      */
-    public static Scheduler getFxSchedulerFromReactor()
+    public static Scheduler platform()
     {
         return FX_THREAD;
     }
 
-    /**
-     * This is an implementation of a JavaFX scheduler. It is based on the implementation used by RxJavaFX. {@link
-     * JavaFxScheduler}.
-     *
-     * @return A Scheduler that provides access to the JavaFX application thread.
-     */
-    public static Scheduler getQueuedFxScheduler()
-    {
-        return JavaFxScheduler.platform();
-    }
 }

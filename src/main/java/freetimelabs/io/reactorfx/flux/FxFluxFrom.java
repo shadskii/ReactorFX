@@ -53,8 +53,8 @@ public final class FxFluxFrom
     /**
      * Creates a {@link Mono} which emits when the argument Dialog has been finished. This will not emit if nothing is
      * selected from the dialog. The {@link Scheduler} used to listen for events will be {@link
-     * FxSchedulers#getFxSchedulerFromReactor()}. Equivalent to calling {@link FxFluxFrom#dialog(Dialog, Scheduler)}
-     * with {@link FxSchedulers#getFxSchedulerFromReactor()}.
+     * FxSchedulers#platform()}. Equivalent to calling {@link FxFluxFrom#dialog(Dialog, Scheduler)}
+     * with {@link FxSchedulers#platform()}.
      *
      * @param source - The dialog to listen to.
      * @param <T>    - The type of the dialog.
@@ -62,7 +62,7 @@ public final class FxFluxFrom
      */
     public static <T> Mono<T> dialog(final Dialog<T> source)
     {
-        return dialog(source, FxSchedulers.getFxSchedulerFromReactor());
+        return dialog(source, FxSchedulers.platform());
     }
 
     /**
