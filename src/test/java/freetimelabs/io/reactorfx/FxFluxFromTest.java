@@ -26,9 +26,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -40,6 +38,7 @@ import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -73,6 +72,51 @@ public class FxFluxFromTest
     }
 
     @Test
+    public void testDialog() throws TimeoutException, InterruptedException
+    {
+        AtomicReference<TextInputDialog> actual = new AtomicReference<>();
+        Phaser start = new Phaser(2);
+        Platform.runLater(() ->
+        {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.initOwner(null);
+            actual.set(dialog);
+            start.arrive();
+        });
+
+        start.awaitAdvanceInterruptibly(start.arrive(), 3, TimeUnit.SECONDS);
+        TextInputDialog dialog = actual.get();
+        AtomicReference<Object> res = new AtomicReference<>();
+        Phaser p = new Phaser(2);
+        FxFluxFrom.dialog(dialog)
+                  .subscribe(o ->
+                  {
+                      res.set(o);
+                      p.arrive();
+                  });
+
+        String hello = "Hello";
+        Platform.runLater(() ->
+        {
+            dialog.getEditor()
+                  .setText(hello);
+            Node isNull =
+                    dialog.getDialogPane()
+                          .lookupButton(ButtonType.OK);
+            if (Objects.nonNull(isNull))
+            {
+                isNull.fireEvent(new ActionEvent());
+            }
+
+        });
+
+
+        p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
+        assertThat(res.get()).isEqualTo(hello);
+
+    }
+
+    @Test
     public void testNodeEvent() throws TimeoutException, InterruptedException
     {
         AtomicReference<Node> actual = new AtomicReference<>();
@@ -89,7 +133,6 @@ public class FxFluxFromTest
         FxFluxFrom.nodeEvent(pane, KeyEvent.KEY_TYPED)
                   .publishOn(thread)
                   .subscribe(event::set);
-
 
         actual.get()
               .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false));
