@@ -19,7 +19,7 @@ package freetimelabs.io.reactorfx;
 import freetimelabs.io.reactorfx.flux.FxFluxFrom;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,13 +34,13 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import reactor.core.Disposable;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
@@ -200,16 +200,16 @@ public class FxFluxFromTest
     @Test
     public void testObservable()
     {
-        SimpleBooleanProperty observable = new SimpleBooleanProperty(false);
-        AtomicBoolean actual = new AtomicBoolean();
+        SimpleObjectProperty<String> observable = new SimpleObjectProperty<>("hi");
+        AtomicReference<Object> actual = new AtomicReference<>();
         FxFluxFrom.observable(observable)
                   .publishOn(thread)
                   .subscribe(actual::set);
-        observable.set(true);
-        assertThat(actual.get()).isTrue();
+        observable.set("hello");
+        assertThat(actual.get()).isEqualTo("hello");
 
-        observable.set(false);
-        assertThat(actual.get()).isFalse();
+        observable.set(null);
+        assertThat(actual.get()).isEqualTo("hello");
     }
 
     @Test
@@ -217,14 +217,15 @@ public class FxFluxFromTest
     {
         ObservableList<Integer> list = FXCollections.observableArrayList(1, 2, 3);
         AtomicReference<List> actual = new AtomicReference<>();
-        FxFluxFrom.observableList(list)
-                  .publishOn(thread)
-                  .subscribe(actual::set);
+        Disposable disposable = FxFluxFrom.observableList(list)
+                                          .publishOn(thread)
+                                          .subscribe(actual::set);
         list.add(4);
         assertThat(actual.get()).containsExactly(1, 2, 3, 4);
 
         list.remove(3);
         assertThat(actual.get()).containsExactly(1, 2, 3);
+        Platform.runLater(() -> disposable.dispose());
     }
 
     @Test
