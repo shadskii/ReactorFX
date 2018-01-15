@@ -37,9 +37,7 @@ import reactor.core.Disposable;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Phaser;
@@ -60,10 +58,7 @@ public class FxFluxFromTest
     @Test
     public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException
     {
-        Constructor<FxFluxFrom> constructor = FxFluxFrom.class.getDeclaredConstructor();
-        assertThat(Modifier.isPrivate(constructor.getModifiers())).isTrue();
-        constructor.setAccessible(true);
-        constructor.newInstance();
+        NoInstanceTestHelper.testNoInstance(FxFluxFrom.class);
     }
 
     @Test
