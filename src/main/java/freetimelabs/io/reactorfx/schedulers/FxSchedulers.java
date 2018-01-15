@@ -24,8 +24,6 @@ import java.util.concurrent.Executor;
 
 /**
  * This class aggregates all of the different flavors of JavaFX {@link Scheduler} available as part of this repository.
- * All of these schedulers should be used with caution as this repository is still in an experimental state. Through
- * continued experimentation we hope to find an optimal solution to scheduling JavaFX tasks in a non-blocking manner.
  */
 public final class FxSchedulers
 {
