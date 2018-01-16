@@ -1,4 +1,4 @@
-# FXcellent Reactor
+# (FX)cellent Reactor
 [![Build Status](https://travis-ci.org/shadskii/reactor-javafx.svg?branch=master)](https://travis-ci.org/shadskii/reactor-javafx)
 [![codecov](https://codecov.io/gh/shadskii/reactor-javafx/branch/master/graph/badge.svg)](https://codecov.io/gh/shadskii/reactor-javafx)
 
