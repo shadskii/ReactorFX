@@ -256,6 +256,34 @@ public final class FxFluxFrom
         });
     }
 
+    /**
+     * Creates a Flux that listens for changes to the argument {@link ObservableList} and emits all of the removals to
+     * the list whenever it has been updated.
+     *
+     * @param source - The ObservableList to listen to.
+     * @param <T>    - The type of the ObservableList
+     * @return A Flux that emits the removals to the list whenever it has been changed.
+     */
+    public static <T> Flux<T> observableListRemovals(ObservableList<T> source)
+    {
+        return Flux.create(emitter ->
+        {
+            final ListChangeListener<T> listener = c ->
+            {
+                while (c.next())
+                {
+                    if (c.wasRemoved())
+                    {
+                        c.getRemoved()
+                         .forEach(emitter::next);
+                    }
+                }
+
+            };
+            source.addListener(listener);
+            emitter.onDispose(onFx(() -> source.removeListener(listener)));
+        });
+    }
 
     private static Disposable onFx(Runnable task)
     {

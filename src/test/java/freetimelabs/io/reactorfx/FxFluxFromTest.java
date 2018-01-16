@@ -244,6 +244,21 @@ public class FxFluxFromTest
     }
 
     @Test
+    public void testObservableListRemovals()
+    {
+        ObservableList<Integer> list = FXCollections.observableArrayList(1, 2, 3);
+        AtomicReference<Integer> actual = new AtomicReference<>();
+        Disposable disposable = FxFluxFrom.observableListRemovals(list)
+                                          .publishOn(thread)
+                                          .subscribe(actual::set);
+        list.remove(0);
+        assertThat(actual.get()).isEqualTo(1);
+
+        list.add(3);
+        assertThat(actual.get()).isEqualTo(1);
+    }
+
+    @Test
     public void testSceneEvent() throws TimeoutException, InterruptedException
     {
         AtomicReference<Scene> actual = new AtomicReference<>();
