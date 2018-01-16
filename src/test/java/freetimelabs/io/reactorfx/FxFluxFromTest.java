@@ -32,6 +32,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 import reactor.core.Disposable;
 import reactor.core.scheduler.Scheduler;
@@ -62,8 +63,11 @@ public class FxFluxFromTest
     }
 
     @Test
+    @Ignore
     public void testDialog() throws TimeoutException, InterruptedException
     {
+        FX_RULE.onStage(stage -> stage.setScene(new Scene(new Pane())));
+
         AtomicReference<TextInputDialog> actual = new AtomicReference<>();
         Phaser start = new Phaser(2);
         Platform.runLater(() ->
@@ -211,10 +215,12 @@ public class FxFluxFromTest
                                           .publishOn(thread)
                                           .subscribe(actual::set);
         list.add(4);
-        assertThat(actual.get()).containsExactly(1, 2, 3, 4);
+        List<Integer> retList = actual.get();
+        assertThat(retList).containsExactly(1, 2, 3, 4);
 
         list.remove(3);
-        assertThat(actual.get()).containsExactly(1, 2, 3);
+        retList = actual.get();
+        assertThat(retList).containsExactly(1, 2, 3);
         Phaser p = new Phaser(2);
         Platform.runLater(() ->
         {
