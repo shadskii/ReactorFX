@@ -210,17 +210,15 @@ public class FxFluxFromTest
     public void testObservableList() throws TimeoutException, InterruptedException
     {
         ObservableList<Integer> list = FXCollections.observableArrayList(1, 2, 3);
-        AtomicReference<List> actual = new AtomicReference<>();
+        AtomicReference<List<Integer>> actual = new AtomicReference<>();
         Disposable disposable = FxFluxFrom.observableList(list)
                                           .publishOn(thread)
                                           .subscribe(actual::set);
         list.add(4);
-        List<Integer> retList = actual.get();
-        assertThat(retList).containsExactly(1, 2, 3, 4);
+        assertThat(actual.get()).containsExactly(1, 2, 3, 4);
 
         list.remove(3);
-        retList = actual.get();
-        assertThat(retList).containsExactly(1, 2, 3);
+        assertThat(actual.get()).containsExactly(1, 2, 3);
         Phaser p = new Phaser(2);
         Platform.runLater(() ->
         {
@@ -228,6 +226,21 @@ public class FxFluxFromTest
             p.arrive();
         });
         p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void testObservableListAdditions()
+    {
+        ObservableList<Integer> list = FXCollections.observableArrayList(1, 2, 3);
+        AtomicReference<Integer> actual = new AtomicReference<>();
+        Disposable disposable = FxFluxFrom.observableListAdditions(list)
+                                          .publishOn(thread)
+                                          .subscribe(actual::set);
+        list.add(4);
+        assertThat(actual.get()).isEqualTo(4);
+
+        list.remove(3);
+        assertThat(actual.get()).isEqualTo(4);
     }
 
     @Test

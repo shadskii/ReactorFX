@@ -53,8 +53,8 @@ public final class FxFluxFrom
     /**
      * Creates a {@link Mono} which emits when the argument Dialog has been finished. This will not emit if nothing is
      * selected from the dialog. The {@link Scheduler} used to listen for events will be {@link
-     * FxSchedulers#platform()}. Equivalent to calling {@link FxFluxFrom#dialog(Dialog, Scheduler)}
-     * with {@link FxSchedulers#platform()}.
+     * FxSchedulers#platform()}. Equivalent to calling {@link FxFluxFrom#dialog(Dialog, Scheduler)} with {@link
+     * FxSchedulers#platform()}.
      *
      * @param source - The dialog to listen to.
      * @param <T>    - The type of the dialog.
@@ -226,6 +226,36 @@ public final class FxFluxFrom
             emitter.onDispose(onFx(() -> source.removeListener(listener)));
         });
     }
+
+    /**
+     * Creates a Flux that listens for changes to the argument {@link ObservableList} and emits all of the additions to
+     * the list whenever it has been updated.
+     *
+     * @param source - The ObservableList to listen to.
+     * @param <T>    - The type of the ObservableList
+     * @return A Flux that emits the additions to the list whenever it has been changed.
+     */
+    public static <T> Flux<T> observableListAdditions(ObservableList<T> source)
+    {
+        return Flux.create(emitter ->
+        {
+            final ListChangeListener<T> listener = c ->
+            {
+                while (c.next())
+                {
+                    if (c.wasAdded())
+                    {
+                        c.getAddedSubList()
+                         .forEach(emitter::next);
+                    }
+                }
+
+            };
+            source.addListener(listener);
+            emitter.onDispose(onFx(() -> source.removeListener(listener)));
+        });
+    }
+
 
     private static Disposable onFx(Runnable task)
     {
