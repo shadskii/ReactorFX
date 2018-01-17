@@ -163,26 +163,23 @@ public class FxFluxFromTest
         AtomicReference<Event> event = new AtomicReference<>();
         Phaser p = new Phaser(2);
         Node pane = actual.get();
-        FxFluxFrom.nodeActionEvent(pane)
-                  .subscribeOn(fxThread)
-                  .publishOn(thread)
-                  .subscribe(e ->
-                  {
-                      event.set(e);
-                      p.arrive();
-                  });
-
+        Disposable disposable = FxFluxFrom.nodeActionEvent(pane)
+                                          .subscribeOn(fxThread)
+                                          .publishOn(thread)
+                                          .subscribe(e ->
+                                          {
+                                              event.set(e);
+                                              p.arrive();
+                                          });
 
         ActionEvent e = new ActionEvent();
-        Platform.runLater(() ->
-        {
-            actual.get()
-                  .fireEvent(e);
-        });
+        Platform.runLater(() -> actual.get()
+                                      .fireEvent(e));
 
         p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(event.get()
                         .getSource()).isEqualTo(pane);
+        disposable.dispose();
     }
 
     @Test
