@@ -18,7 +18,6 @@ package freetimelabs.io.reactorfx.flux;
 
 import freetimelabs.io.reactorfx.schedulers.FxSchedulers;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,8 +34,6 @@ import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
-
-import java.util.Objects;
 
 /**
  * This class allows for easy creation of listeners to JavaFX components.
@@ -179,18 +176,7 @@ public final class FxFluxFrom
      */
     public static <T> Flux<T> observable(ObservableValue<T> observableValue)
     {
-        return Flux.create(emitter ->
-        {
-            final ChangeListener<T> handler = (obs, oldVal, newVal) ->
-            {
-                if (Objects.nonNull(newVal))
-                {
-                    emitter.next(newVal);
-                }
-            };
-            observableValue.addListener(handler);
-            emitter.onDispose(onFx(() -> observableValue.removeListener(handler)));
-        });
+        return ObservableSource.from(observableValue);
     }
 
     /**
