@@ -17,12 +17,10 @@
 package freetimelabs.io.reactorfx.flux;
 
 import freetimelabs.io.reactorfx.schedulers.FxSchedulers;
-import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -30,7 +28,6 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
@@ -86,12 +83,7 @@ public final class FxFluxFrom
      */
     public static <T extends Event> Flux<T> menuItemEvent(MenuItem source, EventType<T> eventType)
     {
-        return Flux.create(emitter ->
-        {
-            final EventHandler<T> handler = emitter::next;
-            source.addEventHandler(eventType, handler);
-            emitter.onDispose(onFx(() -> source.removeEventHandler(eventType, handler)));
-        });
+        return SceneGraphSource.menuItemEvent(source, eventType);
     }
 
     /**
@@ -104,12 +96,7 @@ public final class FxFluxFrom
      */
     public static <T extends Event> Flux<T> nodeEvent(Node source, EventType<T> eventType)
     {
-        return Flux.create(emitter ->
-        {
-            final EventHandler<T> handler = emitter::next;
-            source.addEventHandler(eventType, handler);
-            emitter.onDispose(onFx(() -> source.removeEventHandler(eventType, handler)));
-        });
+        return SceneGraphSource.nodeEvent(source, eventType);
     }
 
     /**
@@ -122,12 +109,7 @@ public final class FxFluxFrom
      */
     public static <T extends Event> Flux<T> sceneEvent(Scene source, EventType<T> eventType)
     {
-        return Flux.create(emitter ->
-        {
-            final EventHandler<T> handler = emitter::next;
-            source.addEventHandler(eventType, handler);
-            emitter.onDispose(onFx(() -> source.removeEventHandler(eventType, handler)));
-        });
+        return SceneGraphSource.sceneEvent(source, eventType);
     }
 
     /**
@@ -140,12 +122,7 @@ public final class FxFluxFrom
      */
     public static <T extends Event> Flux<T> stageEvent(Stage source, EventType<T> eventType)
     {
-        return Flux.create(emitter ->
-        {
-            final EventHandler<T> handler = emitter::next;
-            source.addEventHandler(eventType, handler);
-            emitter.onDispose(onFx(() -> source.removeEventHandler(eventType, handler)));
-        });
+        return SceneGraphSource.stageEvent(source, eventType);
     }
 
     /**
@@ -159,12 +136,7 @@ public final class FxFluxFrom
      */
     public static <T extends Event> Flux<T> windowEvent(Window source, EventType<T> eventType)
     {
-        return Flux.create(emitter ->
-        {
-            final EventHandler<T> handler = emitter::next;
-            source.addEventHandler(eventType, handler);
-            emitter.onDispose(onFx(() -> source.removeEventFilter(eventType, handler)));
-        });
+        return SceneGraphSource.windowEvent(source, eventType);
     }
 
     /**
@@ -227,14 +199,5 @@ public final class FxFluxFrom
     public static <T> Flux<T> observableListRemovals(ObservableList<T> source)
     {
         return ObservableListSource.removals(source);
-    }
-
-    private static Disposable onFx(Runnable task)
-    {
-        if (Platform.isFxApplicationThread())
-        {
-            return task::run;
-        }
-        return () -> Platform.runLater(task);
     }
 }

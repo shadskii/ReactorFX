@@ -19,6 +19,9 @@ package freetimelabs.io.reactorfx.flux;
 import javafx.application.Platform;
 import reactor.core.Disposable;
 
+/**
+ * Utilities for disposing fluxes safely
+ */
 class DisposeUtilities
 {
     static Disposable onFx(Runnable task)
