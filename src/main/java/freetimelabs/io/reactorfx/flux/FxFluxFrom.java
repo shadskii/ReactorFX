@@ -37,7 +37,6 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * This class allows for easy creation of listeners to JavaFX components.
@@ -61,7 +60,7 @@ public final class FxFluxFrom
      */
     public static <T> Mono<T> dialog(final Dialog<T> source)
     {
-        return dialog(source, FxSchedulers.platform());
+        return DialogSource.fromDialog(source, FxSchedulers.platform());
     }
 
     /**
@@ -76,10 +75,7 @@ public final class FxFluxFrom
      */
     public static <T> Mono<T> dialog(final Dialog<T> source, Scheduler scheduler)
     {
-        return Mono.fromCallable(source::showAndWait)
-                   .subscribeOn(scheduler)
-                   .filter(Optional::isPresent)
-                   .map(Optional::get);
+        return DialogSource.fromDialog(source, scheduler);
     }
 
     /**
