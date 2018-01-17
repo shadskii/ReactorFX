@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/shadskii/FXcellent-Reactor.svg?branch=master)](https://travis-ci.org/shadskii/FXcellent-Reactor)
 [![codecov](https://codecov.io/gh/shadskii/FXcellent-Reactor/branch/master/graph/badge.svg)](https://codecov.io/gh/shadskii/FXcellent-Reactor)
 
-This library allows for better integration between Project Reactor and JavaFX. `FxFluxFrom` minimizes the effort required for using Project Reactor for JavaFX event handling.
+This library allows for better integration between Project Reactor and JavaFX. `FxFlux` minimizes the effort required for using Project Reactor for JavaFX event handling.
 
 ## Example Usage
 
