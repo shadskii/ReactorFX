@@ -33,7 +33,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Test;
 import reactor.core.Disposable;
 import reactor.core.scheduler.Scheduler;
@@ -41,7 +40,6 @@ import reactor.core.scheduler.Schedulers;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -65,50 +63,40 @@ public class FxFluxFromTest
     }
 
     @Test
-    @Ignore
     public void testDialog() throws TimeoutException, InterruptedException
     {
-        FX_RULE.onStage(stage -> stage.setScene(new Scene(new Pane())));
-
         AtomicReference<TextInputDialog> actual = new AtomicReference<>();
-        Phaser start = new Phaser(2);
-        Platform.runLater(() ->
+        Phaser show = new Phaser(2);
+        FX_RULE.onStage(stage ->
         {
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.initOwner(null);
+            TextInputDialog dialog = new TextInputDialog("Hello");
+            dialog.setOnShown(event -> show.arrive());
+            dialog.initOwner(stage);
             actual.set(dialog);
-            start.arrive();
+            stage.setScene(new Scene(new Pane()));
         });
 
-        start.awaitAdvanceInterruptibly(start.arrive(), 3, TimeUnit.SECONDS);
         TextInputDialog dialog = actual.get();
         AtomicReference<Object> res = new AtomicReference<>();
         Phaser p = new Phaser(2);
-        FxFluxFrom.dialog(dialog)
-                  .subscribe(o ->
-                  {
-                      res.set(o);
-                      p.arrive();
-                  });
+        Disposable disposable = FxFluxFrom.dialog(dialog)
+                                          .subscribeOn(fxThread)
+                                          .publishOn(thread)
+                                          .subscribe(o ->
+                                          {
+                                              res.set(o);
+                                              p.arrive();
+                                          });
 
+        show.awaitAdvanceInterruptibly(show.arrive(), 3, TimeUnit.SECONDS);
         String hello = "Hello";
-        Platform.runLater(() ->
-        {
-            dialog.getEditor()
-                  .setText(hello);
-            Node isNull =
-                    dialog.getDialogPane()
-                          .lookupButton(ButtonType.OK);
-            if (Objects.nonNull(isNull))
-            {
-                isNull.fireEvent(new ActionEvent());
-            }
-
-        });
-
+        Platform.runLater(() -> dialog.getDialogPane()
+                                      .lookupButton(ButtonType.OK)
+                                      .fireEvent(new ActionEvent()));
 
         p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(res.get()).isEqualTo(hello);
+        disposable.dispose();
 
     }
 
@@ -132,7 +120,6 @@ public class FxFluxFromTest
                                           .publishOn(thread)
                                           .subscribe(e ->
                                           {
-                                              System.out.println("GOT");
                                               event.set(e);
                                               p.arrive();
                                           });
@@ -316,7 +303,7 @@ public class FxFluxFromTest
                                           });
 
         Platform.runLater(() -> actualNode.get()
-                                          .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false)));
+                                          .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "scene", KeyCode.CODE_INPUT, false, false, false, false)));
 
         p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(event.get()
