@@ -16,7 +16,7 @@
 
 package freetimelabs.io.reactorfx;
 
-import freetimelabs.io.reactorfx.flux.FxFluxFrom;
+import freetimelabs.io.reactorfx.flux.FxFlux;
 import freetimelabs.io.reactorfx.schedulers.FxSchedulers;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
@@ -47,7 +47,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FxFluxFromTest
+public class FxFluxTest
 {
     private Scheduler thread = Schedulers.immediate();
     private Scheduler fxThread = FxSchedulers.platform();
@@ -61,7 +61,7 @@ public class FxFluxFromTest
     @Test
     public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException
     {
-        NoInstanceTestHelper.testNoInstance(FxFluxFrom.class);
+        NoInstanceTestHelper.testNoInstance(FxFlux.class);
     }
 
     @Test
@@ -82,10 +82,10 @@ public class FxFluxFromTest
         TextInputDialog dialog = actual.get();
         AtomicReference<Object> res = new AtomicReference<>();
         Phaser p = new Phaser(2);
-        Disposable disposable = FxFluxFrom.dialog(dialog)
-                                          .subscribeOn(fxThread)
-                                          .publishOn(thread)
-                                          .subscribe(o ->
+        Disposable disposable = FxFlux.from(dialog)
+                                      .subscribeOn(fxThread)
+                                      .publishOn(thread)
+                                      .subscribe(o ->
                                           {
                                               res.set(o);
                                               p.arrive();
@@ -118,10 +118,10 @@ public class FxFluxFromTest
         Node pane = actual.get();
 
         Phaser p = new Phaser(2);
-        Disposable disposable = FxFluxFrom.nodeEvent(pane, KeyEvent.KEY_TYPED)
-                                          .subscribeOn(fxThread)
-                                          .publishOn(thread)
-                                          .subscribe(e ->
+        Disposable disposable = FxFlux.from(pane, KeyEvent.KEY_TYPED)
+                                      .subscribeOn(fxThread)
+                                      .publishOn(thread)
+                                      .subscribe(e ->
                                           {
                                               event.set(e);
                                               p.arrive();
@@ -150,10 +150,10 @@ public class FxFluxFromTest
         AtomicReference<Event> event = new AtomicReference<>();
         Phaser p = new Phaser(2);
         Node pane = actual.get();
-        Disposable disposable = FxFluxFrom.nodeActionEvent(pane)
-                                          .subscribeOn(fxThread)
-                                          .publishOn(thread)
-                                          .subscribe(e ->
+        Disposable disposable = FxFlux.fromActionEventsOf(pane)
+                                      .subscribeOn(fxThread)
+                                      .publishOn(thread)
+                                      .subscribe(e ->
                                           {
                                               event.set(e);
                                               p.arrive();
@@ -189,10 +189,10 @@ public class FxFluxFromTest
         AtomicReference<Event> event = new AtomicReference<>();
         MenuItem menuItem = actual.get();
         Phaser p = new Phaser(2);
-        Disposable disposable = FxFluxFrom.menuItemEvent(menuItem, ActionEvent.ANY)
-                                          .subscribeOn(fxThread)
-                                          .publishOn(thread)
-                                          .subscribe(e ->
+        Disposable disposable = FxFlux.from(menuItem, ActionEvent.ANY)
+                                      .subscribeOn(fxThread)
+                                      .publishOn(thread)
+                                      .subscribe(e ->
                                           {
                                               event.set(e);
                                               p.arrive();
@@ -210,9 +210,9 @@ public class FxFluxFromTest
     {
         SimpleObjectProperty<String> observable = new SimpleObjectProperty<>("hi");
         AtomicReference<Object> actual = new AtomicReference<>();
-        Disposable disposable = FxFluxFrom.observable(observable)
-                                          .publishOn(thread)
-                                          .subscribe(actual::set);
+        Disposable disposable = FxFlux.from(observable)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
         observable.set("hello");
         assertThat(actual.get()).isEqualTo("hello");
 
@@ -226,9 +226,9 @@ public class FxFluxFromTest
     {
         ObservableList<Integer> list = FXCollections.observableArrayList(1, 2, 3);
         AtomicReference<List<Integer>> actual = new AtomicReference<>();
-        Disposable disposable = FxFluxFrom.observableList(list)
-                                          .publishOn(thread)
-                                          .subscribe(actual::set);
+        Disposable disposable = FxFlux.fromList(list)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
         list.add(4);
         assertThat(actual.get()).containsExactly(1, 2, 3, 4);
 
@@ -248,9 +248,9 @@ public class FxFluxFromTest
     {
         ObservableList<Integer> list = FXCollections.observableArrayList(1, 2, 3);
         AtomicReference<Integer> actual = new AtomicReference<>();
-        Disposable disposable = FxFluxFrom.observableListAdditions(list)
-                                          .publishOn(thread)
-                                          .subscribe(actual::set);
+        Disposable disposable = FxFlux.fromListAdditions(list)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
         list.add(4);
         assertThat(actual.get()).isEqualTo(4);
 
@@ -264,9 +264,9 @@ public class FxFluxFromTest
     {
         ObservableList<Integer> list = FXCollections.observableArrayList(1, 2, 3);
         AtomicReference<Integer> actual = new AtomicReference<>();
-        Disposable disposable = FxFluxFrom.observableListRemovals(list)
-                                          .publishOn(thread)
-                                          .subscribe(actual::set);
+        Disposable disposable = FxFlux.fromListRemovals(list)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
         list.remove(0);
         assertThat(actual.get()).isEqualTo(1);
 
@@ -294,10 +294,10 @@ public class FxFluxFromTest
         Scene scene = actual.get();
 
         Phaser p = new Phaser(2);
-        Disposable disposable = FxFluxFrom.sceneEvent(scene, KeyEvent.KEY_TYPED)
-                                          .subscribeOn(fxThread)
-                                          .publishOn(thread)
-                                          .subscribe(e ->
+        Disposable disposable = FxFlux.from(scene, KeyEvent.KEY_TYPED)
+                                      .subscribeOn(fxThread)
+                                      .publishOn(thread)
+                                      .subscribe(e ->
                                           {
                                               event.set(e);
                                               p.arrive();
@@ -330,10 +330,10 @@ public class FxFluxFromTest
         Stage stage = actual.get();
 
         Phaser p = new Phaser(2);
-        Disposable disposable = FxFluxFrom.stageEvent(stage, KeyEvent.KEY_TYPED)
-                                          .subscribeOn(fxThread)
-                                          .publishOn(thread)
-                                          .subscribe(e ->
+        Disposable disposable = FxFlux.from(stage, KeyEvent.KEY_TYPED)
+                                      .subscribeOn(fxThread)
+                                      .publishOn(thread)
+                                      .subscribe(e ->
                                           {
                                               event.set(e);
                                               p.arrive();
@@ -365,10 +365,10 @@ public class FxFluxFromTest
         Window window = actual.get();
 
         Phaser p = new Phaser(2);
-        Disposable disposable = FxFluxFrom.windowEvent(window, KeyEvent.KEY_TYPED)
-                                          .subscribeOn(fxThread)
-                                          .publishOn(thread)
-                                          .subscribe(e ->
+        Disposable disposable = FxFlux.from(window, KeyEvent.KEY_TYPED)
+                                      .subscribeOn(fxThread)
+                                      .publishOn(thread)
+                                      .subscribe(e ->
                                           {
                                               event.set(e);
                                               p.arrive();

@@ -35,39 +35,39 @@ import reactor.core.scheduler.Scheduler;
 /**
  * This class allows for easy creation of listeners to JavaFX components.
  */
-public final class FxFluxFrom
+public final class FxFlux
 {
-    private FxFluxFrom()
+    private FxFlux()
     {
         // No instance
     }
 
     /**
      * Creates a {@link Mono} which emits when the argument Dialog has been finished. This will not emit if nothing is
-     * selected from the dialog. The {@link Scheduler} used to listen for events will be {@link
-     * FxSchedulers#platform()}. Equivalent to calling {@link FxFluxFrom#dialog(Dialog, Scheduler)} with {@link
+     * selected from the from. The {@link Scheduler} used to listen for events will be {@link
+     * FxSchedulers#platform()}. Equivalent to calling {@link FxFlux#from(Dialog, Scheduler)} with {@link
      * FxSchedulers#platform()}.
      *
-     * @param source - The dialog to listen to.
-     * @param <T>    - The type of the dialog.
-     * @return A Mono which emits when the dialog has been selected.
+     * @param source - The from to listen to.
+     * @param <T>    - The type of the from.
+     * @return A Mono which emits when the from has been selected.
      */
-    public static <T> Mono<T> dialog(final Dialog<T> source)
+    public static <T> Mono<T> from(final Dialog<T> source)
     {
         return DialogSource.fromDialog(source, FxSchedulers.platform());
     }
 
     /**
      * Creates a {@link Mono} which emits when the argument Dialog has been finished. This will not emit if nothing is
-     * selected from the dialog. The argument {@link Scheduler} will be used for listening for events
+     * selected from the from. The argument {@link Scheduler} will be used for listening for events
      *
-     * @param source    - The dialog ot listen to.
-     * @param scheduler - The Scheduler that the dialog will show on. This should provide access to the JavaFX
+     * @param source    - The from ot listen to.
+     * @param scheduler - The Scheduler that the from will show on. This should provide access to the JavaFX
      *                  application thread.
-     * @param <T>       - The type of the dialog
-     * @return A mono which emits when the dialog has been selected.
+     * @param <T>       - The type of the from
+     * @return A mono which emits when the from has been selected.
      */
-    public static <T> Mono<T> dialog(final Dialog<T> source, Scheduler scheduler)
+    public static <T> Mono<T> from(final Dialog<T> source, Scheduler scheduler)
     {
         return DialogSource.fromDialog(source, scheduler);
     }
@@ -81,7 +81,7 @@ public final class FxFluxFrom
      * @param <T>       - The event type
      * @return A Flux that emits all events of the argument type that originate form the argument node.
      */
-    public static <T extends Event> Flux<T> menuItemEvent(MenuItem source, EventType<T> eventType)
+    public static <T extends Event> Flux<T> from(MenuItem source, EventType<T> eventType)
     {
         return SceneGraphSource.menuItemEvent(source, eventType);
     }
@@ -94,7 +94,7 @@ public final class FxFluxFrom
      * @param <T>       - The event type.
      * @return A Flux that emits all events of the argument type that originate from the argument node.
      */
-    public static <T extends Event> Flux<T> nodeEvent(Node source, EventType<T> eventType)
+    public static <T extends Event> Flux<T> from(Node source, EventType<T> eventType)
     {
         return SceneGraphSource.nodeEvent(source, eventType);
     }
@@ -107,7 +107,7 @@ public final class FxFluxFrom
      * @param <T>       - The event type.
      * @return A Flux that emits all events of the argument type that originate from the argument Scene.
      */
-    public static <T extends Event> Flux<T> sceneEvent(Scene source, EventType<T> eventType)
+    public static <T extends Event> Flux<T> from(Scene source, EventType<T> eventType)
     {
         return SceneGraphSource.sceneEvent(source, eventType);
     }
@@ -120,7 +120,7 @@ public final class FxFluxFrom
      * @param <T>       - The event type.
      * @return A Flux that emits all events of the argument type that originates from the argument Stage.
      */
-    public static <T extends Event> Flux<T> stageEvent(Stage source, EventType<T> eventType)
+    public static <T extends Event> Flux<T> from(Stage source, EventType<T> eventType)
     {
         return SceneGraphSource.stageEvent(source, eventType);
     }
@@ -134,33 +134,33 @@ public final class FxFluxFrom
      * @param <T>       - The event type.
      * @return A Flux that emits all events of the argument type that originate from the argument Window.
      */
-    public static <T extends Event> Flux<T> windowEvent(Window source, EventType<T> eventType)
+    public static <T extends Event> Flux<T> from(Window source, EventType<T> eventType)
     {
         return SceneGraphSource.windowEvent(source, eventType);
     }
 
     /**
-     * Crates a {@link Flux} which emits whenever the argument observable is changed.
+     * Crates a {@link Flux} which emits whenever the argument from is changed.
      *
-     * @param observableValue - The observable to listen for changes.
-     * @param <T>             - The type of the observable.
-     * @return A Flux that emits the newest value of the argument observable when it has been changed.
+     * @param observableValue - The from to listen for changes.
+     * @param <T>             - The type of the from.
+     * @return A Flux that emits the newest value of the argument from when it has been changed.
      */
-    public static <T> Flux<T> observable(ObservableValue<T> observableValue)
+    public static <T> Flux<T> from(ObservableValue<T> observableValue)
     {
         return ObservableSource.from(observableValue);
     }
 
     /**
      * Creates a Flux that emits all ActionEvents that originate from the argument Node. Equivalent to using {@link
-     * #nodeEvent(Node, EventType)}
+     * #from(Node, EventType)}
      *
      * @param source - The target node where events originate from.
      * @return A Flux containing all {@link ActionEvent}s from the argument node.
      */
-    public static Flux<ActionEvent> nodeActionEvent(Node source)
+    public static Flux<ActionEvent> fromActionEventsOf(Node source)
     {
-        return nodeEvent(source, ActionEvent.ANY);
+        return from(source, ActionEvent.ANY);
     }
 
     /**
@@ -170,7 +170,7 @@ public final class FxFluxFrom
      * @param <T>    - The type of the ObservableList
      * @return A Flux that emits the argument list whenever it has ben changed.
      */
-    public static <T> Flux<ObservableList<T>> observableList(ObservableList<T> source)
+    public static <T> Flux<ObservableList<T>> fromList(ObservableList<T> source)
     {
         return ObservableListSource.observableList(source);
     }
@@ -183,7 +183,7 @@ public final class FxFluxFrom
      * @param <T>    - The type of the ObservableList
      * @return A Flux that emits the additions to the list whenever it has been changed.
      */
-    public static <T> Flux<T> observableListAdditions(ObservableList<T> source)
+    public static <T> Flux<T> fromListAdditions(ObservableList<T> source)
     {
         return ObservableListSource.additions(source);
     }
@@ -196,7 +196,7 @@ public final class FxFluxFrom
      * @param <T>    - The type of the ObservableList
      * @return A Flux that emits the removals to the list whenever it has been changed.
      */
-    public static <T> Flux<T> observableListRemovals(ObservableList<T> source)
+    public static <T> Flux<T> fromListRemovals(ObservableList<T> source)
     {
         return ObservableListSource.removals(source);
     }
