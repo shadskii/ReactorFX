@@ -20,7 +20,6 @@ import freetimelabs.io.reactorfx.schedulers.FxSchedulers;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -219,12 +218,7 @@ public final class FxFluxFrom
      */
     public static <T> Flux<ObservableList<T>> observableList(ObservableList<T> source)
     {
-        return Flux.create(emitter ->
-        {
-            final ListChangeListener<T> listener = c -> emitter.next(source);
-            source.addListener(listener);
-            emitter.onDispose(onFx(() -> source.removeListener(listener)));
-        });
+        return ObservableListSource.observableList(source);
     }
 
     /**
@@ -237,23 +231,7 @@ public final class FxFluxFrom
      */
     public static <T> Flux<T> observableListAdditions(ObservableList<T> source)
     {
-        return Flux.create(emitter ->
-        {
-            final ListChangeListener<T> listener = c ->
-            {
-                while (c.next())
-                {
-                    if (c.wasAdded())
-                    {
-                        c.getAddedSubList()
-                         .forEach(emitter::next);
-                    }
-                }
-
-            };
-            source.addListener(listener);
-            emitter.onDispose(onFx(() -> source.removeListener(listener)));
-        });
+        return ObservableListSource.additions(source);
     }
 
     /**
@@ -266,23 +244,7 @@ public final class FxFluxFrom
      */
     public static <T> Flux<T> observableListRemovals(ObservableList<T> source)
     {
-        return Flux.create(emitter ->
-        {
-            final ListChangeListener<T> listener = c ->
-            {
-                while (c.next())
-                {
-                    if (c.wasRemoved())
-                    {
-                        c.getRemoved()
-                         .forEach(emitter::next);
-                    }
-                }
-
-            };
-            source.addListener(listener);
-            emitter.onDispose(onFx(() -> source.removeListener(listener)));
-        });
+        return ObservableListSource.removals(source);
     }
 
     private static Disposable onFx(Runnable task)
