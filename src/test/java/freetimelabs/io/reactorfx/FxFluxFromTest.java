@@ -201,16 +201,21 @@ public class FxFluxFromTest
 
         AtomicReference<Event> event = new AtomicReference<>();
         MenuItem menuItem = actual.get();
-        FxFluxFrom.menuItemEvent(menuItem, ActionEvent.ANY)
-                  .publishOn(thread)
-                  .subscribe(event::set);
+        Phaser p = new Phaser(2);
+        Disposable disposable = FxFluxFrom.menuItemEvent(menuItem, ActionEvent.ANY)
+                                          .subscribeOn(fxThread)
+                                          .publishOn(thread)
+                                          .subscribe(e ->
+                                          {
+                                              event.set(e);
+                                              p.arrive();
+                                          });
 
-
-        ActionEvent e = new ActionEvent();
-        menuItem
-                .fire();
+        Platform.runLater(() -> menuItem.fire());
+        p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(event.get()
                         .getSource()).isEqualTo(menuItem);
+        disposable.dispose();
     }
 
     @Test
