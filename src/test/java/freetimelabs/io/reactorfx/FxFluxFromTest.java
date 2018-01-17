@@ -376,12 +376,19 @@ public class FxFluxFromTest
         AtomicReference<Event> event = new AtomicReference<>();
         Window window = actual.get();
 
+        Phaser p = new Phaser(2);
         Disposable disposable = FxFluxFrom.windowEvent(window, KeyEvent.KEY_TYPED)
+                                          .subscribeOn(fxThread)
                                           .publishOn(thread)
-                                          .subscribe(event::set);
+                                          .subscribe(e ->
+                                          {
+                                              event.set(e);
+                                              p.arrive();
+                                          });
 
-        actualNode.get()
-                  .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false));
+        Platform.runLater(() -> actualNode.get()
+                                          .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false)));
+        p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(event.get()
                         .getSource()).isEqualTo(window);
         disposable.dispose();
