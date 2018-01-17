@@ -9,7 +9,7 @@ This library allows for better integration between Project Reactor and JavaFX. `
 ```java
 private Button btn;
 
-FxFluxFrom.nodeActionEvent(btn)
+FxFlux.fromActionEventsOf(btn)
           .subscribeOn(fxThead)
           .publishOn(anotherScheduler)
           .map(ActionEvent::getSource)
@@ -20,41 +20,41 @@ FxFluxFrom.nodeActionEvent(btn)
 
 #### Flux Sources
 ```java
-nodeActionEvent(Node source)
+fromActionEventsOf(Node source)
 ```
 
 ```java
-nodeEvent(Node source, EventType<T> eventType)
+from(Node source, EventType<T> eventType)
 ```
 
 ```java
-sceneEvent(Scene source, EventType<T> eventType)
+from(Scene source, EventType<T> eventType)
 ```
 
 ```java
-stageEvent(Stage source, EventType<T> eventType)
+from(Stage source, EventType<T> eventType)
 ```
 
 ```java
-windowEvent(Window source, EventType<T> eventType)
+from(Window source, EventType<T> eventType)
 ```
 
 ##### Observable
 ```java
-observable(ObservableValue<T> observableValue)
+from(ObservableValue<T> observableValue)
 ```
 
 ##### ObservableList
 ```java
-observableList(ObservableList<T> source)
+fromList(ObservableList<T> source)
 ```
 
 ```java
-observableListAdditions(ObservableList<T> source)
+fromListAdditions(ObservableList<T> source)
 ```
 
 ```java
-observableListRemovals(ObservableList<T> source)
+fromListRemovals(ObservableList<T> source)
 ```
 <br />
 
