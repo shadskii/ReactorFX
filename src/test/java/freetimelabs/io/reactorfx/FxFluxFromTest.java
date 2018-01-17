@@ -66,10 +66,11 @@ public class FxFluxFromTest
     public void testDialog() throws TimeoutException, InterruptedException
     {
         AtomicReference<TextInputDialog> actual = new AtomicReference<>();
+        final String hello = "Hello";
         Phaser show = new Phaser(2);
         FX_RULE.onStage(stage ->
         {
-            TextInputDialog dialog = new TextInputDialog("Hello");
+            TextInputDialog dialog = new TextInputDialog(hello);
             dialog.setOnShown(event -> show.arrive());
             dialog.initOwner(stage);
             actual.set(dialog);
@@ -89,7 +90,7 @@ public class FxFluxFromTest
                                           });
 
         show.awaitAdvanceInterruptibly(show.arrive(), 3, TimeUnit.SECONDS);
-        String hello = "Hello";
+
         Platform.runLater(() -> dialog.getDialogPane()
                                       .lookupButton(ButtonType.OK)
                                       .fireEvent(new ActionEvent()));
@@ -287,6 +288,7 @@ public class FxFluxFromTest
             actualNode.set(pane);
             actual.set(scene);
             stage.setScene(scene);
+            stage.show();
         });
 
         AtomicReference<Event> event = new AtomicReference<>();
