@@ -127,21 +127,26 @@ public class FxFluxFromTest
         Node pane = actual.get();
 
         Phaser p = new Phaser(2);
-        FxFluxFrom.nodeEvent(pane, KeyEvent.KEY_TYPED)
-                  .subscribeOn(fxThread)
-                  .publishOn(thread)
-                  .subscribe(e ->
-                  {
-                      event.set(e);
-                      p.arrive();
-                  });
+        Disposable disposable = FxFluxFrom.nodeEvent(pane, KeyEvent.KEY_TYPED)
+                                          .subscribeOn(fxThread)
+                                          .publishOn(thread)
+                                          .subscribe(e ->
+                                          {
+                                              System.out.println("GOT");
+                                              event.set(e);
+                                              p.arrive();
+                                          });
 
-        actual.get()
-              .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false));
+        Platform.runLater(() ->
+        {
+            actual.get()
+                  .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false));
+        });
+
         p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(event.get()
                         .getSource()).isEqualTo(pane);
-
+        disposable.dispose();
     }
 
     @Test
@@ -156,15 +161,26 @@ public class FxFluxFromTest
         });
 
         AtomicReference<Event> event = new AtomicReference<>();
+        Phaser p = new Phaser(2);
         Node pane = actual.get();
         FxFluxFrom.nodeActionEvent(pane)
+                  .subscribeOn(fxThread)
                   .publishOn(thread)
-                  .subscribe(event::set);
+                  .subscribe(e ->
+                  {
+                      event.set(e);
+                      p.arrive();
+                  });
 
 
         ActionEvent e = new ActionEvent();
-        actual.get()
-              .fireEvent(e);
+        Platform.runLater(() ->
+        {
+            actual.get()
+                  .fireEvent(e);
+        });
+
+        p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(event.get()
                         .getSource()).isEqualTo(pane);
     }
