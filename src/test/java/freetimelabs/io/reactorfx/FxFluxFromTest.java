@@ -223,14 +223,15 @@ public class FxFluxFromTest
     {
         SimpleObjectProperty<String> observable = new SimpleObjectProperty<>("hi");
         AtomicReference<Object> actual = new AtomicReference<>();
-        FxFluxFrom.observable(observable)
-                  .publishOn(thread)
-                  .subscribe(actual::set);
+        Disposable disposable = FxFluxFrom.observable(observable)
+                                          .publishOn(thread)
+                                          .subscribe(actual::set);
         observable.set("hello");
         assertThat(actual.get()).isEqualTo("hello");
 
         observable.set(null);
         assertThat(actual.get()).isEqualTo("hello");
+        disposable.dispose();
     }
 
     @Test
@@ -268,6 +269,7 @@ public class FxFluxFromTest
 
         list.remove(3);
         assertThat(actual.get()).isEqualTo(4);
+        disposable.dispose();
     }
 
     @Test
@@ -283,6 +285,7 @@ public class FxFluxFromTest
 
         list.add(3);
         assertThat(actual.get()).isEqualTo(1);
+        disposable.dispose();
     }
 
     @Test
@@ -302,15 +305,16 @@ public class FxFluxFromTest
         AtomicReference<Event> event = new AtomicReference<>();
         Scene scene = actual.get();
 
-        FxFluxFrom.sceneEvent(scene, KeyEvent.KEY_TYPED)
-                  .publishOn(thread)
-                  .subscribe(event::set);
+        Disposable disposable = FxFluxFrom.sceneEvent(scene, KeyEvent.KEY_TYPED)
+                                          .publishOn(thread)
+                                          .subscribe(event::set);
 
 
         actualNode.get()
                   .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false));
         assertThat(event.get()
                         .getSource()).isEqualTo(scene);
+        disposable.dispose();
     }
 
     @Test
@@ -330,14 +334,15 @@ public class FxFluxFromTest
         AtomicReference<Event> event = new AtomicReference<>();
         Stage stage = actual.get();
 
-        FxFluxFrom.stageEvent(stage, KeyEvent.KEY_TYPED)
-                  .publishOn(thread)
-                  .subscribe(event::set);
+        Disposable disposable = FxFluxFrom.stageEvent(stage, KeyEvent.KEY_TYPED)
+                                          .publishOn(thread)
+                                          .subscribe(event::set);
 
         actualNode.get()
                   .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false));
         assertThat(event.get()
                         .getSource()).isEqualTo(stage);
+        disposable.dispose();
     }
 
     @Test
@@ -357,14 +362,15 @@ public class FxFluxFromTest
         AtomicReference<Event> event = new AtomicReference<>();
         Window window = actual.get();
 
-        FxFluxFrom.windowEvent(window, KeyEvent.KEY_TYPED)
-                  .publishOn(thread)
-                  .subscribe(event::set);
+        Disposable disposable = FxFluxFrom.windowEvent(window, KeyEvent.KEY_TYPED)
+                                          .publishOn(thread)
+                                          .subscribe(event::set);
 
         actualNode.get()
                   .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false));
         assertThat(event.get()
                         .getSource()).isEqualTo(window);
+        disposable.dispose();
     }
 
 }
