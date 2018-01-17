@@ -17,6 +17,7 @@
 package freetimelabs.io.reactorfx;
 
 import freetimelabs.io.reactorfx.flux.FxFluxFrom;
+import freetimelabs.io.reactorfx.schedulers.FxSchedulers;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -51,6 +52,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FxFluxFromTest
 {
     private Scheduler thread = Schedulers.immediate();
+    private Scheduler fxThread = FxSchedulers.platform();
 
     @ClassRule
     public static final FxTestRule FX_RULE = new FxTestRule();
@@ -124,12 +126,19 @@ public class FxFluxFromTest
         AtomicReference<Event> event = new AtomicReference<>();
         Node pane = actual.get();
 
+        Phaser p = new Phaser(2);
         FxFluxFrom.nodeEvent(pane, KeyEvent.KEY_TYPED)
+                  .subscribeOn(fxThread)
                   .publishOn(thread)
-                  .subscribe(event::set);
+                  .subscribe(e ->
+                  {
+                      event.set(e);
+                      p.arrive();
+                  });
 
         actual.get()
               .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false));
+        p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(event.get()
                         .getSource()).isEqualTo(pane);
 
