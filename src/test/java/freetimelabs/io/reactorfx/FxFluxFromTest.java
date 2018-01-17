@@ -52,6 +52,8 @@ public class FxFluxFromTest
     private Scheduler thread = Schedulers.immediate();
     private Scheduler fxThread = FxSchedulers.platform();
 
+    private static final KeyEvent KEY_EVENT = new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false);
+
     @ClassRule
     public static final FxTestRule FX_RULE = new FxTestRule();
 
@@ -125,11 +127,8 @@ public class FxFluxFromTest
                                               p.arrive();
                                           });
 
-        Platform.runLater(() ->
-        {
-            actual.get()
-                  .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false));
-        });
+        Platform.runLater(() -> actual.get()
+                                      .fireEvent(KEY_EVENT));
 
         p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(event.get()
@@ -305,7 +304,7 @@ public class FxFluxFromTest
                                           });
 
         Platform.runLater(() -> actualNode.get()
-                                          .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "scene", KeyCode.CODE_INPUT, false, false, false, false)));
+                                          .fireEvent(KEY_EVENT));
 
         p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(event.get()
@@ -341,7 +340,7 @@ public class FxFluxFromTest
                                           });
 
         Platform.runLater(() -> actualNode.get()
-                                          .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false)));
+                                          .fireEvent(KEY_EVENT));
         p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(event.get()
                         .getSource()).isEqualTo(stage);
@@ -376,7 +375,7 @@ public class FxFluxFromTest
                                           });
 
         Platform.runLater(() -> actualNode.get()
-                                          .fireEvent(new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false)));
+                                          .fireEvent(KEY_EVENT));
         p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(event.get()
                         .getSource()).isEqualTo(window);
