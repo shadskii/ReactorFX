@@ -22,6 +22,7 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Node;
@@ -40,6 +41,7 @@ import reactor.core.scheduler.Schedulers;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -52,6 +54,8 @@ public class FxFluxTest
     private Scheduler thread = Schedulers.immediate();
     private Scheduler fxThread = FxSchedulers.platform();
 
+    private static final String KEY0 = "KEY0";
+    private static final String KEY1 = "KEY1";
     private static final KeyEvent KEY_EVENT = new KeyEvent(KeyEvent.KEY_TYPED, "", "", KeyCode.CODE_INPUT, false, false, false, false);
 
     @ClassRule
@@ -384,4 +388,70 @@ public class FxFluxTest
         disposable.dispose();
     }
 
+    @Test
+    public void testObservableMap()
+    {
+        ObservableMap<String, Integer> map = FXCollections.observableHashMap();
+        map.put(KEY0, 0);
+        AtomicReference<ObservableMap<String, Integer>> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromMap(map)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
+
+        map.put(KEY1, 1);
+        assertThat(actual.get()).containsOnlyKeys(KEY0, KEY1);
+        assertThat(actual.get()).containsValues(0, 1);
+
+        map.remove(KEY0);
+        assertThat(actual.get()).containsOnlyKeys(KEY1);
+        assertThat(actual.get()).containsValues(1);
+
+        disposable.dispose();
+    }
+
+    @Test
+    public void testObservableMapAdditions()
+    {
+        ObservableMap<String, Integer> map = FXCollections.observableHashMap();
+        map.put(KEY0, 0);
+        AtomicReference<Map.Entry<String, Integer>> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromMapAdditions(map)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
+
+        map.put(KEY1, 1);
+        Map.Entry<String, Integer> added = actual.get();
+        assertThat(added.getKey()).isEqualTo(KEY1);
+        assertThat(added.getValue()).isEqualTo(1);
+
+        map.remove(KEY0);
+        Map.Entry<String, Integer> added2 = actual.get();
+        assertThat(added2.getKey()).isEqualTo(KEY1);
+        assertThat(added2.getValue()).isEqualTo(1);
+
+        disposable.dispose();
+    }
+
+    @Test
+    public void testObservableMapRemovals()
+    {
+        ObservableMap<String, Integer> map = FXCollections.observableHashMap();
+        map.put(KEY0, 0);
+        AtomicReference<Map.Entry<String, Integer>> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromMapRemovals(map)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
+
+        map.remove(KEY0);
+        Map.Entry<String, Integer> removed = actual.get();
+        assertThat(removed.getKey()).isEqualTo(KEY0);
+        assertThat(removed.getValue()).isEqualTo(0);
+
+        map.put(KEY1, 1);
+        Map.Entry<String, Integer> removed2 = actual.get();
+        assertThat(removed2.getKey()).isEqualTo(KEY0);
+        assertThat(removed2.getValue()).isEqualTo(0);
+
+        disposable.dispose();
+    }
 }
