@@ -86,10 +86,10 @@ public class FxFluxTest
                                       .subscribeOn(fxThread)
                                       .publishOn(thread)
                                       .subscribe(o ->
-                                          {
-                                              res.set(o);
-                                              p.arrive();
-                                          });
+                                      {
+                                          res.set(o);
+                                          p.arrive();
+                                      });
 
         show.awaitAdvanceInterruptibly(show.arrive(), 3, TimeUnit.SECONDS);
 
@@ -122,10 +122,10 @@ public class FxFluxTest
                                       .subscribeOn(fxThread)
                                       .publishOn(thread)
                                       .subscribe(e ->
-                                          {
-                                              event.set(e);
-                                              p.arrive();
-                                          });
+                                      {
+                                          event.set(e);
+                                          p.arrive();
+                                      });
 
         Platform.runLater(() -> actual.get()
                                       .fireEvent(KEY_EVENT));
@@ -154,10 +154,10 @@ public class FxFluxTest
                                       .subscribeOn(fxThread)
                                       .publishOn(thread)
                                       .subscribe(e ->
-                                          {
-                                              event.set(e);
-                                              p.arrive();
-                                          });
+                                      {
+                                          event.set(e);
+                                          p.arrive();
+                                      });
 
         ActionEvent e = new ActionEvent();
         Platform.runLater(() -> actual.get()
@@ -193,10 +193,10 @@ public class FxFluxTest
                                       .subscribeOn(fxThread)
                                       .publishOn(thread)
                                       .subscribe(e ->
-                                          {
-                                              event.set(e);
-                                              p.arrive();
-                                          });
+                                      {
+                                          event.set(e);
+                                          p.arrive();
+                                      });
 
         Platform.runLater(() -> menuItem.fire());
         p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
@@ -298,10 +298,10 @@ public class FxFluxTest
                                       .subscribeOn(fxThread)
                                       .publishOn(thread)
                                       .subscribe(e ->
-                                          {
-                                              event.set(e);
-                                              p.arrive();
-                                          });
+                                      {
+                                          event.set(e);
+                                          p.arrive();
+                                      });
 
         Platform.runLater(() -> actualNode.get()
                                           .fireEvent(KEY_EVENT));
@@ -324,6 +324,7 @@ public class FxFluxTest
             actualNode.set(pane);
             actual.set(stage);
             stage.setScene(scene);
+            stage.show();
         });
 
         AtomicReference<Event> event = new AtomicReference<>();
@@ -334,10 +335,10 @@ public class FxFluxTest
                                       .subscribeOn(fxThread)
                                       .publishOn(thread)
                                       .subscribe(e ->
-                                          {
-                                              event.set(e);
-                                              p.arrive();
-                                          });
+                                      {
+                                          event.set(e);
+                                          p.arrive();
+                                      });
 
         Platform.runLater(() -> actualNode.get()
                                           .fireEvent(KEY_EVENT));
@@ -359,6 +360,7 @@ public class FxFluxTest
             stage.setScene(scene);
             actualNode.set(pane);
             actual.set(stage);
+            stage.show();
         });
 
         AtomicReference<Event> event = new AtomicReference<>();
@@ -369,10 +371,10 @@ public class FxFluxTest
                                       .subscribeOn(fxThread)
                                       .publishOn(thread)
                                       .subscribe(e ->
-                                          {
-                                              event.set(e);
-                                              p.arrive();
-                                          });
+                                      {
+                                          event.set(e);
+                                          p.arrive();
+                                      });
 
         Platform.runLater(() -> actualNode.get()
                                           .fireEvent(KEY_EVENT));
