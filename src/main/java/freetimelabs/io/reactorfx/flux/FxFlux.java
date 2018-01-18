@@ -19,6 +19,7 @@ package freetimelabs.io.reactorfx.flux;
 import freetimelabs.io.reactorfx.schedulers.FxSchedulers;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventType;
@@ -32,6 +33,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 
+import java.util.Map;
+
 /**
  * This class allows for easy creation of listeners to JavaFX components.
  */
@@ -44,9 +47,8 @@ public final class FxFlux
 
     /**
      * Creates a {@link Mono} which emits when the argument Dialog has been finished. This will not emit if nothing is
-     * selected from the from. The {@link Scheduler} used to listen for events will be {@link
-     * FxSchedulers#platform()}. Equivalent to calling {@link FxFlux#from(Dialog, Scheduler)} with {@link
-     * FxSchedulers#platform()}.
+     * selected from the from. The {@link Scheduler} used to listen for events will be {@link FxSchedulers#platform()}.
+     * Equivalent to calling {@link FxFlux#from(Dialog, Scheduler)} with {@link FxSchedulers#platform()}.
      *
      * @param source - The from to listen to.
      * @param <T>    - The type of the from.
@@ -62,8 +64,8 @@ public final class FxFlux
      * selected from the from. The argument {@link Scheduler} will be used for listening for events
      *
      * @param source    - The from ot listen to.
-     * @param scheduler - The Scheduler that the from will show on. This should provide access to the JavaFX
-     *                  application thread.
+     * @param scheduler - The Scheduler that the from will show on. This should provide access to the JavaFX application
+     *                  thread.
      * @param <T>       - The type of the from
      * @return A mono which emits when the from has been selected.
      */
@@ -180,7 +182,7 @@ public final class FxFlux
      * the list whenever it has been updated.
      *
      * @param source - The ObservableList to listen to.
-     * @param <T>    - The type of the ObservableList
+     * @param <T>    - The type of the ObservableList.
      * @return A Flux that emits the additions to the list whenever it has been changed.
      */
     public static <T> Flux<T> fromListAdditions(ObservableList<T> source)
@@ -193,11 +195,53 @@ public final class FxFlux
      * the list whenever it has been updated.
      *
      * @param source - The ObservableList to listen to.
-     * @param <T>    - The type of the ObservableList
+     * @param <T>    - The type of the ObservableList.
      * @return A Flux that emits the removals to the list whenever it has been changed.
      */
     public static <T> Flux<T> fromListRemovals(ObservableList<T> source)
     {
         return ObservableListSource.removals(source);
+    }
+
+    /**
+     * Creates a Flux that listens for changes to am {@link ObservableMap} and emits the argument ObservableMap whenever
+     * it has been updated.
+     *
+     * @param source - The ObservableMap to listen to.
+     * @param <T>    - The key type of the ObservableMap.
+     * @param <V>    - The value type of the ObservableMap.
+     * @return A Flux that emits the ObservableMap whenever it gets updated.
+     */
+    public static <T, V> Flux<ObservableMap<T, V>> fromMap(ObservableMap<T, V> source)
+    {
+        return ObservableMapSource.observableMap(source);
+    }
+
+    /**
+     * Creates a Flux that listens for changes to an {@link ObservableMap} and emits any additions to the argument
+     * ObservableMap.
+     *
+     * @param source - The ObservableMap to listen to for additions.
+     * @param <T>    - The key type of the ObservableMap.
+     * @param <V>    - The value type of the ObservableMap.
+     * @return A Flux that emits any entry added to the argument ObservableMap.
+     */
+    public static <T, V> Flux<Map.Entry<T, V>> fromMapAdditions(ObservableMap<T, V> source)
+    {
+        return ObservableMapSource.additions(source);
+    }
+
+    /**
+     * Creates a Flux that listens for changes to an {@link ObservableMap} and emits any removals to the argument
+     * ObservableMap.
+     *
+     * @param source - The ObservableMap to listen to for removals.
+     * @param <T>    - The key type of the ObservableMap.
+     * @param <V>    - The value type of the ObservableMap.
+     * @return A Flux that emits any entry removed from the argument ObservableMap.
+     */
+    public static <T, V> Flux<Map.Entry<T, V>> fromMapRemovals(ObservableMap<T, V> source)
+    {
+        return ObservableMapSource.removals(source);
     }
 }

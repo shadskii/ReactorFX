@@ -25,6 +25,9 @@ import java.util.Map;
 
 import static freetimelabs.io.reactorfx.flux.DisposeUtilities.onFx;
 
+/**
+ * Source for all fluxes from {@link ObservableMap}
+ */
 class ObservableMapSource
 {
     static <T, V> Flux<ObservableMap<T, V>> observableMap(ObservableMap<T, V> source)
