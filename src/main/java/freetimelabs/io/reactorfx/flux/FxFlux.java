@@ -160,7 +160,7 @@ public final class FxFlux
      * @param source - The target node where events originate from.
      * @return A Flux containing all {@link ActionEvent}s from the argument node.
      */
-    public static Flux<ActionEvent> fromActionEventsOf(Node source)
+    public static Flux<ActionEvent> from(Node source)
     {
         return from(source, ActionEvent.ANY);
     }
