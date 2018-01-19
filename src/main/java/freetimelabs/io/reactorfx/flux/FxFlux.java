@@ -20,6 +20,7 @@ import freetimelabs.io.reactorfx.schedulers.FxSchedulers;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventType;
@@ -47,7 +48,7 @@ public final class FxFlux
 
     /**
      * Creates a {@link Mono} which emits when the argument Dialog has been finished. This will not emit if nothing is
-     * selected from the from. The {@link Scheduler} used to listen for events will be {@link FxSchedulers#platform()}.
+     * selected from the Dialog. The {@link Scheduler} used to listen for events will be {@link FxSchedulers#platform()}.
      * Equivalent to calling {@link FxFlux#from(Dialog, Scheduler)} with {@link FxSchedulers#platform()}.
      *
      * @param source The Dialog to listen to.
@@ -67,7 +68,7 @@ public final class FxFlux
      * @param scheduler The Scheduler that the from will show on. This should provide access to the JavaFX application
      *                  thread.
      * @param <T>       The type of the Dialog
-     * @return A mono which emits when the from has been selected.
+     * @return A mono which emits when the Dialog has been selected.
      */
     public static <T> Mono<T> from(final Dialog<T> source, Scheduler scheduler)
     {
@@ -243,5 +244,20 @@ public final class FxFlux
     public static <T, V> Flux<Map.Entry<T, V>> fromMapRemovals(ObservableMap<T, V> source)
     {
         return ObservableMapSource.removals(source);
+    }
+
+    public static <T> Flux<ObservableSet<T>> fromSet(ObservableSet<T> source)
+    {
+        return ObservableSetSource.observableSet(source);
+    }
+
+    public static <T> Flux<T> additions(ObservableSet<T> source)
+    {
+        return ObservableSetSource.additions(source);
+    }
+
+    public static <T> Flux<T> removals(ObservableSet<T> source)
+    {
+        return ObservableSetSource.removals(source);
     }
 }
