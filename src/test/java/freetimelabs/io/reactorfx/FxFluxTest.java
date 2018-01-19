@@ -23,6 +23,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Node;
@@ -451,6 +452,26 @@ public class FxFluxTest
         Map.Entry<String, Integer> removed2 = actual.get();
         assertThat(removed2.getKey()).isEqualTo(KEY0);
         assertThat(removed2.getValue()).isEqualTo(0);
+
+        disposable.dispose();
+    }
+
+    @Test
+    public void testObservableSet()
+    {
+        ObservableSet<Integer> set = FXCollections.observableSet();
+        AtomicReference<ObservableSet<Integer>> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromSet(set)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
+
+        set.add(1);
+        assertThat(actual.get()).containsOnly(1);
+        assertThat(actual.get()).isEqualTo(set);
+
+        set.remove(1);
+        assertThat(actual.get()).isEmpty();
+        assertThat(actual.get()).isEqualTo(set);
 
         disposable.dispose();
     }
