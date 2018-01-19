@@ -497,4 +497,27 @@ public class FxFluxTest
 
         disposable.dispose();
     }
+
+    @Test
+    public void testObservableSetRemovals()
+    {
+        ObservableSet<Integer> set = FXCollections.observableSet();
+        AtomicInteger actual = new AtomicInteger();
+        Disposable disposable = FxFlux.fromSetRemovals(set)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
+
+        set.add(1);
+        set.add(2);
+        set.remove(1);
+        assertThat(actual.get()).isEqualTo(1);
+
+        set.remove(2);
+        assertThat(actual.get()).isEqualTo(2);
+
+        set.add(4);
+        assertThat(actual.get()).isEqualTo(2);
+
+        disposable.dispose();
+    }
 }
