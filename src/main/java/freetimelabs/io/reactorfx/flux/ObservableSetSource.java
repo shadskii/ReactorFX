@@ -48,6 +48,8 @@ class ObservableSetSource
                     emitter.next(c.getElementAdded());
                 }
             };
+            source.addListener(listener);
+            emitter.onDispose(onFx(() -> source.removeListener(listener)));
         });
     }
 
@@ -62,6 +64,8 @@ class ObservableSetSource
                     emitter.next(c.getElementRemoved());
                 }
             };
+            source.addListener(listener);
+            emitter.onDispose(onFx(() -> source.removeListener(listener)));
         });
     }
 

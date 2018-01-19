@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -472,6 +473,27 @@ public class FxFluxTest
         set.remove(1);
         assertThat(actual.get()).isEmpty();
         assertThat(actual.get()).isEqualTo(set);
+
+        disposable.dispose();
+    }
+
+    @Test
+    public void testObservableSetAdditions()
+    {
+        ObservableSet<Integer> set = FXCollections.observableSet();
+        AtomicInteger actual = new AtomicInteger();
+        Disposable disposable = FxFlux.fromSetAdditions(set)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
+
+        set.add(1);
+        assertThat(actual.get()).isEqualTo(1);
+
+        set.remove(1);
+        assertThat(actual.get()).isEqualTo(1);
+
+        set.add(2);
+        assertThat(actual.get()).isEqualTo(2);
 
         disposable.dispose();
     }

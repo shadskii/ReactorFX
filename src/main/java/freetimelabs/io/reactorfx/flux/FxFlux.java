@@ -267,7 +267,7 @@ public final class FxFlux
      * @param <T>    The type contained by the ObservableSet.
      * @return A Flux that emits any addition to the argument ObservableSet.
      */
-    public static <T> Flux<T> additions(ObservableSet<T> source)
+    public static <T> Flux<T> fromSetAdditions(ObservableSet<T> source)
     {
         return ObservableSetSource.additions(source);
     }
@@ -279,7 +279,7 @@ public final class FxFlux
      * @param <T>    Type contained by the ObservableSet
      * @return A Flux that emits any removals to the argument ObservableSet.
      */
-    public static <T> Flux<T> removals(ObservableSet<T> source)
+    public static <T> Flux<T> fromSetRemovals(ObservableSet<T> source)
     {
         return ObservableSetSource.removals(source);
     }
