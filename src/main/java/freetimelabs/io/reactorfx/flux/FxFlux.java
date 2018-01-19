@@ -48,8 +48,9 @@ public final class FxFlux
 
     /**
      * Creates a {@link Mono} which emits when the argument Dialog has been finished. This will not emit if nothing is
-     * selected from the Dialog. The {@link Scheduler} used to listen for events will be {@link FxSchedulers#platform()}.
-     * Equivalent to calling {@link FxFlux#from(Dialog, Scheduler)} with {@link FxSchedulers#platform()}.
+     * selected from the Dialog. The {@link Scheduler} used to listen for events will be {@link
+     * FxSchedulers#platform()}. Equivalent to calling {@link FxFlux#from(Dialog, Scheduler)} with {@link
+     * FxSchedulers#platform()}.
      *
      * @param source The Dialog to listen to.
      * @param <T>    The type of the from.
@@ -246,16 +247,38 @@ public final class FxFlux
         return ObservableMapSource.removals(source);
     }
 
+    /**
+     * Creates a Flux that listens for changes to an {@link ObservableSet} and emits the set whenever there is a change
+     * to it.
+     *
+     * @param source The ObservableSet to listen to.
+     * @param <T>    The type contained by the ObservableSet.
+     * @return A flux that emits the argument ObservableSet whenever it has been updated.
+     */
     public static <T> Flux<ObservableSet<T>> fromSet(ObservableSet<T> source)
     {
         return ObservableSetSource.observableSet(source);
     }
 
+    /**
+     * Creates a Flux that listens for changes to {@link ObservableSet} and emits any additions to it.
+     *
+     * @param source The ObservableSet to listen to for additions.
+     * @param <T>    The type contained by the ObservableSet.
+     * @return A Flux that emits any addition to the argument ObservableSet.
+     */
     public static <T> Flux<T> additions(ObservableSet<T> source)
     {
         return ObservableSetSource.additions(source);
     }
 
+    /**
+     * Creates a Flux that listens for changes to {@link ObservableSet} and emits any removals to it.
+     *
+     * @param source The ObservableSet to listen to for removals.
+     * @param <T>    Type contained by the ObservableSet
+     * @return A Flux that emits any removals to the argument ObservableSet.
+     */
     public static <T> Flux<T> removals(ObservableSet<T> source)
     {
         return ObservableSetSource.removals(source);
