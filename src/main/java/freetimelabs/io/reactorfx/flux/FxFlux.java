@@ -288,21 +288,51 @@ public final class FxFlux
         return ObservableSetSource.removals(source);
     }
 
+    /**
+     * Creates a Flux that listens for changes to a {@link ObservableIntegerArray} and emits the entire array whenever
+     * it has been changed.
+     *
+     * @param source - The ObservableIntegerArray to listen to for changes.
+     * @return A Flux that emits the argument ObservableIntegerArray whenever it has been updated.
+     */
     public static Flux<ObservableIntegerArray> fromArray(ObservableIntegerArray source)
     {
         return ObservableArraySource.observableArray(source);
     }
 
+    /**
+     * Creates a Flux that listens for changes to a {@link ObservableFloatArray} and emits the entire array whenever it
+     * has been changed.
+     *
+     * @param source - The ObservableFloatArray to listen to for changes.
+     * @return A Flux that emits the argument ObservableFloatArray whenever it has been updated.
+     */
     public static Flux<ObservableFloatArray> fromArray(ObservableFloatArray source)
     {
         return ObservableArraySource.observableArray(source);
     }
 
+    /**
+     * Creates a Flux that listens for changes to a {@link ObservableIntegerArray} and emits the changed sub-array of
+     * the array whenever it has been changed.
+     *
+     * @param source - The ObservableIntegerArray to listen to for changes.
+     * @return A Flux that emits the changed sub-array of the argument ObservableIntegerArray whenever it has been
+     * updated.
+     */
     public static Flux<ObservableIntegerArray> fromArrayChanges(ObservableIntegerArray source)
     {
         return ObservableArraySource.observableIntegerSubArray(source);
     }
 
+    /**
+     * Creates a Flux that listens for changes to a {@link ObservableFloatArray} and emits the changed sub-array of the
+     * array whenever it has been changed.
+     *
+     * @param source - The ObservableFloatArray to listen to for changes.
+     * @return A Flux that emits the changed sub-array of the argument ObservableFloatArray whenever it has been
+     * updated.
+     */
     public static Flux<ObservableFloatArray> fromArrayChanges(ObservableFloatArray source)
     {
         return ObservableArraySource.observableFloatSubArray(source);
