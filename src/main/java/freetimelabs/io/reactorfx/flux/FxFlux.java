@@ -41,6 +41,8 @@ import java.util.Map;
  *     <li>{@link ObservableList}</li>
  *     <li>{@link ObservableMap}</li>
  *     <li>{@link ObservableSet}</li>
+ *     <li>{@link ObservableIntegerArray}</li>
+ *     <li>{@link ObservableFloatArray}</li>
  * </ul></pre>
  */
 public final class FxFlux
