@@ -1,25 +1,14 @@
-plugins {
-    id "org.sonarqube" version "2.2"
-}
+group 'freetimelabs.io.reactorfx'
+version '0.x'
+
 apply plugin: 'java'
 apply plugin: 'jacoco'
-
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-group 'freetimelabs.io.reactorfx'
-version '0.x'
 repositories {
     mavenCentral()
-    jcenter()
-}
-
-sonarqube {
-    properties {
-        property "sonar.projectName", "Java Gradle-based project analyzed on SonarCloud using Travis"
-        property "sonar.projectKey", "com.sonarqube.examples.java-gradle-travis-project"
-    }
 }
 
 jacocoTestReport {
