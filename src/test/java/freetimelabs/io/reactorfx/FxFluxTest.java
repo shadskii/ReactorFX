@@ -20,10 +20,7 @@ import freetimelabs.io.reactorfx.flux.FxFlux;
 import freetimelabs.io.reactorfx.schedulers.FxSchedulers;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import javafx.collections.ObservableSet;
+import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Node;
@@ -517,6 +514,98 @@ public class FxFluxTest
 
         set.add(4);
         assertThat(actual.get()).isEqualTo(2);
+
+        disposable.dispose();
+    }
+
+    @Test
+    public void testObservableIntegerArray()
+    {
+        ObservableIntegerArray array = FXCollections.observableIntegerArray();
+        AtomicReference<ObservableIntegerArray> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromArray(array)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
+        array.addAll(1);
+        int[] dest = new int[1];
+        actual.get()
+              .toArray(dest);
+        assertThat(dest).containsExactly(1);
+
+        array.addAll(2, 3);
+        int[] dest2 = new int[3];
+        actual.get()
+              .toArray(dest2);
+        assertThat(dest2).containsExactly(1, 2, 3);
+
+        disposable.dispose();
+    }
+
+    @Test
+    public void testObservableFloatArray()
+    {
+        ObservableFloatArray array = FXCollections.observableFloatArray();
+        AtomicReference<ObservableFloatArray> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromArray(array)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
+        array.addAll(1.0f);
+        float[] dest = new float[1];
+        actual.get()
+              .toArray(dest);
+        assertThat(dest).containsExactly(1.0f);
+
+        array.addAll(2.0f, 3.0f);
+        float[] dest2 = new float[3];
+        actual.get()
+              .toArray(dest2);
+        assertThat(dest2).containsExactly(1.0f, 2.0f, 3.0f);
+
+        disposable.dispose();
+    }
+
+    @Test
+    public void testObservableIntegerArrayChanges()
+    {
+        ObservableIntegerArray array = FXCollections.observableIntegerArray();
+        AtomicReference<ObservableIntegerArray> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromArrayChanges(array)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
+        array.addAll(1);
+        int[] dest = new int[1];
+        actual.get()
+              .toArray(dest);
+        assertThat(dest).containsExactly(1);
+
+        array.addAll(2, 3);
+        int[] dest2 = new int[2];
+        actual.get()
+              .toArray(dest2);
+        assertThat(dest2).containsExactly(2, 3);
+
+        disposable.dispose();
+    }
+
+    @Test
+    public void testObservableFloatArrayChanges()
+    {
+        ObservableFloatArray array = FXCollections.observableFloatArray();
+        AtomicReference<ObservableFloatArray> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromArrayChanges(array)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
+        array.addAll(1.0f);
+        float[] dest = new float[1];
+        actual.get()
+              .toArray(dest);
+        assertThat(dest).containsExactly(1.0f);
+
+        array.addAll(2.0f, 3.0f);
+        float[] dest2 = new float[2];
+        actual.get()
+              .toArray(dest2);
+        assertThat(dest2).containsExactly(2.0f, 3.0f);
 
         disposable.dispose();
     }

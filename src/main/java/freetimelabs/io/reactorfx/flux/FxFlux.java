@@ -18,9 +18,7 @@ package freetimelabs.io.reactorfx.flux;
 
 import freetimelabs.io.reactorfx.schedulers.FxSchedulers;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import javafx.collections.ObservableSet;
+import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventType;
@@ -288,5 +286,25 @@ public final class FxFlux
     public static <T> Flux<T> fromSetRemovals(ObservableSet<T> source)
     {
         return ObservableSetSource.removals(source);
+    }
+
+    public static Flux<ObservableIntegerArray> fromArray(ObservableIntegerArray source)
+    {
+        return ObservableArraySource.observableArray(source);
+    }
+
+    public static Flux<ObservableFloatArray> fromArray(ObservableFloatArray source)
+    {
+        return ObservableArraySource.observableArray(source);
+    }
+
+    public static Flux<ObservableIntegerArray> fromArrayChanges(ObservableIntegerArray source)
+    {
+        return ObservableArraySource.observableIntegerSubArray(source);
+    }
+
+    public static Flux<ObservableFloatArray> fromArrayChanges(ObservableFloatArray source)
+    {
+        return ObservableArraySource.observableFloatSubArray(source);
     }
 }

@@ -40,7 +40,7 @@ class ObservableArraySource
             final ArrayChangeListener<ObservableIntegerArray> listener = (arr, sizeChanged, from, to) ->
             {
                 ObservableIntegerArray newArr = FXCollections.observableIntegerArray();
-                arr.set(0, newArr, from, to - from);
+                newArr.addAll(arr, from, to - from);
                 emitter.next(newArr);
             };
             source.addListener(listener);
@@ -55,7 +55,7 @@ class ObservableArraySource
             final ArrayChangeListener<ObservableFloatArray> listener = (arr, sizeChanged, from, to) ->
             {
                 ObservableFloatArray newArr = FXCollections.observableFloatArray();
-                arr.set(0, newArr, from, to - from);
+                newArr.addAll(arr, from, to - from);
                 emitter.next(newArr);
             };
             source.addListener(listener);
