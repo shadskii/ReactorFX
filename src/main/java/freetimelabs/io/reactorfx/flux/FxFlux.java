@@ -97,6 +97,18 @@ public final class FxFlux
     }
 
     /**
+     * Creates a {@link Flux} which emits any {@link ActionEvent} that originates from the argument {@link MenuItem}.
+     * Equivalent to using {@link #from(MenuItem, EventType)} with {@link ActionEvent#ANY}.
+     *
+     * @param source The target MenuItem where UI events are emitted from.
+     * @return A Flux that emits all events of the argument type that originate form the argument node.
+     */
+    public static Flux<ActionEvent> from(MenuItem source)
+    {
+        return SceneGraphSource.menuItemEvent(source, ActionEvent.ANY);
+    }
+
+    /**
      * Creates a {@link Flux} which emits all Events of the argument {@link EventType} from the argument {@link Node}
      *
      * @param source    The target Node where UI events are emitted from.
@@ -107,6 +119,18 @@ public final class FxFlux
     public static <T extends Event> Flux<T> from(Node source, EventType<T> eventType)
     {
         return SceneGraphSource.nodeEvent(source, eventType);
+    }
+
+    /**
+     * Creates a Flux that emits any {@link ActionEvent} that originates from the argument Node. Equivalent to using
+     * {@link #from(Node, EventType)}
+     *
+     * @param source The target node where events originate from.
+     * @return A Flux containing all {@link ActionEvent}s from the argument node.
+     */
+    public static Flux<ActionEvent> from(Node source)
+    {
+        return from(source, ActionEvent.ANY);
     }
 
     /**
@@ -123,6 +147,18 @@ public final class FxFlux
     }
 
     /**
+     * Creates a {@link Flux} which emits any {@link ActionEvent} from the argument {@link Scene}. Equivalent to using
+     * {@link #from(Scene, EventType)} with {@link ActionEvent#ANY}.
+     *
+     * @param source The target Scene where UI events are emitted from.
+     * @return A Flux that emits all ActionEvents from the argument scene.
+     */
+    public static Flux<ActionEvent> from(Scene source)
+    {
+        return SceneGraphSource.sceneEvent(source, ActionEvent.ANY);
+    }
+
+    /**
      * Creates a {@link Flux} which emits all Events of the argument {@link EventType} from the argument {@link Stage}.
      *
      * @param source    The target Stage where UI events are emitted from.
@@ -133,6 +169,18 @@ public final class FxFlux
     public static <T extends Event> Flux<T> from(Stage source, EventType<T> eventType)
     {
         return SceneGraphSource.stageEvent(source, eventType);
+    }
+
+    /**
+     * Creates a {@link Flux} which emits any {@link ActionEvent} from the argument {@link Stage}. Equivalent to using
+     * {@link #from(Stage, EventType)} with {@link ActionEvent#ANY}.
+     *
+     * @param source The target Stage where UI events are emitted from.
+     * @return A Flux that emits any ActionEvent that originates from the argument Stage.
+     */
+    public static Flux<ActionEvent> from(Stage source)
+    {
+        return SceneGraphSource.stageEvent(source, ActionEvent.ANY);
     }
 
     /**
@@ -150,6 +198,18 @@ public final class FxFlux
     }
 
     /**
+     * Creates a {@link Flux} which emits any {@link ActionEvent} from the argument {@link Window}. Equivalent to using
+     * {@link #from(Window, EventType)} with {@link ActionEvent#ANY}.
+     *
+     * @param source The target Window where UI events are emitted from.
+     * @return A Flux that emits all events of the argument type that originate from the argument Window.
+     */
+    public static Flux<ActionEvent> from(Window source)
+    {
+        return SceneGraphSource.windowEvent(source, ActionEvent.ANY);
+    }
+
+    /**
      * Crates a {@link Flux} which emits whenever the argument from is changed.
      *
      * @param observableValue The from to listen for changes.
@@ -161,17 +221,6 @@ public final class FxFlux
         return ObservableSource.from(observableValue);
     }
 
-    /**
-     * Creates a Flux that emits all ActionEvents that originate from the argument Node. Equivalent to using {@link
-     * #from(Node, EventType)}
-     *
-     * @param source The target node where events originate from.
-     * @return A Flux containing all {@link ActionEvent}s from the argument node.
-     */
-    public static Flux<ActionEvent> from(Node source)
-    {
-        return from(source, ActionEvent.ANY);
-    }
 
     /**
      * Creates a Flux that emits the argument {@link ObservableList} every time it has been updated.
