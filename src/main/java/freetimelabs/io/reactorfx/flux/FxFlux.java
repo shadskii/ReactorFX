@@ -122,7 +122,7 @@ public final class FxFlux
     }
 
     /**
-     * Creates a Flux that emits any {@link ActionEvent} that originates from the argument Node. Equivalent to using
+     * Creates a {@link Flux} that emits any {@link ActionEvent} that originates from the argument Node. Equivalent to using
      * {@link #from(Node, EventType)} with {@link ActionEvent#ANY}.
      *
      * @param source The target node where events originate from.
@@ -223,7 +223,7 @@ public final class FxFlux
 
 
     /**
-     * Creates a Flux that emits the argument {@link ObservableList} every time it has been updated.
+     * Creates a {@link Flux} that emits the argument {@link ObservableList} every time it has been updated.
      *
      * @param source The ObservableList to listen to.
      * @param <T>    The type of the ObservableList
@@ -235,8 +235,8 @@ public final class FxFlux
     }
 
     /**
-     * Creates a Flux that listens for changes to the argument {@link ObservableList} and emits all of the additions to
-     * the list whenever it has been updated.
+     * Creates a {@link Flux} that listens for changes to the argument {@link ObservableList} and emits all of the
+     * additions to the list whenever it has been updated.
      *
      * @param source The ObservableList to listen to.
      * @param <T>    The type of the ObservableList.
@@ -248,8 +248,8 @@ public final class FxFlux
     }
 
     /**
-     * Creates a Flux that listens for changes to the argument {@link ObservableList} and emits all of the removals to
-     * the list whenever it has been updated.
+     * Creates a {@link Flux} that listens for changes to the argument {@link ObservableList} and emits all of the
+     * removals to the list whenever it has been updated.
      *
      * @param source The ObservableList to listen to.
      * @param <T>    The type of the ObservableList.
@@ -261,8 +261,8 @@ public final class FxFlux
     }
 
     /**
-     * Creates a Flux that listens for changes to am {@link ObservableMap} and emits the argument ObservableMap whenever
-     * it has been updated.
+     * Creates a {@link Flux} that listens for changes to am {@link ObservableMap} and emits the argument ObservableMap
+     * whenever it has been updated.
      *
      * @param source The ObservableMap to listen to.
      * @param <T>    The key type of the ObservableMap.
@@ -275,8 +275,8 @@ public final class FxFlux
     }
 
     /**
-     * Creates a Flux that listens for changes to an {@link ObservableMap} and emits any additions to the argument
-     * ObservableMap.
+     * Creates a {@link Flux} that listens for changes to an {@link ObservableMap} and emits any additions to the
+     * argument ObservableMap.
      *
      * @param source The ObservableMap to listen to for additions.
      * @param <T>    The key type of the ObservableMap.
@@ -289,8 +289,8 @@ public final class FxFlux
     }
 
     /**
-     * Creates a Flux that listens for changes to an {@link ObservableMap} and emits any removals to the argument
-     * ObservableMap.
+     * Creates a {@link Flux} that listens for changes to an {@link ObservableMap} and emits any removals to the
+     * argument ObservableMap.
      *
      * @param source The ObservableMap to listen to for removals.
      * @param <T>    The key type of the ObservableMap.
