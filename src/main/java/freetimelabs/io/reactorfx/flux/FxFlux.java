@@ -69,7 +69,7 @@ public final class FxFlux
 
     /**
      * Creates a {@link Mono} which emits when the argument Dialog has been finished. This will not emit if nothing is
-     * selected from the from. The argument {@link Scheduler} will be used for listening for events
+     * selected from the from. The argument {@link Scheduler} will be used for listening for events.
      *
      * @param source    The Dialog to listen to.
      * @param scheduler The Scheduler that the from will show on. This should provide access to the JavaFX application
@@ -123,7 +123,7 @@ public final class FxFlux
 
     /**
      * Creates a Flux that emits any {@link ActionEvent} that originates from the argument Node. Equivalent to using
-     * {@link #from(Node, EventType)}
+     * {@link #from(Node, EventType)} with {@link ActionEvent#ANY}.
      *
      * @param source The target node where events originate from.
      * @return A Flux containing all {@link ActionEvent}s from the argument node.
@@ -210,7 +210,7 @@ public final class FxFlux
     }
 
     /**
-     * Crates a {@link Flux} which emits whenever the argument from is changed.
+     * Creates a {@link Flux} which emits whenever the argument {@link ObservableValue} is changed.
      *
      * @param observableValue The from to listen for changes.
      * @param <T>             The type of the from.
