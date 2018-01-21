@@ -9,16 +9,16 @@ This library allows for better integration between Project Reactor and JavaFX. `
 ```java
 private Button btn;
 
-FxFlux.from(btn)
-          .subscribeOn(fxThead)
-          .publishOn(anotherScheduler)
-          .map(ActionEvent::getSource)
-          .subscribe(System.out::println);
+Flux<Event> buttonEvents = FxFlux.from(btn)
+                                 .subscribeOn(FxSchedulers.platform())
+                                 .publishOn(anotherScheduler);
 ```
 
 ## API
 
 #### Flux Sources
+FXcellent Reactor provides provides simple and fluent factories for Fluxes
+###### Node
 ```java
 from(Node source)
 ```
@@ -27,6 +27,7 @@ from(Node source)
 from(Node source, EventType<T> eventType)
 ```
 
+###### Scene
 ```java
 from(Scene source)
 ```
@@ -35,6 +36,7 @@ from(Scene source)
 from(Scene source, EventType<T> eventType)
 ```
 
+###### Stage
 ```java
 from(Stage source)
 ```
@@ -43,6 +45,7 @@ from(Stage source)
 from(Stage source, EventType<T> eventType)
 ```
 
+###### Window
 ```java
 from(Window source)
 ```
@@ -51,7 +54,7 @@ from(Window source)
 from(Window source, EventType<T> eventType)
 ```
 
-##### Observable
+###### Observable
 ```java
 from(ObservableValue<T> observableValue)
 ```
@@ -60,7 +63,7 @@ from(ObservableValue<T> observableValue)
 
 #### JavaFX Collections Support
 
-##### ObservableList
+###### ObservableList
 ```java
 fromList(ObservableList<T> source)
 ```
@@ -73,7 +76,7 @@ fromListAdditions(ObservableList<T> source)
 fromListRemovals(ObservableList<T> source)
 ```
 
-##### ObservableMap
+###### ObservableMap
 ```java
 fromMap(ObservableMap<T,V> source)
 ```
@@ -86,7 +89,7 @@ fromMapAdditions(ObservableMap<T,V> source)
 fromMapRemovals(ObservableMap<T,V> source)
 ```
 
-##### ObservableSet
+###### ObservableSet
 ```java
 fromSet(ObservableSet<T> source)
 ```
@@ -99,7 +102,7 @@ fromSetAdditions(ObservableSet<T> source)
 fromSetRemovals(ObservableSet<T> source)
 ```
 
-##### ObservableArray
+###### ObservableArray
 ```java
 fromIntegerArray(ObservableIntegerArray<T> source)
 ```
