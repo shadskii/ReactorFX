@@ -9,7 +9,7 @@ This library allows for better integration between Project Reactor and JavaFX. `
 ```java
 private Button btn;
 
-FxFlux.fromActionEventsOf(btn)
+FxFlux.from(btn)
           .subscribeOn(fxThead)
           .publishOn(anotherScheduler)
           .map(ActionEvent::getSource)
@@ -20,7 +20,7 @@ FxFlux.fromActionEventsOf(btn)
 
 #### Flux Sources
 ```java
-fromActionEventsOf(Node source)
+from(Node source)
 ```
 
 ```java
@@ -28,11 +28,23 @@ from(Node source, EventType<T> eventType)
 ```
 
 ```java
+from(Scene source)
+```
+
+```java
 from(Scene source, EventType<T> eventType)
 ```
 
 ```java
+from(Stage source)
+```
+
+```java
 from(Stage source, EventType<T> eventType)
+```
+
+```java
+from(Window source)
 ```
 
 ```java
@@ -43,6 +55,10 @@ from(Window source, EventType<T> eventType)
 ```java
 from(ObservableValue<T> observableValue)
 ```
+
+<br />
+
+#### JavaFX Collections Support
 
 ##### ObservableList
 ```java
@@ -56,6 +72,49 @@ fromListAdditions(ObservableList<T> source)
 ```java
 fromListRemovals(ObservableList<T> source)
 ```
+
+##### ObservableMap
+```java
+fromMap(ObservableMap<T,V> source)
+```
+
+```java
+fromMapAdditions(ObservableMap<T,V> source)
+```
+
+```java
+fromMapRemovals(ObservableMap<T,V> source)
+```
+
+##### ObservableSet
+```java
+fromSet(ObservableSet<T> source)
+```
+
+```java
+fromSetAdditions(ObservableSet<T> source)
+```
+
+```java
+fromSetRemovals(ObservableSet<T> source)
+```
+
+##### ObservableArray
+```java
+fromIntegerArray(ObservableIntegerArray<T> source)
+```
+
+```java
+fromFloatArray(ObservableFloatArray<T> source)
+```
+
+```java
+fromArrayChanges(ObservableIntegerArray<T> source)
+```
+```java
+fromArrayChanges(ObservableFloatArray<T> source)
+```
+
 <br />
 
 #### Schedulers
