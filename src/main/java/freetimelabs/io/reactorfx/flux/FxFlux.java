@@ -184,7 +184,8 @@ public final class FxFlux
     }
 
     /**
-     * Creates a {@link Flux} which emits whenever the argument {@link ObservableValue} is changed.
+     * Creates a {@link Flux} which emits whenever the argument {@link ObservableValue} is changed. This will not
+     * provide an emission if the changed value is null.
      *
      * @param observableValue The from to listen for changes.
      * @param <T>             The type of the from.
@@ -194,7 +195,6 @@ public final class FxFlux
     {
         return ObservableSource.from(observableValue);
     }
-
 
     /**
      * Creates a {@link Flux} that emits the argument {@link ObservableList} every time it has been updated.
