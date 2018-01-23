@@ -16,9 +16,11 @@
 
 package freetimelabs.io.reactorfx;
 
+import freetimelabs.io.reactorfx.flux.Change;
 import freetimelabs.io.reactorfx.flux.FxFlux;
 import freetimelabs.io.reactorfx.schedulers.FxSchedulers;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
@@ -220,6 +222,29 @@ public class FxFluxTest
 
         observable.set(null);
         assertThat(actual.get()).isEqualTo("hello");
+        disposable.dispose();
+    }
+
+    @Test
+    public void testObservableChanges()
+    {
+        SimpleIntegerProperty obs = new SimpleIntegerProperty();
+        AtomicReference<Change> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromChangesOf(obs)
+                                      .publishOn(thread)
+                                      .subscribe(actual::set);
+        obs.set(0);
+        obs.set(1);
+        assertThat(actual.get()
+                         .getOldVal()).isEqualTo(0);
+        assertThat(actual.get()
+                         .getNewVal()).isEqualTo(1);
+
+        obs.set(2);
+        assertThat(actual.get()
+                         .getOldVal()).isEqualTo(1);
+        assertThat(actual.get()
+                         .getNewVal()).isEqualTo(2);
         disposable.dispose();
     }
 
