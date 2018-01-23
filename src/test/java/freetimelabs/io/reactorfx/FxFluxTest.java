@@ -29,7 +29,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -312,42 +311,6 @@ public class FxFluxTest
         p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(event.get()
                         .getSource()).isEqualTo(scene);
-        disposable.dispose();
-    }
-
-    @Test
-    public void testStageEvent() throws TimeoutException, InterruptedException
-    {
-        AtomicReference<Stage> actual = new AtomicReference<>();
-        AtomicReference<Node> actualNode = new AtomicReference<>();
-        FX_RULE.onStage(stage ->
-        {
-            Pane pane = new Pane();
-            Scene scene = new Scene(pane);
-            actualNode.set(pane);
-            actual.set(stage);
-            stage.setScene(scene);
-            stage.show();
-        });
-
-        AtomicReference<Event> event = new AtomicReference<>();
-        Stage stage = actual.get();
-
-        Phaser p = new Phaser(2);
-        Disposable disposable = FxFlux.from(stage, KeyEvent.KEY_TYPED)
-                                      .subscribeOn(fxThread)
-                                      .publishOn(thread)
-                                      .subscribe(e ->
-                                      {
-                                          event.set(e);
-                                          p.arrive();
-                                      });
-
-        Platform.runLater(() -> actualNode.get()
-                                          .fireEvent(KEY_EVENT));
-        p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
-        assertThat(event.get()
-                        .getSource()).isEqualTo(stage);
         disposable.dispose();
     }
 

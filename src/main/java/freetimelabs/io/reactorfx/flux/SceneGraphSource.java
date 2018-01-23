@@ -22,7 +22,6 @@ import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
-import javafx.stage.Stage;
 import javafx.stage.Window;
 import reactor.core.publisher.Flux;
 
@@ -54,16 +53,6 @@ class SceneGraphSource
     }
 
     static <T extends Event> Flux<T> sceneEvent(Scene source, EventType<T> eventType)
-    {
-        return Flux.create(emitter ->
-        {
-            final EventHandler<T> handler = emitter::next;
-            source.addEventHandler(eventType, handler);
-            emitter.onDispose(onFx(() -> source.removeEventHandler(eventType, handler)));
-        });
-    }
-
-    static <T extends Event> Flux<T> stageEvent(Stage source, EventType<T> eventType)
     {
         return Flux.create(emitter ->
         {

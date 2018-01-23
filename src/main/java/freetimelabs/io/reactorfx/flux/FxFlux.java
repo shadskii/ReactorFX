@@ -26,7 +26,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuItem;
-import javafx.stage.Stage;
 import javafx.stage.Window;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -122,8 +121,8 @@ public final class FxFlux
     }
 
     /**
-     * Creates a {@link Flux} that emits any {@link ActionEvent} that originates from the argument Node. Equivalent to using
-     * {@link #from(Node, EventType)} with {@link ActionEvent#ANY}.
+     * Creates a {@link Flux} that emits any {@link ActionEvent} that originates from the argument Node. Equivalent to
+     * using {@link #from(Node, EventType)} with {@link ActionEvent#ANY}.
      *
      * @param source The target node where events originate from.
      * @return A Flux containing all {@link ActionEvent}s from the argument node.
@@ -156,31 +155,6 @@ public final class FxFlux
     public static Flux<ActionEvent> from(Scene source)
     {
         return SceneGraphSource.sceneEvent(source, ActionEvent.ANY);
-    }
-
-    /**
-     * Creates a {@link Flux} which emits all Events of the argument {@link EventType} from the argument {@link Stage}.
-     *
-     * @param source    The target Stage where UI events are emitted from.
-     * @param eventType The type of event to listen for.
-     * @param <T>       The event type.
-     * @return A Flux that emits all events of the argument type that originates from the argument Stage.
-     */
-    public static <T extends Event> Flux<T> from(Stage source, EventType<T> eventType)
-    {
-        return SceneGraphSource.stageEvent(source, eventType);
-    }
-
-    /**
-     * Creates a {@link Flux} which emits any {@link ActionEvent} from the argument {@link Stage}. Equivalent to using
-     * {@link #from(Stage, EventType)} with {@link ActionEvent#ANY}.
-     *
-     * @param source The target Stage where UI events are emitted from.
-     * @return A Flux that emits any ActionEvent that originates from the argument Stage.
-     */
-    public static Flux<ActionEvent> from(Stage source)
-    {
-        return SceneGraphSource.stageEvent(source, ActionEvent.ANY);
     }
 
     /**
