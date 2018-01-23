@@ -36,15 +36,6 @@ from(Scene source)
 from(Scene source, EventType<T> eventType)
 ```
 
-###### Stage
-```java
-from(Stage source)
-```
-
-```java
-from(Stage source, EventType<T> eventType)
-```
-
 ###### Window
 ```java
 from(Window source)
