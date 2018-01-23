@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/shadskii/FXcellent-Reactor.svg?branch=master)](https://travis-ci.org/shadskii/FXcellent-Reactor)
 [![codecov](https://codecov.io/gh/shadskii/FXcellent-Reactor/branch/master/graph/badge.svg)](https://codecov.io/gh/shadskii/FXcellent-Reactor)
 
-This library allows for better integration between Project Reactor and JavaFX. `FxFlux` minimizes the effort required for using Project Reactor for JavaFX event handling.
+This lightweight library allows for better integration between Project Reactor and JavaFX. `FxFlux` minimizes the effort required for using Project Reactor for JavaFX event handling.
 
 ## Example Usage
 
@@ -14,40 +14,38 @@ Flux<Event> buttonEvents = FxFlux.from(btn)
                                  .publishOn(anotherScheduler);
 ```
 
-## API
-
-#### Flux Sources
-FXcellent Reactor provides provides simple and fluent factories for Fluxes
+#### Events
+In JavaFX actions from external sources are propagated through [Events.](https://docs.oracle.com/javase/8/javafx/api/javafx/event/Event.html) 
+These Events can be emitted from `Node`, `Scene`, and `Window`. FXcellent Reactor provides provides simple and fluent factories for the creation 
+of Fluxes from these sources. You can create Fluxes from these by using `FxFlux.from()` and passing the source and `EventType`
+ to listen to. `FxFlux.from()` provides overloaded factories so that omitting the `EventType` will result in a `Flux` that 
+ listens for `ActionEvents`.
 ###### Node
 ```java
-from(Node source)
+FxFlux.from(Node source)
 ```
-
 ```java
-from(Node source, EventType<T> eventType)
+FxFlux.from(Node source, EventType<T> eventType)
 ```
-
 ###### Scene
 ```java
-from(Scene source)
+FxFlux.from(Scene source)
 ```
-
 ```java
-from(Scene source, EventType<T> eventType)
+FxFlux.from(Scene source, EventType<T> eventType)
 ```
-
 ###### Window
 ```java
-from(Window source)
+FxFlux.from(Window source)
+```
+```java
+FxFlux.from(Window source, EventType<T> eventType)
 ```
 
-```java
-from(Window source, EventType<T> eventType)
-```
+#### ObservableValue
 
-###### Observable
 ```java
-from(ObservableValue<T> observableValue)
+FxFlux.from(ObservableValue<T> observableValue)
 ```
 
 <br />
