@@ -29,7 +29,7 @@ import static freetimelabs.io.reactorfx.flux.DisposeUtilities.onFx;
  */
 class ObservableSource
 {
-    public static <T> Flux<T> from(ObservableValue<T> observableValue)
+    static <T> Flux<T> from(ObservableValue<T> observableValue)
     {
         return Flux.create(emitter ->
         {
@@ -42,6 +42,17 @@ class ObservableSource
             };
             observableValue.addListener(handler);
             emitter.onDispose(onFx(() -> observableValue.removeListener(handler)));
+        });
+    }
+
+    static <T> Flux<Change<T>> fromChangesOf(ObservableValue<T> observableValue)
+    {
+        return Flux.create(emitter ->
+        {
+            final ChangeListener<T> listener = (obs, oldVal, newVal) ->
+                    emitter.next(new Change<>(oldVal, newVal));
+            observableValue.addListener(listener);
+            emitter.onDispose(onFx(() -> observableValue.removeListener(listener)));
         });
     }
 }

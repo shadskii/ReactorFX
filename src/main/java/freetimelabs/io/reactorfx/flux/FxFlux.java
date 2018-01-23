@@ -187,13 +187,26 @@ public final class FxFlux
      * Creates a {@link Flux} which emits whenever the argument {@link ObservableValue} is changed. This will not
      * provide an emission if the changed value is null.
      *
-     * @param observableValue The from to listen for changes.
-     * @param <T>             The type of the from.
+     * @param observableValue The ObservableValue to listen for changes.
+     * @param <T>             The type of the Observable.
      * @return A Flux that emits the newest value of the argument from when it has been changed.
      */
     public static <T> Flux<T> from(ObservableValue<T> observableValue)
     {
         return ObservableSource.from(observableValue);
+    }
+
+    /**
+     * Creates a {@link Flux} which emits whenever the argument {@link ObservableValue} is changed. This emits a {@link
+     * Change} which contains both the new value and the old value of the change to the observable.
+     *
+     * @param observableValue The ObservableValue to listen to for changes.
+     * @param <T>             The type of the Observable.
+     * @return A Flux that emits a change that contains both the new and old values of a change.
+     */
+    public static <T> Flux<Change<T>> fromChangesOf(ObservableValue<T> observableValue)
+    {
+        return ObservableSource.fromChangesOf(observableValue);
     }
 
     /**
