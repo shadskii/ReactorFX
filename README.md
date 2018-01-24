@@ -16,7 +16,7 @@ Flux<Event> buttonEvents = FxFlux.from(btn)
 
 #### Events
 In JavaFX actions from external sources are propagated through [Events.](https://docs.oracle.com/javase/8/javafx/api/javafx/event/Event.html) 
-These Events can be emitted from `Node`, `Scene`, and `Window`. FXcellent Reactor provides provides simple and fluent factories for the creation 
+These Events can be emitted from `Node`, `Scene`, and `Window`. FXcellent Reactor provides simple and fluent factories for the creation 
 of Fluxes from these sources. You can create Fluxes from these by using `FxFlux.from()` and passing the source and `EventType`
  to listen to. `FxFlux.from()` provides overloaded factories so that omitting the `EventType` will result in a `Flux` that 
  listens for `ActionEvents`.
@@ -43,7 +43,7 @@ FxFlux.from(Window source, EventType<T> eventType)
 ```
 
 #### ObservableValue
-Updates of any JavaFx `ObservableValue` can be emitted onto a `Flux` by using the factory `FxFlux.from(ObservableValue<T> observableValue)` 
+Updates of any JavaFX `ObservableValue` can be emitted onto a `Flux` by using the factory `FxFlux.from(ObservableValue<T> observableValue)` 
 which creates a `Flux` that emits the initial value of the observable followed by any subsequent changes to the Observable. Often the
 initial value of an `ObservableValue` is null. The reactive streams specification disallows null values in a sequence so these 
 null values are not emitted.
