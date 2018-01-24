@@ -43,9 +43,14 @@ FxFlux.from(Window source, EventType<T> eventType)
 ```
 
 #### ObservableValue
+Updates of any JavaFx `ObservableValue` can be emitted onto a `Flux` by using the factory `FxFlux.from(ObservableValue<T> observableValue)` 
+which creates a `Flux` that emits the initial value of the observable followed by any subsequent changes to the Observable. Often the
+initial value of an `ObservableValue` is null. The reactive streams specification disallows null values in a sequence so these 
+null values are not emitted.
 
 ```java
-FxFlux.from(ObservableValue<T> observableValue)
+SimpleObjectProperty<String> observable = new SimpleObjectProperty<>();
+Flux<String> flux = FxFlux.from(observable); 
 ```
 
 <br />
