@@ -4,45 +4,37 @@
 
 This lightweight library allows for better integration between Project Reactor and JavaFX. `FxFlux` minimizes the effort required for using Project Reactor for JavaFX event handling.
 
-## Example Usage
-
-```java
-private Button btn;
-
-Flux<Event> buttonEvents = FxFlux.from(btn)
-                                 .subscribeOn(FxSchedulers.platform())
-                                 .publishOn(anotherScheduler);
-```
-
-#### Events
+## Events
 In JavaFX actions from external sources are propagated through [Events.](https://docs.oracle.com/javase/8/javafx/api/javafx/event/Event.html) 
-These Events can be emitted from `Node`, `Scene`, and `Window`. FXcellent Reactor provides simple and fluent factories for the creation 
-of Fluxes from these sources. You can create Fluxes from these by using `FxFlux.from()` and passing the source and `EventType`
- to listen to. `FxFlux.from()` provides overloaded factories so that omitting the `EventType` will result in a `Flux` that 
+These Events can be emitted from `Node`, `Scene`, `MenuItem`, and `Window`. FXcellent Reactor provides simple, fluent, and consistent 
+factories for the creation of Fluxes from these sources. You can create Fluxes from these by using `FxFlux.from()` and 
+passing the source and `EventType` to listen to. `FxFlux.from()` provides overloaded factories so that omitting the 
+`EventType` will result in a `Flux` that 
  listens for `ActionEvents`.
-###### Node
-```java
-FxFlux.from(Node source)
-```
-```java
-FxFlux.from(Node source, EventType<T> eventType)
-```
-###### Scene
-```java
-FxFlux.from(Scene source)
-```
-```java
-FxFlux.from(Scene source, EventType<T> eventType)
-```
-###### Window
-```java
-FxFlux.from(Window source)
-```
-```java
-FxFlux.from(Window source, EventType<T> eventType)
-```
+ 
+ ###### Events From A Control
+ ```java
+ Button btn = new Button("Hey I'm A Button!");
+ Flux<Event> buttonEvents = FxFlux.from(btn)
+                                  .subscribeOn(FxSchedulers.platform())
+                                  .publishOn(anotherScheduler);
+ ```
+ ###### Events From A Scene
+ ```java
+ Scene scene = new Scene(new Label("Hey I'm A Label!"));
+ Flux<MouseEvent> buttonEvents = FxFlux.from(scene, MouseEvent.MOUSE_CLICKED)
+                                  .subscribeOn(FxSchedulers.platform())
+                                  .publishOn(anotherScheduler);
+ ``` 
+ 
+  ###### Events From A Window
+  ```java
+  Flux<WindowEvent> buttonEvents = FxFlux.from(primaryStage, WindowEvent.WINDOW_HIDING)
+                                   .subscribeOn(FxSchedulers.platform())
+                                   .publishOn(anotherScheduler);
+  ``` 
 
-#### ObservableValue
+## ObservableValue
 Updates of any JavaFX `ObservableValue` can be emitted onto a `Flux` by using the factory `FxFlux.from(ObservableValue<T> observableValue)` 
 which creates a `Flux` that emits the initial value of the observable followed by any subsequent changes to the Observable. Often the
 initial value of an `ObservableValue` is null. The reactive streams specification disallows null values in a sequence so these 
@@ -62,8 +54,8 @@ Flux<Change<String>> flux = FxFlux.fromChangesOf(observable)
                                   .filter(change -> !"World".equals(change.getNewValue()));
 ```
 
-#### JavaFX Collections Support
-###### ObservableList
+## JavaFX Collections Support
+#### ObservableList
 ```java
 fromList(ObservableList<T> source)
 ```
@@ -76,7 +68,7 @@ fromListAdditions(ObservableList<T> source)
 fromListRemovals(ObservableList<T> source)
 ```
 
-###### ObservableMap
+#### ObservableMap
 ```java
 fromMap(ObservableMap<T,V> source)
 ```
@@ -89,7 +81,7 @@ fromMapAdditions(ObservableMap<T,V> source)
 fromMapRemovals(ObservableMap<T,V> source)
 ```
 
-###### ObservableSet
+#### ObservableSet
 ```java
 fromSet(ObservableSet<T> source)
 ```
@@ -102,7 +94,7 @@ fromSetAdditions(ObservableSet<T> source)
 fromSetRemovals(ObservableSet<T> source)
 ```
 
-###### ObservableArray
+#### ObservableArray
 ```java
 fromIntegerArray(ObservableIntegerArray<T> source)
 ```
