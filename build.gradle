@@ -1,5 +1,5 @@
-group 'freetimelabs.io.reactorfx'
-version '0.x'
+group 'com.github.shadskii'
+version '1.8.0'
 
 apply plugin: 'java'
 apply plugin: 'jacoco'
