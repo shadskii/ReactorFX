@@ -29,7 +29,7 @@ passing the source and `EventType` to listen to. `FxFlux.from()` provides overlo
                                   .publishOn(anotherScheduler);
  ``` 
  
-  ###### Events From A Window
+ ###### Events From A Window
   ```java
   Flux<WindowEvent> windowEvents = FxFlux.from(primaryStage, WindowEvent.WINDOW_HIDING)
                                    .subscribeOn(FxSchedulers.platform())
@@ -52,8 +52,8 @@ This `Flux` can be produced from the factory `FxFlux.fromChangesOf(ObservableVal
 ```java
 SimpleObjectProperty<String> observable = new SimpleObjectProperty<>();
 Flux<Change<String>> flux = FxFlux.fromChangesOf(observable)
-                                  .filter(change -> !"Hello".equals(change.getOldValue()))
-                                  .filter(change -> !"World".equals(change.getNewValue()));
+                                  .filter(change -> "Hello".equals(change.getOldValue()))
+                                  .filter(change -> "World".equals(change.getNewValue()));
 ```
 
 
@@ -73,6 +73,7 @@ Flux.interval(Duration.ofMillis(1000))
 
 
 ## JavaFX Collections Support
+FXCellent Reactor also provides fluent factories for creating a `Flux` from any of the collection introduced in JavaFX.
 #### ObservableList
 ```java
 fromList(ObservableList<T> source)
