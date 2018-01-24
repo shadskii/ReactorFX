@@ -33,6 +33,11 @@ class ObservableSource
     {
         return Flux.create(emitter ->
         {
+            T initialValue = observableValue.getValue();
+            if (Objects.nonNull(initialValue))
+            {
+                emitter.next(initialValue);
+            }
             final ChangeListener<T> handler = (obs, oldVal, newVal) ->
             {
                 if (Objects.nonNull(newVal))

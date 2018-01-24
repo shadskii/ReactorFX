@@ -223,6 +223,14 @@ public class FxFluxTest
         observable.set(null);
         assertThat(actual.get()).isEqualTo("hello");
         disposable.dispose();
+
+        observable.set("initial");
+        AtomicReference<String> actual2 = new AtomicReference<>();
+        Disposable disposable1 = FxFlux.from(observable)
+                                       .publishOn(thread)
+                                       .subscribe(actual2::set);
+        assertThat(actual2.get()).isEqualTo("initial");
+        disposable1.dispose();
     }
 
     @Test
