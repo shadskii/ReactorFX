@@ -185,7 +185,8 @@ public final class FxFlux
 
     /**
      * Creates a {@link Flux} which emits whenever the argument {@link ObservableValue} is changed. This will not
-     * provide an emission if the changed value is null.
+     * provide an emission if the changed value is null. The initial value of the {@link ObservableValue} will be
+     * emitted as the first emission of this {@link Flux}.
      *
      * @param observableValue The ObservableValue to listen for changes.
      * @param <T>             The type of the Observable.
