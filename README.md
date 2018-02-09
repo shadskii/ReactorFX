@@ -9,10 +9,9 @@ factories to create `Flux` for the propagation of events from JavaFX Controls an
 ## Events
 In JavaFX actions from external sources are propagated through [Events.](https://docs.oracle.com/javase/8/javafx/api/javafx/event/Event.html) 
 These Events can be emitted from `Node`, `Scene`, `MenuItem`, and `Window`. FXcellent Reactor provides simple, fluent, and consistent 
-factories for the creation of Fluxes from these sources. You can create Fluxes from these by using `FxFlux.from()` and 
-passing the source and `EventType` to listen to. `FxFlux.from()` provides overloaded factories so that omitting the 
-`EventType` will result in a `Flux` that 
- listens for `ActionEvents`.
+factories for the creation of Fluxes from these sources. You can create Fluxes by using `FxFlux.from()` and 
+passing the source and `EventType` to listen to. `FxFlux.from()` provides overloaded factories such that omitting the 
+`EventType` will result in a `Flux` that listens for `ActionEvents`.
  
  ###### Events From A Control
  ```java
@@ -74,6 +73,7 @@ Flux.interval(Duration.ofMillis(1000))
 
 ## JavaFX Collections Support
 FXCellent Reactor also provides fluent factories for creating a `Flux` from any of the collection introduced in JavaFX.
+
 #### ObservableList
 ```java
 fromList(ObservableList<T> source)
