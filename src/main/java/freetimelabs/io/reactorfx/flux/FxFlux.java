@@ -34,15 +34,9 @@ import reactor.core.scheduler.Scheduler;
 import java.util.Map;
 
 /**
- * This class allows for easy creation of listeners to JavaFX components as well as JavaFX Observables such as:
- * <pre><ul>
- *     <li>{@link ObservableValue}</li>
- *     <li>{@link ObservableList}</li>
- *     <li>{@link ObservableMap}</li>
- *     <li>{@link ObservableSet}</li>
- *     <li>{@link ObservableIntegerArray}</li>
- *     <li>{@link ObservableFloatArray}</li>
- * </ul></pre>
+ * This class allows for easy creation of listeners to JavaFX components as well as JavaFX Observables such as: <ul>
+ * <li>{@link ObservableValue}</li> <li>{@link ObservableList}</li> <li>{@link ObservableMap}</li> <li>{@link
+ * ObservableSet}</li> <li>{@link ObservableIntegerArray}</li> <li>{@link ObservableFloatArray}</li> </ul>
  */
 public final class FxFlux
 {
