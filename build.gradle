@@ -3,29 +3,10 @@ version '1.8.0'
 
 apply plugin: 'java'
 apply plugin: 'jacoco'
-apply plugin: 'maven'
-apply plugin: 'signing'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives javadocJar, sourcesJar
-}
-
-signing {
-    sign configurations.archives
-}
 
 repositories {
     mavenCentral()
