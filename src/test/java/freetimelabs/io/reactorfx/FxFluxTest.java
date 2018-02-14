@@ -299,7 +299,7 @@ public class FxFluxTest
     {
         ObservableList<Integer> list = FXCollections.observableArrayList(1, 2, 3);
         AtomicReference<Integer> actual = new AtomicReference<>();
-        Disposable disposable = FxFlux.fromListRemovals(list)
+        Disposable disposable = FxFlux.fromRemovalsOf(list)
                                       .publishOn(thread)
                                       .subscribe(actual::set);
         list.remove(0);

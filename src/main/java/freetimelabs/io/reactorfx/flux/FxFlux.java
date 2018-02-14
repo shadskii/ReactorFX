@@ -237,7 +237,7 @@ public final class FxFlux
      * @param <T>    The type of the ObservableList.
      * @return A Flux that emits the removals to the list whenever it has been changed.
      */
-    public static <T> Flux<T> fromListRemovals(ObservableList<T> source)
+    public static <T> Flux<T> fromRemovalsOf(ObservableList<T> source)
     {
         return ObservableListSource.removals(source);
     }
