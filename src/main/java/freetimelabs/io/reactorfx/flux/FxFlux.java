@@ -316,7 +316,7 @@ public final class FxFlux
      * @param <T>    Type contained by the ObservableSet
      * @return A Flux that emits any removals to the argument ObservableSet.
      */
-    public static <T> Flux<T> fromSetRemovals(ObservableSet<T> source)
+    public static <T> Flux<T> fromRemovalsOf(ObservableSet<T> source)
     {
         return ObservableSetSource.removals(source);
     }
