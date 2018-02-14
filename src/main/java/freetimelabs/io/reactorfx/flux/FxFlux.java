@@ -265,7 +265,7 @@ public final class FxFlux
      * @param <V>    The value type of the ObservableMap.
      * @return A Flux that emits any entry added to the argument ObservableMap.
      */
-    public static <T, V> Flux<Map.Entry<T, V>> fromMapAdditions(ObservableMap<T, V> source)
+    public static <T, V> Flux<Map.Entry<T, V>> fromAdditionsOf(ObservableMap<T, V> source)
     {
         return ObservableMapSource.additions(source);
     }
