@@ -251,7 +251,7 @@ public final class FxFlux
      * @param <V>    The value type of the ObservableMap.
      * @return A Flux that emits the ObservableMap whenever it gets updated.
      */
-    public static <T, V> Flux<ObservableMap<T, V>> fromMap(ObservableMap<T, V> source)
+    public static <T, V> Flux<ObservableMap<T, V>> from(ObservableMap<T, V> source)
     {
         return ObservableMapSource.observableMap(source);
     }
