@@ -475,7 +475,7 @@ public class FxFluxTest
     {
         ObservableSet<Integer> set = FXCollections.observableSet();
         AtomicInteger actual = new AtomicInteger();
-        Disposable disposable = FxFlux.fromSetAdditions(set)
+        Disposable disposable = FxFlux.fromAdditionsOf(set)
                                       .publishOn(thread)
                                       .subscribe(actual::set);
 

@@ -304,7 +304,7 @@ public final class FxFlux
      * @param <T>    The type contained by the ObservableSet.
      * @return A Flux that emits any addition to the argument ObservableSet.
      */
-    public static <T> Flux<T> fromSetAdditions(ObservableSet<T> source)
+    public static <T> Flux<T> fromAdditionsOf(ObservableSet<T> source)
     {
         return ObservableSetSource.additions(source);
     }
