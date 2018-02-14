@@ -224,7 +224,7 @@ public final class FxFlux
      * @param <T>    The type of the ObservableList.
      * @return A Flux that emits the additions to the list whenever it has been changed.
      */
-    public static <T> Flux<T> fromListAdditions(ObservableList<T> source)
+    public static <T> Flux<T> fromAdditionsOf(ObservableList<T> source)
     {
         return ObservableListSource.additions(source);
     }
