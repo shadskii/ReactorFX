@@ -279,7 +279,7 @@ public final class FxFlux
      * @param <V>    The value type of the ObservableMap.
      * @return A Flux that emits any entry removed from the argument ObservableMap.
      */
-    public static <T, V> Flux<Map.Entry<T, V>> fromMapRemovals(ObservableMap<T, V> source)
+    public static <T, V> Flux<Map.Entry<T, V>> fromRemovalsOf(ObservableMap<T, V> source)
     {
         return ObservableMapSource.removals(source);
     }
@@ -292,7 +292,7 @@ public final class FxFlux
      * @param <T>    The type contained by the ObservableSet.
      * @return A flux that emits the argument ObservableSet whenever it has been updated.
      */
-    public static <T> Flux<ObservableSet<T>> fromSet(ObservableSet<T> source)
+    public static <T> Flux<ObservableSet<T>> from(ObservableSet<T> source)
     {
         return ObservableSetSource.observableSet(source);
     }

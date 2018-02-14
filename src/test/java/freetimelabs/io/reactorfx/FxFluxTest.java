@@ -433,7 +433,7 @@ public class FxFluxTest
         ObservableMap<String, Integer> map = FXCollections.observableHashMap();
         map.put(KEY0, 0);
         AtomicReference<Map.Entry<String, Integer>> actual = new AtomicReference<>();
-        Disposable disposable = FxFlux.fromMapRemovals(map)
+        Disposable disposable = FxFlux.fromRemovalsOf(map)
                                       .publishOn(thread)
                                       .subscribe(actual::set);
 
@@ -455,7 +455,7 @@ public class FxFluxTest
     {
         ObservableSet<Integer> set = FXCollections.observableSet();
         AtomicReference<ObservableSet<Integer>> actual = new AtomicReference<>();
-        Disposable disposable = FxFlux.fromSet(set)
+        Disposable disposable = FxFlux.from(set)
                                       .publishOn(thread)
                                       .subscribe(actual::set);
 
