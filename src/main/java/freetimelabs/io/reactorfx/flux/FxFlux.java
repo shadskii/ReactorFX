@@ -211,7 +211,7 @@ public final class FxFlux
      * @param <T>    The type of the ObservableList
      * @return A Flux that emits the argument list whenever it has ben changed.
      */
-    public static <T> Flux<ObservableList<T>> fromList(ObservableList<T> source)
+    public static <T> Flux<ObservableList<T>> from(ObservableList<T> source)
     {
         return ObservableListSource.observableList(source);
     }
