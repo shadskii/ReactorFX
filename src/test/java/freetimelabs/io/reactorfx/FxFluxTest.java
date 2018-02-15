@@ -519,7 +519,7 @@ public class FxFluxTest
     {
         ObservableIntegerArray array = FXCollections.observableIntegerArray();
         AtomicReference<ObservableIntegerArray> actual = new AtomicReference<>();
-        Disposable disposable = FxFlux.fromArray(array)
+        Disposable disposable = FxFlux.from(array)
                                       .publishOn(thread)
                                       .subscribe(actual::set);
         array.addAll(1);
@@ -542,7 +542,7 @@ public class FxFluxTest
     {
         ObservableFloatArray array = FXCollections.observableFloatArray();
         AtomicReference<ObservableFloatArray> actual = new AtomicReference<>();
-        Disposable disposable = FxFlux.fromArray(array)
+        Disposable disposable = FxFlux.from(array)
                                       .publishOn(thread)
                                       .subscribe(actual::set);
         array.addAll(1.0f);

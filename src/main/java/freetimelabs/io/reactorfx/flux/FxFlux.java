@@ -328,7 +328,7 @@ public final class FxFlux
      * @param source - The ObservableIntegerArray to listen to for changes.
      * @return A Flux that emits the argument ObservableIntegerArray whenever it has been updated.
      */
-    public static Flux<ObservableIntegerArray> fromArray(ObservableIntegerArray source)
+    public static Flux<ObservableIntegerArray> from(ObservableIntegerArray source)
     {
         return ObservableArraySource.observableArray(source);
     }
@@ -340,7 +340,7 @@ public final class FxFlux
      * @param source - The ObservableFloatArray to listen to for changes.
      * @return A Flux that emits the argument ObservableFloatArray whenever it has been updated.
      */
-    public static Flux<ObservableFloatArray> fromArray(ObservableFloatArray source)
+    public static Flux<ObservableFloatArray> from(ObservableFloatArray source)
     {
         return ObservableArraySource.observableArray(source);
     }
