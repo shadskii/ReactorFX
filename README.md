@@ -85,57 +85,57 @@ FXCellent Reactor also provides fluent factories for creating a `Flux` from any 
 
 #### ObservableList
 ```java
-fromList(ObservableList<T> source)
+from(ObservableList<T> source)
 ```
 
 ```java
-fromListAdditions(ObservableList<T> source)
+fromAdditionsOf(ObservableList<T> source)
 ```
 
 ```java
-fromListRemovals(ObservableList<T> source)
+fromRemovalsOf(ObservableList<T> source)
 ```
 
 #### ObservableMap
 ```java
-fromMap(ObservableMap<T,V> source)
+from(ObservableMap<T,V> source)
 ```
 
 ```java
-fromMapAdditions(ObservableMap<T,V> source)
+fromAdditionsOf(ObservableMap<T,V> source)
 ```
 
 ```java
-fromMapRemovals(ObservableMap<T,V> source)
+fromRemovalsOf(ObservableMap<T,V> source)
 ```
 
 #### ObservableSet
 ```java
-fromSet(ObservableSet<T> source)
+from(ObservableSet<T> source)
 ```
 
 ```java
-fromSetAdditions(ObservableSet<T> source)
+fromAdditionsOf(ObservableSet<T> source)
 ```
 
 ```java
-fromSetRemovals(ObservableSet<T> source)
+fromRemovalsOf(ObservableSet<T> source)
 ```
 
 #### ObservableArray
 ```java
-fromIntegerArray(ObservableIntegerArray<T> source)
+from(ObservableIntegerArray<T> source)
 ```
 
 ```java
-fromFloatArray(ObservableFloatArray<T> source)
+from(ObservableFloatArray<T> source)
 ```
 
 ```java
-fromArrayChanges(ObservableIntegerArray<T> source)
+fromChangesOf(ObservableIntegerArray<T> source)
 ```
 ```java
-fromArrayChanges(ObservableFloatArray<T> source)
+fromChangesOf(ObservableFloatArray<T> source)
 ```
 
 <br />
