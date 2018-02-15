@@ -6,7 +6,14 @@ This lightweight library allows for simple integration between [Project Reactor]
 [JavaFX](https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm). FXcellent Reactor provides fluent 
 factories to create `Flux` for the propagation of events from JavaFX Controls and Observables.
 
-![alt text](https://github.com/reactor/reactor-core "Project Reactor")
+<table>
+<tr>
+<td><img src="https://pbs.twimg.com/profile_images/669314795401781248/rdDeXBl5.png" width="200"></td>
+<td><img src="https://cdn-images-1.medium.com/max/750/1*1gRUS0EnV0LAc7kVAx1n2w.png" width="250"></td>
+</tr>
+</table>
+
+
 
 ## Events
 In JavaFX actions from external sources are propagated through [Events.](https://docs.oracle.com/javase/8/javafx/api/javafx/event/Event.html) 
