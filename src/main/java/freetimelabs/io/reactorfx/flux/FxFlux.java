@@ -353,7 +353,7 @@ public final class FxFlux
      * @return A Flux that emits the changed sub-array of the argument ObservableIntegerArray whenever it has been
      * updated.
      */
-    public static Flux<ObservableIntegerArray> fromArrayChanges(ObservableIntegerArray source)
+    public static Flux<ObservableIntegerArray> fromChangesOf(ObservableIntegerArray source)
     {
         return ObservableArraySource.observableIntegerSubArray(source);
     }
@@ -366,7 +366,7 @@ public final class FxFlux
      * @return A Flux that emits the changed sub-array of the argument ObservableFloatArray whenever it has been
      * updated.
      */
-    public static Flux<ObservableFloatArray> fromArrayChanges(ObservableFloatArray source)
+    public static Flux<ObservableFloatArray> fromChangesOf(ObservableFloatArray source)
     {
         return ObservableArraySource.observableFloatSubArray(source);
     }
