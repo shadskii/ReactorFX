@@ -81,62 +81,36 @@ Flux.interval(Duration.ofMillis(1000))
 
 
 ## JavaFX Collections Support
-FXCellent Reactor also provides fluent factories for creating a `Flux` from any of the collection introduced in JavaFX.
-
-#### ObservableList
+FXCellent Reactor also provides fluent factories for creating a `Flux` from any [JavaFX collection](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/package-summary.html) 
+by four overloaded factory methods. 
 ```java
-from(ObservableList<T> source)
+from()
 ```
-
-```java
-fromAdditionsOf(ObservableList<T> source)
-```
+Using this factory will produce a `Flux` that emits the argument JavaFX Collection whenever it has been changed.
 
 ```java
-fromRemovalsOf(ObservableList<T> source)
+fromAdditionsOf()
 ```
-
-#### ObservableMap
-```java
-from(ObservableMap<T,V> source)
-```
+Using this factory produces a `Flux` that emits any element added to the argument collection after it has been added.
 
 ```java
-fromAdditionsOf(ObservableMap<T,V> source)
+fromRemovalsOf()
 ```
+Using this factory produces a `Flux` that emits any element removed from the argument collection whenever it has been 
+removed.
 
 ```java
-fromRemovalsOf(ObservableMap<T,V> source)
+fromChangesOf()
 ```
+This factory is only provided for [ObservableArray](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableArray.html)
+and it emits the changed sub-array of the argument array whenever it has been changed.
 
-#### ObservableSet
-```java
-from(ObservableSet<T> source)
-```
+#### Collections
+* [ObservableList](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html)
+* [ObservableMap](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableMap.html)
+* [ObservableSet](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableSet.html)
+* [ObservableFloatArray](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableFloatArray.html)
+* [ObservableIntegerArray](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableIntegerArray.html)
 
-```java
-fromAdditionsOf(ObservableSet<T> source)
-```
-
-```java
-fromRemovalsOf(ObservableSet<T> source)
-```
-
-#### ObservableArray
-```java
-from(ObservableIntegerArray<T> source)
-```
-
-```java
-from(ObservableFloatArray<T> source)
-```
-
-```java
-fromChangesOf(ObservableIntegerArray<T> source)
-```
-```java
-fromChangesOf(ObservableFloatArray<T> source)
-```
-
-<br />
-
+## License
+## How To Contribute
