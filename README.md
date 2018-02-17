@@ -1,9 +1,9 @@
-# (FX)cellent Reactor
+# ReactorFX
 [![Build Status](https://travis-ci.org/shadskii/FXcellent-Reactor.svg?branch=master)](https://travis-ci.org/shadskii/FXcellent-Reactor)
 [![codecov](https://codecov.io/gh/shadskii/FXcellent-Reactor/branch/master/graph/badge.svg)](https://codecov.io/gh/shadskii/FXcellent-Reactor)
 
 This lightweight library allows for simple integration between [Project Reactor](https://projectreactor.io/) and 
-[JavaFX](https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm). FXcellent Reactor provides fluent 
+[JavaFX](https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm). ReactorFX provides fluent 
 factories to create `Flux` for the propagation of events from JavaFX Controls and Observables.
 
 <table>
@@ -17,7 +17,7 @@ factories to create `Flux` for the propagation of events from JavaFX Controls an
 
 ## Events
 In JavaFX actions from external sources are propagated through [Events.](https://docs.oracle.com/javase/8/javafx/api/javafx/event/Event.html) 
-These Events can be emitted from `Node`, `Scene`, `MenuItem`, and `Window`. FXcellent Reactor provides simple, fluent, and consistent 
+These Events can be emitted from `Node`, `Scene`, `MenuItem`, and `Window`. ReactorFX provides simple, fluent, and consistent 
 factories for the creation of Fluxes from these sources. You can create Fluxes by using `FxFlux.from()` and 
 passing the source and `EventType` to listen to. `FxFlux.from()` provides overloaded factories such that omitting the 
 `EventType` will result in a `Flux` that listens for `ActionEvents`.
@@ -81,7 +81,7 @@ Flux.interval(Duration.ofMillis(1000))
 
 
 ## JavaFX Collections Support
-FXCellent Reactor also provides fluent factories for creating a `Flux` from any [JavaFX collection](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/package-summary.html) 
+ReactorFX also provides fluent factories for creating a `Flux` from any [JavaFX collection](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/package-summary.html) 
 by four overloaded factory methods. 
 ```java
 from()
