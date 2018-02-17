@@ -55,7 +55,7 @@ SimpleObjectProperty<String> observable = new SimpleObjectProperty<>();
 Flux<String> flux = FxFlux.from(observable); 
 ```
 
-Changes from `ObservableValue`s can also be emitted as a `Change` which is a pairing of the old value and the new value. 
+Changes from an `ObservableValue` can also be emitted as a `Change` which is a pairing of the old value and the new value. 
 This `Flux` can be produced from the factory `FxFlux.fromChangesOf(ObservableValue<T> observableValue)`. 
 ```java
 SimpleObjectProperty<String> observable = new SimpleObjectProperty<>();
