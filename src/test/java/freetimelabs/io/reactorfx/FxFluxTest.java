@@ -81,6 +81,7 @@ public class FxFluxTest
             dialog.initOwner(stage);
             actual.set(dialog);
             stage.setScene(new Scene(new Pane()));
+            stage.show();
         });
 
         TextInputDialog dialog = actual.get();
