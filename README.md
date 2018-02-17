@@ -112,5 +112,5 @@ and it emits the changed sub-array of the argument array whenever it has been ch
 * [ObservableFloatArray](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableFloatArray.html)
 * [ObservableIntegerArray](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableIntegerArray.html)
 
-## License
-## How To Contribute
+
+_Licensed under [Apache Software License 2.0](www.apache.org/licenses/LICENSE-2.0)_
