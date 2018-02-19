@@ -41,7 +41,7 @@ public final class FxSchedulers
      *
      * @return A Scheduler that provides access to the JavaFX application thread.
      */
-    public static Scheduler platform()
+    public static Scheduler fxThread()
     {
         return FX_THREAD;
     }

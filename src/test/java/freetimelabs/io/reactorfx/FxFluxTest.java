@@ -52,7 +52,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FxFluxTest
 {
     private Scheduler thread = Schedulers.immediate();
-    private Scheduler fxThread = FxSchedulers.platform();
+    private Scheduler fxThread = FxSchedulers.fxThread();
 
     private static final String KEY0 = "KEY0";
     private static final String KEY1 = "KEY1";

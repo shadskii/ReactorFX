@@ -42,7 +42,7 @@ public class FxSchedulersTest
         AtomicBoolean isFx = new AtomicBoolean(false);
         Phaser p = new Phaser(2);
         Disposable disposable = Flux.just(1)
-                                    .publishOn(FxSchedulers.platform())
+                                    .publishOn(FxSchedulers.fxThread())
                                     .subscribe(l ->
                                     {
                                         isFx.set(Platform.isFxApplicationThread());
