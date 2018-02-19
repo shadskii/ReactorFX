@@ -34,9 +34,80 @@ import reactor.core.scheduler.Scheduler;
 import java.util.Map;
 
 /**
- * This class allows for easy creation of listeners to JavaFX components as well as JavaFX Observables such as: <ul>
- * <li>{@link ObservableValue}</li> <li>{@link ObservableList}</li> <li>{@link ObservableMap}</li> <li>{@link
- * ObservableSet}</li> <li>{@link ObservableIntegerArray}</li> <li>{@link ObservableFloatArray}</li> </ul>
+ * In JavaFX actions from external sources are propagated through {@link Event}. These Events can be emitted from {@link
+ * Node}, {@link Scene}, {@link MenuItem}, and {@link Window}. ReactorFX provides simple, fluent, and consistent
+ * factories for the creation of {@link Flux} from these sources. You can create Fluxes by using {@link
+ * FxFlux#from(Node)} and passing the source and {@link EventType} to listen to. {@link FxFlux#from(Node, EventType)}
+ * provides overloaded factories such that omitting the {@link EventType} will result in a {@link Flux} that listens for
+ * {@link ActionEvent}.
+ * <p>
+ * <h4>Events From A {@link javafx.scene.control.Control}</h4>
+ * <pre>
+ * {@code
+ * Button btn = new Button("Hey I'm A Button!");
+ * Flux<Event> buttonEvents = FxFlux.from(btn)
+ * .subscribeOn(FxSchedulers.fxThread())
+ * .publishOn(anotherScheduler);
+ * }
+ * </pre>
+ * <p>
+ * <h4>Events From A {@link Scene}</h4>
+ * <pre>
+ * {@code
+ * Scene scene = new Scene(new Label("Hey I'm A Label!"));
+ * Flux<MouseEvent> mouseEvents = FxFlux.from(scene, MouseEvent.MOUSE_CLICKED)
+ * .subscribeOn(FxSchedulers.fxThread())
+ * .publishOn(anotherScheduler);
+ * }
+ * </pre>
+ * <h4>Events From A {@link Window}</h4>
+ * <pre>
+ * {@code
+ * Flux<WindowEvent> windowEvents = FxFlux.from(primaryStage, WindowEvent.WINDOW_HIDING)
+ * .subscribeOn(FxSchedulers.fxThread())
+ * .publishOn(anotherScheduler);
+ * }
+ * </pre>
+ * <h3>ObservableValue</h3> Updates of any JavaFX {@link ObservableValue} can be emitted onto a {@link Flux} by using
+ * the factory {@link FxFlux#from(ObservableValue)} which creates a {@link Flux} that emits the initial value of the
+ * observable followed by any subsequent changes to the {@link javafx.beans.Observable}. Often the initial value of an
+ * {@link ObservableValue} is null. The reactive streams specification disallows null values in a sequence so these null
+ * values are not emitted.
+ * <p>
+ * <pre>
+ * {@code
+ *      SimpleObjectProperty<String> observable = new SimpleObjectProperty<>();
+ *      Flux<String> flux = FxFlux.from(observable);
+ * }
+ * </pre>
+ * <p>
+ * Changes from an {@link ObservableValue} can also be emitted as a {@link Change} which is a pairing of the old value
+ * and the new value. This {@link Flux} can be produced from the factory {@link FxFlux#fromChangesOf(ObservableValue)}.
+ * <pre>
+ * {@code
+ *      SimpleObjectProperty<String> observable = new SimpleObjectProperty<>();
+ *      Flux<Change<String>> flux = FxFlux.fromChangesOf(observable)
+ *          .filter(change -> "Hello".equals(change.getOldValue()))
+ *          .filter(change -> "World".equals(change.getNewValue()));
+ * }
+ * </pre>
+ * <h3>JavaFX Collections Support</h3> ReactorFX also provides fluent factories for creating a Flux from any JavaFX
+ * collection by four overloaded factory methods.
+ * <p>
+ * {@code from()} Using this factory will produce a Flux that emits the argument JavaFX Collection whenever it has been
+ * changed.
+ * <p>
+ * {@code fromAdditionsOf() }Using this factory produces a Flux that emits any element added to the argument collection
+ * after it has been added.
+ * <p>
+ * {@code fromRemovalsOf()} Using this factory produces a Flux that emits any element removed from the argument
+ * collection whenever it has been removed.
+ * <p>
+ * {@code fromChangesOf()} This factory is only provided for ObservableArray and it emits the changed sub-array of the
+ * argument array whenever it has been changed.
+ * <p>
+ * <h4>Collections </h4> <ul> <li>{@link ObservableList}</li> <li>{@link ObservableMap}</li> <li>{@link
+ * ObservableSet}</li> <li> {@link ObservableFloatArray}</li> <li>{@link ObservableIntegerArray}</li> </ul>
  */
 public final class FxFlux
 {
