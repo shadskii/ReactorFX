@@ -18,6 +18,7 @@ package freetimelabs.io.reactorfx.flux;
 
 /**
  * This class represent a single change emitted from a JavaFX Observable.
+ *
  * @param <T> The type contained by this change.
  */
 public final class Change<T>
@@ -25,6 +26,12 @@ public final class Change<T>
     private final T oldVal;
     private final T newVal;
 
+    /**
+     * Constructs an instance of {@link Change}.
+     *
+     * @param oldVal The previous value.
+     * @param newVal The new value.
+     */
     public Change(T oldVal, T newVal)
     {
         this.oldVal = oldVal;
@@ -32,7 +39,8 @@ public final class Change<T>
     }
 
     /**
-     * The old value of this change that how now been replaced by the new value.
+     * The old value of this change that has now been replaced by the {@link #getNewVal()}.
+     *
      * @return The old value of this change.
      */
     public T getOldVal()
@@ -42,6 +50,7 @@ public final class Change<T>
 
     /**
      * The new value of this change that has replaced the old value.
+     *
      * @return The new value of this change.
      */
     public T getNewVal()
