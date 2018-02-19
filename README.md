@@ -26,21 +26,21 @@ passing the source and `EventType` to listen to. `FxFlux.from()` provides overlo
  ```java
  Button btn = new Button("Hey I'm A Button!");
  Flux<Event> buttonEvents = FxFlux.from(btn)
-                                  .subscribeOn(FxSchedulers.platform())
+                                  .subscribeOn(FxSchedulers.fxThread())
                                   .publishOn(anotherScheduler);
  ```
  ###### Events From A Scene
  ```java
  Scene scene = new Scene(new Label("Hey I'm A Label!"));
  Flux<MouseEvent> mouseEvents = FxFlux.from(scene, MouseEvent.MOUSE_CLICKED)
-                                  .subscribeOn(FxSchedulers.platform())
+                                  .subscribeOn(FxSchedulers.fxThread())
                                   .publishOn(anotherScheduler);
  ``` 
  
  ###### Events From A Window
   ```java
   Flux<WindowEvent> windowEvents = FxFlux.from(primaryStage, WindowEvent.WINDOW_HIDING)
-                                   .subscribeOn(FxSchedulers.platform())
+                                   .subscribeOn(FxSchedulers.fxThread())
                                    .publishOn(anotherScheduler);
   ``` 
 
@@ -66,7 +66,7 @@ Flux<Change<String>> flux = FxFlux.fromChangesOf(observable)
 
 
 ## JavaFX Scheduler
-JavaFX controls are required to be updated on the JavaFX Application Thread. `FxSchedulers.platform()` is a 
+JavaFX controls are required to be updated on the JavaFX Application Thread. `FxSchedulers.fxThread()` is a 
 [Scheduler](https://projectreactor.io/docs/core/release/api/) that provides a way to easily Schedule tasks on the 
 JavaFX Thread. Using this scheduler makes it possible to JavaFX controls using Reactive Streams.
 
@@ -75,7 +75,7 @@ ProgressBar p1 = new ProgressBar();
 
 Flux.interval(Duration.ofMillis(1000))
     .map(l -> l/100.0)
-    .publishOn(FxSchedulers.platform())
+    .publishOn(FxSchedulers.fxThread())
     .subscribe(p1::setProgress);
 ```
 
