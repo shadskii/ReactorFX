@@ -1,6 +1,6 @@
 # ReactorFX
-[![Build Status](https://travis-ci.org/shadskii/ReactorFX.svg?branch=master)](https://travis-ci.org/shadskii/FXcellent-Reactor)
-[![codecov](https://codecov.io/gh/shadskii/ReactorFX/branch/master/graph/badge.svg)](https://codecov.io/gh/shadskii/FXcellent-Reactor)
+[![Build Status](https://travis-ci.org/shadskii/ReactorFX.svg?branch=master)](https://travis-ci.org/shadskii/ReactorFX)
+[![codecov](https://codecov.io/gh/shadskii/ReactorFX/branch/master/graph/badge.svg)](https://codecov.io/gh/shadskii/ReactorFX)
 
 
 <img src="https://github.com/shadskii/ReactorFX/blob/master/ReactorFX_logo.png?raw=true" align="middle">
