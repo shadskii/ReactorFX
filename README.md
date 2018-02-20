@@ -2,17 +2,12 @@
 [![Build Status](https://travis-ci.org/shadskii/FXcellent-Reactor.svg?branch=master)](https://travis-ci.org/shadskii/FXcellent-Reactor)
 [![codecov](https://codecov.io/gh/shadskii/FXcellent-Reactor/branch/master/graph/badge.svg)](https://codecov.io/gh/shadskii/FXcellent-Reactor)
 
+
+<img src="https://github.com/shadskii/ReactorFX/blob/master/ReactorFX_logo.png?raw=true" align="middle">
+
 This lightweight library allows for simple integration between [Project Reactor](https://projectreactor.io/) and 
 [JavaFX](https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm). ReactorFX provides fluent 
 factories to create `Flux` for the propagation of events from JavaFX Controls and Observables.
-
-<table>
-<tr>
-<td><img src="https://pbs.twimg.com/profile_images/669314795401781248/rdDeXBl5.png" width="200"></td>
-<td><img src="https://cdn-images-1.medium.com/max/750/1*1gRUS0EnV0LAc7kVAx1n2w.png" width="250"></td>
-</tr>
-</table>
-
 
 
 ## Events
