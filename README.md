@@ -62,8 +62,8 @@ Flux<Change<String>> flux = FxFlux.fromChangesOf(observable)
 
 ## JavaFX Scheduler
 JavaFX controls are required to be updated on the JavaFX Application Thread. `FxSchedulers.fxThread()` is a 
-[Scheduler](https://projectreactor.io/docs/core/release/api/) that provides a way to easily Schedule tasks on the 
-JavaFX Thread. Using this scheduler makes it possible to JavaFX controls using Reactive Streams.
+[Scheduler](https://projectreactor.io/docs/core/release/api/) that provides a way to easily the 
+JavaFX Application Thread. Using this scheduler makes it possible to listen to JavaFX controls using Reactive Streams.
 
 ```java
 ProgressBar p1 = new ProgressBar();
@@ -76,7 +76,7 @@ Flux.interval(Duration.ofMillis(1000))
 
 
 ## JavaFX Collections Support
-ReactorFX also provides fluent factories for creating a `Flux` from any [JavaFX collection](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/package-summary.html) 
+ReactorFX also provides fluent factories for creating a `Flux` from any [JavaFX Collection](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/package-summary.html) 
 by four overloaded factory methods. 
 ```java
 from()
