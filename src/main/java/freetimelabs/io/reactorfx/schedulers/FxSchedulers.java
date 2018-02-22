@@ -39,7 +39,7 @@ public final class FxSchedulers
      * Schedulers#fromExecutor(Executor)}. This should be considered the baseline for any performance testing done with
      * comparing JavaFX schedulers.
      *
-     * @return A Scheduler that provides access to the JavaFX application thread.
+     * @return A {@link Scheduler} that provides access to the JavaFX Application Thread.
      */
     public static Scheduler fxThread()
     {
