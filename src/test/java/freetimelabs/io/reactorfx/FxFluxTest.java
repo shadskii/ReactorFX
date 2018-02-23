@@ -194,7 +194,7 @@ public class FxFluxTest
         AtomicReference<Event> event = new AtomicReference<>();
         MenuItem menuItem = actual.get();
         Phaser p = new Phaser(2);
-        Disposable disposable = FxFlux.from(menuItem, ActionEvent.ANY)
+        Disposable disposable = FxFlux.from(menuItem)
                                       .subscribeOn(fxThread)
                                       .publishOn(thread)
                                       .subscribe(e ->
