@@ -128,7 +128,7 @@ public final class FxFlux
      */
     public static <T> Mono<T> from(final Dialog<T> source)
     {
-        return DialogSource.fromDialog(source, FxSchedulers.fxThread());
+        return from(source, FxSchedulers.fxThread());
     }
 
     /**
@@ -169,7 +169,7 @@ public final class FxFlux
      */
     public static Flux<ActionEvent> from(MenuItem source)
     {
-        return SceneGraphSource.menuItemEvent(source, ActionEvent.ANY);
+        return from(source, ActionEvent.ANY);
     }
 
     /**
@@ -219,7 +219,7 @@ public final class FxFlux
      */
     public static Flux<ActionEvent> from(Scene source)
     {
-        return SceneGraphSource.sceneEvent(source, ActionEvent.ANY);
+        return from(source, ActionEvent.ANY);
     }
 
     /**
@@ -245,7 +245,7 @@ public final class FxFlux
      */
     public static Flux<ActionEvent> from(Window source)
     {
-        return SceneGraphSource.windowEvent(source, ActionEvent.ANY);
+        return from(source, ActionEvent.ANY);
     }
 
     /**
