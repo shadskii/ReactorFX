@@ -87,7 +87,7 @@ public class FxFluxTest
         TextInputDialog dialog = actual.get();
         AtomicReference<Object> res = new AtomicReference<>();
         Phaser p = new Phaser(2);
-        Disposable disposable = FxFlux.from(dialog)
+        Disposable disposable = FxFlux.from(dialog, FxSchedulers.fxThread())
                                       .subscribeOn(fxThread)
                                       .publishOn(thread)
                                       .subscribe(o ->
