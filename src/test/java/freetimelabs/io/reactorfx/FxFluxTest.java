@@ -330,7 +330,7 @@ public class FxFluxTest
         Scene scene = actual.get();
 
         Phaser p = new Phaser(2);
-        Disposable disposable = FxFlux.from(scene, KeyEvent.KEY_TYPED)
+        Disposable disposable = FxFlux.from(scene)
                                       .subscribeOn(fxThread)
                                       .publishOn(thread)
                                       .subscribe(e ->
@@ -340,7 +340,7 @@ public class FxFluxTest
                                       });
 
         Platform.runLater(() -> actualNode.get()
-                                          .fireEvent(KEY_EVENT));
+                                          .fireEvent(new ActionEvent()));
 
         p.awaitAdvanceInterruptibly(p.arrive(), 3, TimeUnit.SECONDS);
         assertThat(event.get()
