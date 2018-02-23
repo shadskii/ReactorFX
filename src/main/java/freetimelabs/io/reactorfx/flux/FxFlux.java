@@ -153,7 +153,7 @@ public final class FxFlux
      * @param source    The target MenuItem where UI events are emitted from.
      * @param eventType The type of event to listen for.
      * @param <T>       The event type
-     * @return A Flux that emits all events of the argument type that originate form the argument node.
+     * @return A {@link Flux} that emits all events of the argument type that originate form the argument node.
      */
     public static <T extends Event> Flux<T> from(MenuItem source, EventType<T> eventType)
     {
@@ -165,7 +165,7 @@ public final class FxFlux
      * Equivalent to using {@link #from(MenuItem, EventType)} with {@link ActionEvent#ANY}.
      *
      * @param source The target MenuItem where UI events are emitted from.
-     * @return A Flux that emits all events of the argument type that originate form the argument node.
+     * @return A {@link Flux} that emits all events of the argument type that originate form the argument node.
      */
     public static Flux<ActionEvent> from(MenuItem source)
     {
@@ -178,7 +178,7 @@ public final class FxFlux
      * @param source    The target Node where UI events are emitted from.
      * @param eventType The type of event to listen for.
      * @param <T>       The event type.
-     * @return A Flux that emits all events of the argument type that originate from the argument node.
+     * @return A {@link Flux} that emits all events of the argument type that originate from the argument node.
      */
     public static <T extends Event> Flux<T> from(Node source, EventType<T> eventType)
     {
@@ -190,7 +190,7 @@ public final class FxFlux
      * using {@link #from(Node, EventType)} with {@link ActionEvent#ANY}.
      *
      * @param source The target node where events originate from.
-     * @return A Flux containing all {@link ActionEvent}s from the argument node.
+     * @return A {@link Flux} containing all {@link ActionEvent}s from the argument node.
      */
     public static Flux<ActionEvent> from(Node source)
     {
@@ -203,7 +203,7 @@ public final class FxFlux
      * @param source    The target Scene where UI events are emitted from.
      * @param eventType The type of event to listen for.
      * @param <T>       The event type.
-     * @return A Flux that emits all events of the argument type that originate from the argument Scene.
+     * @return A {@link Flux} that emits all events of the argument type that originate from the argument Scene.
      */
     public static <T extends Event> Flux<T> from(Scene source, EventType<T> eventType)
     {
@@ -215,7 +215,7 @@ public final class FxFlux
      * {@link #from(Scene, EventType)} with {@link ActionEvent#ANY}.
      *
      * @param source The target Scene where UI events are emitted from.
-     * @return A Flux that emits all ActionEvents from the argument scene.
+     * @return A {@link Flux} that emits all ActionEvents from the argument scene.
      */
     public static Flux<ActionEvent> from(Scene source)
     {
@@ -229,7 +229,7 @@ public final class FxFlux
      * @param source    The target Window where UI events are emitted from.
      * @param eventType The type of event to listen for.
      * @param <T>       The event type.
-     * @return A Flux that emits all events of the argument type that originate from the argument Window.
+     * @return A {@link Flux} that emits all events of the argument type that originate from the argument Window.
      */
     public static <T extends Event> Flux<T> from(Window source, EventType<T> eventType)
     {
@@ -241,7 +241,7 @@ public final class FxFlux
      * {@link #from(Window, EventType)} with {@link ActionEvent#ANY}.
      *
      * @param source The target Window where UI events are emitted from.
-     * @return A Flux that emits all events of the argument type that originate from the argument Window.
+     * @return A {@link Flux} that emits all events of the argument type that originate from the argument Window.
      */
     public static Flux<ActionEvent> from(Window source)
     {
@@ -255,7 +255,7 @@ public final class FxFlux
      *
      * @param observableValue The ObservableValue to listen for changes.
      * @param <T>             The type of the Observable.
-     * @return A Flux that emits the newest value of the argument from when it has been changed.
+     * @return A {@link Flux} that emits the newest value of the argument from when it has been changed.
      */
     public static <T> Flux<T> from(ObservableValue<T> observableValue)
     {
@@ -268,7 +268,7 @@ public final class FxFlux
      *
      * @param observableValue The ObservableValue to listen to for changes.
      * @param <T>             The type of the Observable.
-     * @return A Flux that emits a change that contains both the new and old values of a change.
+     * @return A {@link Flux} that emits a change that contains both the new and old values of a change.
      */
     public static <T> Flux<Change<T>> fromChangesOf(ObservableValue<T> observableValue)
     {
@@ -280,7 +280,7 @@ public final class FxFlux
      *
      * @param source The ObservableList to listen to.
      * @param <T>    The type of the ObservableList
-     * @return A Flux that emits the argument list whenever it has ben changed.
+     * @return A {@link Flux} that emits the argument list whenever it has ben changed.
      */
     public static <T> Flux<ObservableList<T>> from(ObservableList<T> source)
     {
@@ -293,7 +293,7 @@ public final class FxFlux
      *
      * @param source The ObservableList to listen to.
      * @param <T>    The type of the ObservableList.
-     * @return A Flux that emits the additions to the list whenever it has been changed.
+     * @return A {@link Flux} that emits the additions to the list whenever it has been changed.
      */
     public static <T> Flux<T> fromAdditionsOf(ObservableList<T> source)
     {
@@ -306,7 +306,7 @@ public final class FxFlux
      *
      * @param source The ObservableList to listen to.
      * @param <T>    The type of the ObservableList.
-     * @return A Flux that emits the removals to the list whenever it has been changed.
+     * @return A {@link Flux} that emits the removals to the list whenever it has been changed.
      */
     public static <T> Flux<T> fromRemovalsOf(ObservableList<T> source)
     {
@@ -320,7 +320,7 @@ public final class FxFlux
      * @param source The ObservableMap to listen to.
      * @param <T>    The key type of the ObservableMap.
      * @param <V>    The value type of the ObservableMap.
-     * @return A Flux that emits the ObservableMap whenever it gets updated.
+     * @return A {@link Flux} that emits the ObservableMap whenever it gets updated.
      */
     public static <T, V> Flux<ObservableMap<T, V>> from(ObservableMap<T, V> source)
     {
@@ -334,7 +334,7 @@ public final class FxFlux
      * @param source The ObservableMap to listen to for additions.
      * @param <T>    The key type of the ObservableMap.
      * @param <V>    The value type of the ObservableMap.
-     * @return A Flux that emits any entry added to the argument ObservableMap.
+     * @return A {@link Flux} that emits any entry added to the argument ObservableMap.
      */
     public static <T, V> Flux<Map.Entry<T, V>> fromAdditionsOf(ObservableMap<T, V> source)
     {
@@ -348,7 +348,7 @@ public final class FxFlux
      * @param source The ObservableMap to listen to for removals.
      * @param <T>    The key type of the ObservableMap.
      * @param <V>    The value type of the ObservableMap.
-     * @return A Flux that emits any entry removed from the argument ObservableMap.
+     * @return A {@link Flux} that emits any entry removed from the argument ObservableMap.
      */
     public static <T, V> Flux<Map.Entry<T, V>> fromRemovalsOf(ObservableMap<T, V> source)
     {
@@ -361,7 +361,7 @@ public final class FxFlux
      *
      * @param source The ObservableSet to listen to.
      * @param <T>    The type contained by the ObservableSet.
-     * @return A flux that emits the argument ObservableSet whenever it has been updated.
+     * @return A {@link Flux} that emits the argument ObservableSet whenever it has been updated.
      */
     public static <T> Flux<ObservableSet<T>> from(ObservableSet<T> source)
     {
@@ -373,7 +373,7 @@ public final class FxFlux
      *
      * @param source The ObservableSet to listen to for additions.
      * @param <T>    The type contained by the ObservableSet.
-     * @return A Flux that emits any addition to the argument ObservableSet.
+     * @return A {@link Flux} that emits any addition to the argument ObservableSet.
      */
     public static <T> Flux<T> fromAdditionsOf(ObservableSet<T> source)
     {
@@ -385,7 +385,7 @@ public final class FxFlux
      *
      * @param source The ObservableSet to listen to for removals.
      * @param <T>    Type contained by the ObservableSet
-     * @return A Flux that emits any removals to the argument ObservableSet.
+     * @return A {@link Flux} that emits any removals to the argument ObservableSet.
      */
     public static <T> Flux<T> fromRemovalsOf(ObservableSet<T> source)
     {
@@ -397,7 +397,7 @@ public final class FxFlux
      * it has been changed.
      *
      * @param source - The ObservableIntegerArray to listen to for changes.
-     * @return A Flux that emits the argument ObservableIntegerArray whenever it has been updated.
+     * @return A {@link Flux} that emits the argument ObservableIntegerArray whenever it has been updated.
      */
     public static Flux<ObservableIntegerArray> from(ObservableIntegerArray source)
     {
@@ -409,7 +409,7 @@ public final class FxFlux
      * has been changed.
      *
      * @param source - The ObservableFloatArray to listen to for changes.
-     * @return A Flux that emits the argument ObservableFloatArray whenever it has been updated.
+     * @return A {@link Flux} that emits the argument ObservableFloatArray whenever it has been updated.
      */
     public static Flux<ObservableFloatArray> from(ObservableFloatArray source)
     {
@@ -421,7 +421,7 @@ public final class FxFlux
      * the array whenever it has been changed.
      *
      * @param source - The ObservableIntegerArray to listen to for changes.
-     * @return A Flux that emits the changed sub-array of the argument ObservableIntegerArray whenever it has been
+     * @return A {@link Flux} that emits the changed sub-array of the argument ObservableIntegerArray whenever it has been
      * updated.
      */
     public static Flux<ObservableIntegerArray> fromChangesOf(ObservableIntegerArray source)
@@ -434,7 +434,7 @@ public final class FxFlux
      * array whenever it has been changed.
      *
      * @param source - The ObservableFloatArray to listen to for changes.
-     * @return A Flux that emits the changed sub-array of the argument ObservableFloatArray whenever it has been
+     * @return A {@link Flux} that emits the changed sub-array of the argument ObservableFloatArray whenever it has been
      * updated.
      */
     public static Flux<ObservableFloatArray> fromChangesOf(ObservableFloatArray source)
