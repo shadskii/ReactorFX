@@ -5,9 +5,11 @@
 
 <img src="https://github.com/shadskii/ReactorFX/blob/master/ReactorFX_logo.png?raw=true" align="middle">
 
-This lightweight library allows for simple integration between [Project Reactor](https://projectreactor.io/) and 
+This lightweight convenience library allows for simple integration between [Project Reactor](https://projectreactor.io/) and 
 [JavaFX](https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm). ReactorFX provides fluent 
-factories to create `Flux` for the propagation of events from JavaFX Controls and Observables.
+factories to create `Flux` for the propagation of events from JavaFX [Controls](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Node.html), 
+[Collections](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/package-summary.html), and 
+[Observables](https://docs.oracle.com/javase/8/javafx/api/javafx/beans/Observable.html).
 
 
 ## Events
