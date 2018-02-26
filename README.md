@@ -11,6 +11,12 @@ factories to create `Flux` for the propagation of events from JavaFX [Controls](
 [Collections](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/package-summary.html), and 
 [Observables](https://docs.oracle.com/javase/8/javafx/api/javafx/beans/Observable.html).
 
+## Usage
+ReactorFX currently supports Java8+
+```groovy
+compile() coming soon
+
+```
 
 ## Events
 In JavaFX actions from external sources are propagated through [Events.](https://docs.oracle.com/javase/8/javafx/api/javafx/event/Event.html) 
