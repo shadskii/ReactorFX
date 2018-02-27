@@ -14,7 +14,7 @@ factories to create `Flux` for the propagation of events from JavaFX [Controls](
 ## Usage
 ReactorFX currently supports Java8+
 ```groovy
-compile() coming soon
+compile() //coming soon
 
 ```
 
