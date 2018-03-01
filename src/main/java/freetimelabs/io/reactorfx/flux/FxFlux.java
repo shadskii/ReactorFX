@@ -34,14 +34,14 @@ import reactor.core.scheduler.Scheduler;
 import java.util.Map;
 
 /**
- * In JavaFX actions from external sources are propagated through {@link Event}. These Events can be emitted from {@link
- * Node}, {@link Scene}, {@link MenuItem}, and {@link Window}. ReactorFX provides simple, fluent, and consistent
+ * <p> In JavaFX actions from external sources are propagated through {@link Event}. These Events can be emitted from
+ * {@link Node}, {@link Scene}, {@link MenuItem}, and {@link Window}. ReactorFX provides simple, fluent, and consistent
  * factories for the creation of {@link Flux} from these sources. You can create Fluxes by using {@link
  * FxFlux#from(Node)} and passing the source and {@link EventType} to listen to. {@link FxFlux#from(Node, EventType)}
  * provides overloaded factories such that omitting the {@link EventType} will result in a {@link Flux} that listens for
  * {@link ActionEvent}.
- * <p>
- * <h4>Events From A {@link javafx.scene.control.Control}</h4>
+ * </p>
+ * Events From A {@link javafx.scene.control.Control}
  * <pre>
  * {@code
  * Button btn = new Button("Hey I'm A Button!");
@@ -50,8 +50,7 @@ import java.util.Map;
  * .publishOn(anotherScheduler);
  * }
  * </pre>
- * <p>
- * <h4>Events From A {@link Scene}</h4>
+ * Events From A {@link Scene}
  * <pre>
  * {@code
  * Scene scene = new Scene(new Label("Hey I'm A Label!"));
@@ -60,7 +59,7 @@ import java.util.Map;
  * .publishOn(anotherScheduler);
  * }
  * </pre>
- * <h4>Events From A {@link Window}</h4>
+ * Events From A {@link Window}
  * <pre>
  * {@code
  * Flux<WindowEvent> windowEvents = FxFlux.from(primaryStage, WindowEvent.WINDOW_HIDING)
@@ -73,16 +72,15 @@ import java.util.Map;
  * observable followed by any subsequent changes to the {@link javafx.beans.Observable}. Often the initial value of an
  * {@link ObservableValue} is null. The reactive streams specification disallows null values in a sequence so these null
  * values are not emitted.
- * <p>
  * <pre>
  * {@code
  *      SimpleObjectProperty<String> observable = new SimpleObjectProperty<>();
  *      Flux<String> flux = FxFlux.from(observable);
  * }
  * </pre>
- * <p>
- * Changes from an {@link ObservableValue} can also be emitted as a {@link Change} which is a pairing of the old value
- * and the new value. This {@link Flux} can be produced from the factory {@link FxFlux#fromChangesOf(ObservableValue)}.
+ * <p> Changes from an {@link ObservableValue} can also be emitted as a {@link Change} which is a pairing of the old
+ * value and the new value. This {@link Flux} can be produced from the factory {@link
+ * FxFlux#fromChangesOf(ObservableValue)}.
  * <pre>
  * {@code
  *      SimpleObjectProperty<String> observable = new SimpleObjectProperty<>();
@@ -92,22 +90,14 @@ import java.util.Map;
  * }
  * </pre>
  * <h3>JavaFX Collections Support</h3> ReactorFX also provides fluent factories for creating a Flux from any JavaFX
- * collection by four overloaded factory methods.
- * <p>
- * {@code from()} Using this factory will produce a Flux that emits the argument JavaFX Collection whenever it has been
- * changed.
- * <p>
- * {@code fromAdditionsOf() }Using this factory produces a Flux that emits any element added to the argument collection
- * after it has been added.
- * <p>
- * {@code fromRemovalsOf()} Using this factory produces a Flux that emits any element removed from the argument
- * collection whenever it has been removed.
- * <p>
- * {@code fromChangesOf()} This factory is only provided for ObservableArray and it emits the changed sub-array of the
- * argument array whenever it has been changed.
- * <p>
- * <h4>Collections </h4> <ul> <li>{@link ObservableList}</li> <li>{@link ObservableMap}</li> <li>{@link
- * ObservableSet}</li> <li> {@link ObservableFloatArray}</li> <li>{@link ObservableIntegerArray}</li> </ul>
+ * collection by four overloaded factory methods. <p> {@code from()} Using this factory will produce a Flux that emits
+ * the argument JavaFX Collection whenever it has been changed. </p> <p> {@code fromAdditionsOf() }Using this factory
+ * produces a Flux that emits any element added to the argument collection after it has been added. </p> <p> {@code
+ * fromRemovalsOf()} Using this factory produces a Flux that emits any element removed from the argument collection
+ * whenever it has been removed. </p> <p> {@code fromChangesOf()} This factory is only provided for ObservableArray and
+ * it emits the changed sub-array of the argument array whenever it has been changed. </p> <h4>Collections </h4> <ul>
+ * <li>{@link ObservableList}</li> <li>{@link ObservableMap}</li> <li>{@link ObservableSet}</li> <li> {@link
+ * ObservableFloatArray}</li> <li>{@link ObservableIntegerArray}</li> </ul>
  */
 public final class FxFlux
 {
