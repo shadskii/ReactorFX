@@ -113,7 +113,7 @@ public final class FxFlux
      * FxSchedulers#fxThread()}.
      *
      * @param source The {@link Dialog} to listen to.
-     * @param <T>    The type of the from.
+     * @param <T>    The type of the Dialog.
      * @return A Mono which emits when {@link Dialog} has been closed.
      */
     public static <T> Mono<T> from(final Dialog<T> source)
@@ -142,7 +142,7 @@ public final class FxFlux
      *
      * @param source    The target {@link MenuItem} where UI events are emitted from.
      * @param eventType The type of event to listen for.
-     * @param <T>       The event type
+     * @param <T>       The event type.
      * @return A {@link Flux} that emits all events of the argument type that originate form the argument {@link
      * MenuItem}.
      */
@@ -341,7 +341,7 @@ public final class FxFlux
      *
      * @param source The {@link ObservableMap} to listen to for removals.
      * @param <T>    The key type of the {@link ObservableMap}.
-     * @param <V>    The value type of the ObservableMap.
+     * @param <V>    The value type of the {@link ObservableMap}.
      * @return A {@link Flux} that emits any entry removed from the argument {@link ObservableMap}.
      */
     public static <T, V> Flux<Map.Entry<T, V>> fromRemovalsOf(ObservableMap<T, V> source)
