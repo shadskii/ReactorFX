@@ -19,7 +19,7 @@ compile() //coming soon
 ```
 
 ## Events
-In JavaFX actions from external sources are propagated through [Events.](https://docs.oracle.com/javase/8/javafx/api/javafx/event/Event.html) 
+In JavaFX user interactions are propagated through [Events.](https://docs.oracle.com/javase/8/javafx/api/javafx/event/Event.html) 
 These `Events` can be emitted from `Node`, `Scene`, `MenuItem`, and `Window`. ReactorFX provides simple, fluent, and consistent 
 factories for the creation of Fluxes from these sources. You can create Fluxes by using `FxFlux.from()` and 
 passing the source and `EventType` to listen to. `FxFlux.from()` provides overloaded factories such that omitting the 
