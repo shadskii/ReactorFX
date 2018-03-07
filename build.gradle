@@ -3,6 +3,7 @@ version '1.8.0'
 
 apply plugin: 'java'
 apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -16,8 +17,8 @@ repositories {
 
 jacocoTestReport {
     reports {
-        xml.enabled true
-        html.enabled false
+        xml.enabled = true
+        html.enabled = false
     }
     classDirectories = fileTree(dir: 'build/classes/main', include: 'freetimelabs/io/**')
     sourceDirectories = fileTree(dir: 'scr/main/java', include: 'freetimelabs/io/**')
@@ -29,3 +30,50 @@ dependencies {
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
 }
 check.dependsOn jacocoTestReport
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+    }
+}
+apply plugin: 'com.bmuschko.nexus'
+archivesBaseName = 'reactorfx'
+
+modifyPom {
+    project {
+        name 'ReactorFX'
+        description 'Reactive JavaFX event handling'
+        url 'https://bitbucket.org/objdict/objjson'
+        inceptionYear '2018'
+        scm {
+            connection 'scm:git:https://github.com/shadskii/ReactorFX.git'
+            developerConnection 'scm:git:https://github.com/shadskii/ReactorFX.git'
+            url 'https://github.com/shadskii/ReactorFX'
+        }
+        licenses {
+            license {
+                name 'The Apache License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            }
+        }
+        developers {
+            developer {
+                id 'shadskii'
+                name 'Jake Hassel'
+                email 'jakehasssel@gmail.com'
+            }
+        }
+    }
+}
+extraArchive {
+    sources = true
+    tests = true
+    javadoc = true
+}
+nexus {
+    sign = true
+    repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+    snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+}
