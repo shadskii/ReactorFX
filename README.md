@@ -1,7 +1,7 @@
 # ReactorFX
 [![Build Status](https://travis-ci.org/shadskii/ReactorFX.svg?branch=master)](https://travis-ci.org/shadskii/ReactorFX)
 [![codecov](https://codecov.io/gh/shadskii/ReactorFX/branch/master/graph/badge.svg)](https://codecov.io/gh/shadskii/ReactorFX)
-
+[![Reactor Core](https://maven-badges.herokuapp.com/maven-central/com.github.shadskii/reactorfx/badge.svg)](http://mvnrepository.com/artifact/com.github.shadskii/reactorfx)
 
 <img src="https://github.com/shadskii/ReactorFX/blob/master/ReactorFX_logo.png?raw=true" align="middle">
 
@@ -14,7 +14,7 @@ factories to create `Flux` for the propagation of events from JavaFX [Controls](
 ## Usage
 ReactorFX currently supports Java8+
 ```groovy
-compile() //coming soon
+compile "com.github.shadkii:reactorfx:1.8.0" //Java 8
 
 ```
 
