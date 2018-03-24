@@ -39,9 +39,7 @@ import java.util.Map;
  * factories for the creation of {@link Flux} from these sources. You can create Fluxes by using {@link
  * FxFlux#from(Node)} and passing the source and {@link EventType} to listen to. {@link FxFlux#from(Node, EventType)}
  * provides overloaded factories such that omitting the {@link EventType} will result in a {@link Flux} that listens for
- * {@link ActionEvent}.
- * </p>
- * Events From A {@link javafx.scene.control.Control}
+ * {@link ActionEvent}. </p> Events From A {@link javafx.scene.control.Control}
  * <pre>
  * {@code
  * Button btn = new Button("Hey I'm A Button!");
@@ -270,7 +268,8 @@ public final class FxFlux
     }
 
     /**
-     * Creates a {@link Flux} that emits the argument {@link ObservableList} every time it has been updated.
+     * Creates a {@link Flux} that emits the argument {@link ObservableList} every time it has been updated. The initial
+     * {@link ObservableList} will be emitted as the first emission of this {@link Flux}.
      *
      * @param source The {@link ObservableList} to listen to.
      * @param <T>    The type of the {@link ObservableList}
@@ -309,7 +308,8 @@ public final class FxFlux
 
     /**
      * Creates a {@link Flux} that listens for changes to am {@link ObservableMap} and emits the argument {@link
-     * ObservableMap} whenever it has been updated.
+     * ObservableMap} whenever it has been updated. The initial {@link ObservableMap} will be emitted as the first
+     * emission of this {@link Flux}.
      *
      * @param source The {@link ObservableMap} to listen to.
      * @param <T>    The key type of the {@link ObservableMap}.
@@ -351,7 +351,7 @@ public final class FxFlux
 
     /**
      * Creates a {@link Flux} that listens for changes to an {@link ObservableSet} and emits the set whenever there is a
-     * change to it.
+     * change to it. The initial {@link ObservableSet} will be emitted as the first emission of this {@link Flux}.
      *
      * @param source The {@link ObservableSet} to listen to.
      * @param <T>    The type contained by the {@link ObservableSet}.
@@ -388,7 +388,8 @@ public final class FxFlux
 
     /**
      * Creates a Flux that listens for changes to a {@link ObservableIntegerArray} and emits the entire array whenever
-     * it has been changed.
+     * it has been changed. The initial {@link ObservableIntegerArray} will be emitted as the first emission of this
+     * {@link Flux}.
      *
      * @param source - The {@link ObservableIntegerArray} to listen to for changes.
      * @return A {@link Flux} that emits the argument {@link ObservableIntegerArray} whenever it has been updated.
@@ -400,7 +401,8 @@ public final class FxFlux
 
     /**
      * Creates a Flux that listens for changes to a {@link ObservableFloatArray} and emits the entire array whenever it
-     * has been changed.
+     * has been changed. The initial {@link ObservableFloatArray} will be emitted as the first emission of this {@link
+     * Flux}.
      *
      * @param source - The {@link ObservableFloatArray} to listen to for changes.
      * @return A {@link Flux} that emits the argument {@link ObservableFloatArray} whenever it has been updated.
