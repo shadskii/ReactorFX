@@ -1,6 +1,9 @@
 # ReactorFX
 [![Build Status](https://travis-ci.org/shadskii/ReactorFX.svg?branch=master)](https://travis-ci.org/shadskii/ReactorFX)
 [![codecov](https://codecov.io/gh/shadskii/ReactorFX/branch/master/graph/badge.svg)](https://codecov.io/gh/shadskii/ReactorFX)
+[![GitHub license](https://img.shields.io/github/license/shadskii/ReactorFX.svg)](https://github.com/shadskii/ReactorFX/blob/master/LICENSE)
+[![GitHub forks](https://img.shields.io/github/forks/shadskii/ReactorFX.svg)](https://github.com/shadskii/ReactorFX/network)
+[![GitHub issues](https://img.shields.io/github/issues/shadskii/ReactorFX.svg)](https://github.com/shadskii/ReactorFX/issues)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.shadskii/reactorfx/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.shadskii/reactorfx)
 
 
