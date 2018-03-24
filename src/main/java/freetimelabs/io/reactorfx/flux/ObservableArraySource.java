@@ -30,6 +30,7 @@ class ObservableArraySource
             final ArrayChangeListener<T> listener = (arr, sizeChanged, from, to) -> emitter.next(source);
             source.addListener(listener);
             emitter.onDispose(onFx(() -> source.removeListener(listener)));
+            emitter.next(source);
         });
     }
 

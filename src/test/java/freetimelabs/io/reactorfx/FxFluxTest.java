@@ -532,11 +532,17 @@ public class FxFluxTest
         Disposable disposable = FxFlux.from(array)
                                       .publishOn(thread)
                                       .subscribe(actual::set);
-        array.addAll(1);
-        int[] dest = new int[1];
+
+        int[] dest0 = new int[0];
         actual.get()
-              .toArray(dest);
-        assertThat(dest).containsExactly(1);
+              .toArray(dest0);
+        assertThat(dest0).isEmpty();
+
+        array.addAll(1);
+        int[] dest1 = new int[1];
+        actual.get()
+              .toArray(dest1);
+        assertThat(dest1).containsExactly(1);
 
         array.addAll(2, 3);
         int[] dest2 = new int[3];
@@ -555,11 +561,17 @@ public class FxFluxTest
         Disposable disposable = FxFlux.from(array)
                                       .publishOn(thread)
                                       .subscribe(actual::set);
-        array.addAll(1.0f);
-        float[] dest = new float[1];
+
+        float[] dest0 = new float[0];
         actual.get()
-              .toArray(dest);
-        assertThat(dest).containsExactly(1.0f);
+              .toArray(dest0);
+        assertThat(dest0).isEmpty();
+
+        array.addAll(1.0f);
+        float[] dest1 = new float[1];
+        actual.get()
+              .toArray(dest1);
+        assertThat(dest1).containsExactly(1.0f);
 
         array.addAll(2.0f, 3.0f);
         float[] dest2 = new float[3];
