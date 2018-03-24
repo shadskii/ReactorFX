@@ -397,6 +397,9 @@ public class FxFluxTest
                                       .publishOn(thread)
                                       .subscribe(actual::set);
 
+        assertThat(actual.get()).containsOnlyKeys(KEY0);
+        assertThat(actual.get()).containsValues(0);
+
         map.put(KEY1, 1);
         assertThat(actual.get()).containsOnlyKeys(KEY0, KEY1);
         assertThat(actual.get()).containsValues(0, 1);

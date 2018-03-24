@@ -37,6 +37,7 @@ class ObservableMapSource
             final MapChangeListener<T, V> listener = c -> emitter.next(source);
             source.addListener(listener);
             emitter.onDispose(onFx(() -> source.removeListener(listener)));
+            emitter.next(source);
         });
     }
 
