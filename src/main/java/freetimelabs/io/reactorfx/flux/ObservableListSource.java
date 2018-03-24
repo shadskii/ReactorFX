@@ -34,6 +34,7 @@ class ObservableListSource
             final ListChangeListener<T> listener = c -> emitter.next(source);
             source.addListener(listener);
             emitter.onDispose(onFx(() -> source.removeListener(listener)));
+            emitter.next(source);
         });
     }
 

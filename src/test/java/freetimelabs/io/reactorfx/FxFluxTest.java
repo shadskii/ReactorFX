@@ -265,6 +265,9 @@ public class FxFluxTest
         Disposable disposable = FxFlux.from(list)
                                       .publishOn(thread)
                                       .subscribe(actual::set);
+
+        assertThat(actual.get()).containsExactly(1, 2, 3);
+
         list.add(4);
         assertThat(actual.get()).containsExactly(1, 2, 3, 4);
 
