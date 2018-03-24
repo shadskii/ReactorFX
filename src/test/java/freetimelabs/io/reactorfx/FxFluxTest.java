@@ -466,6 +466,9 @@ public class FxFluxTest
                                       .publishOn(thread)
                                       .subscribe(actual::set);
 
+        assertThat(actual.get()).isEmpty();
+        assertThat(actual.get()).isEqualTo(set);
+
         set.add(1);
         assertThat(actual.get()).containsOnly(1);
         assertThat(actual.get()).isEqualTo(set);
