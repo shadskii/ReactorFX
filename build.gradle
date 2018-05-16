@@ -45,7 +45,7 @@ modifyPom {
     project {
         name 'ReactorFX'
         description 'Reactive JavaFX event handling'
-        url 'https://bitbucket.org/objdict/objjson'
+        url 'https://github.com/shadskii/ReactorFX'
         inceptionYear '2018'
         scm {
             connection 'scm:git:https://github.com/shadskii/ReactorFX.git'
