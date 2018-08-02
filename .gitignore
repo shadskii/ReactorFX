@@ -2,7 +2,11 @@
 .gradle/
 
 # IntelliJ
-.idea/
+.idea/*
+.idea/*/
+# Required for code settings & persisting copyright settings
+!.idea/codeStyleSettings.xml
+!.idea/copyright/
 out/
 build/
 *.iml
