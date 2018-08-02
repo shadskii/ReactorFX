@@ -1,5 +1,5 @@
 group 'com.github.shadskii'
-version '1.8.0'
+version '2.0.0'
 
 apply plugin: 'java'
 apply plugin: 'jacoco'
@@ -63,6 +63,15 @@ modifyPom {
                 id 'shadskii'
                 name 'Jake Hassel'
                 email 'jakehasssel@gmail.com'
+            }
+        }
+        contributors {
+            contributor {
+                id 'thekalinga'
+                name 'Ashok Koyi'
+                url 'https://thekalinga.in'
+                organization '1Ton technolgies'
+                organizationUrl 'https://1ton.in'
             }
         }
     }

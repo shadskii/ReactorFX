@@ -49,6 +49,20 @@ class ObservableArraySource
         });
     }
 
+    static Flux<ArrayChange<ObservableIntegerArray>> observableIntegerChanges(ObservableIntegerArray source)
+    {
+        return Flux.create(emitter ->
+        {
+            final ArrayChangeListener<ObservableIntegerArray> listener = (arr, sizeChanged, from, to) ->
+            {
+                ArrayChange<ObservableIntegerArray> change = new ArrayChange<>(arr, sizeChanged, from, to);
+                emitter.next(change);
+            };
+            source.addListener(listener);
+            emitter.onDispose(onFx(() -> source.removeListener(listener)));
+        });
+    }
+
     static Flux<ObservableFloatArray> observableFloatSubArray(ObservableFloatArray source)
     {
         return Flux.create(emitter ->
@@ -58,6 +72,20 @@ class ObservableArraySource
                 ObservableFloatArray newArr = FXCollections.observableFloatArray();
                 newArr.addAll(arr, from, to - from);
                 emitter.next(newArr);
+            };
+            source.addListener(listener);
+            emitter.onDispose(onFx(() -> source.removeListener(listener)));
+        });
+    }
+
+    static Flux<ArrayChange<ObservableFloatArray>> observableFloatChanges(ObservableFloatArray source)
+    {
+        return Flux.create(emitter ->
+        {
+            final ArrayChangeListener<ObservableFloatArray> listener = (arr, sizeChanged, from, to) ->
+            {
+                ArrayChange<ObservableFloatArray> change = new ArrayChange<>(arr, sizeChanged, from, to);
+                emitter.next(change);
             };
             source.addListener(listener);
             emitter.onDispose(onFx(() -> source.removeListener(listener)));

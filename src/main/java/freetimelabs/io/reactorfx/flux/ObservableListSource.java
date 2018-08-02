@@ -27,6 +27,7 @@ import static freetimelabs.io.reactorfx.flux.DisposeUtilities.onFx;
  */
 class ObservableListSource
 {
+
     static <T> Flux<ObservableList<T>> observableList(ObservableList<T> source)
     {
         return Flux.create(emitter ->
@@ -74,6 +75,23 @@ class ObservableListSource
                     }
                 }
 
+            };
+            source.addListener(listener);
+            emitter.onDispose(onFx(() -> source.removeListener(listener)));
+        });
+    }
+
+    static <T> Flux<ListChangeListener.Change<? extends T>> changes(ObservableList<T> source)
+    {
+        return Flux.create(emitter ->
+        {
+            final ListChangeListener<T> listener = new ListChangeListener<T>() {
+                @Override
+                public void onChanged(Change<? extends T> c) {
+                    if (c.next()) {
+                        emitter.next(c);
+                    }
+                }
             };
             source.addListener(listener);
             emitter.onDispose(onFx(() -> source.removeListener(listener)));

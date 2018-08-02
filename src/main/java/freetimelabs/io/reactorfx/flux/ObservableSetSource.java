@@ -70,4 +70,14 @@ class ObservableSetSource
         });
     }
 
+    static <T> Flux<SetChangeListener.Change<? extends T>> changes(ObservableSet<T> source)
+    {
+        return Flux.create(emitter ->
+        {
+            final SetChangeListener<T> listener = emitter::next;
+            source.addListener(listener);
+            emitter.onDispose(onFx(() -> source.removeListener(listener)));
+        });
+    }
+
 }

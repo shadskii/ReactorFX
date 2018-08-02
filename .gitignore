@@ -1,1 +1,22 @@
-gradle.properties
+# Gradle
+.gradle/
+
+# IntelliJ
+.idea/
+out/
+build/
+*.iml
+**/*.iml
+*.ipl
+**/*.ipl
+*.iwl
+**/*.iwl
+
+# Eclipse
+target/
+.project
+.classpath
+
+# Misc
+*.log
+*.*~

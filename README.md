@@ -109,8 +109,14 @@ removed.
 ```java
 fromChangesOf()
 ```
-This factory is only provided for [ObservableArray](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableArray.html)
-and it emits the changed sub-array of the argument array whenever it has been changed.
+
+Using this factory produces a `Flux` that emits a `Change` element as soon as any change (add/remove/modify) is performed on the underlying collection. If you want access to the actual underlying event from JavaFx collection, use this
+
+The below factory method is provided for [ObservableArray](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableArray.html) and it emits the changed sub-array of the argument array whenever it has been changed
+```java
+fromChangedSubArrayOf()
+```
+
 
 #### Collections
 * [ObservableList](https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html)
