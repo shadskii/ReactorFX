@@ -18,7 +18,6 @@ package freetimelabs.io.reactorfx.flux;
 
 import freetimelabs.io.reactorfx.schedulers.FxSchedulers;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventType;
@@ -363,8 +362,8 @@ public final class FxFlux
     }
 
     /**
-     * Creates a {@link Flux} that listens for changes to an {@link ObservableMap} and emits any changes to the
-     * argument {@link ObservableMap}.
+     * Creates a {@link Flux} that listens for changes to an {@link ObservableMap} and emits any changes to the argument
+     * {@link ObservableMap}.
      *
      * @param <T>    The key type of the {@link ObservableMap}.
      * @param <V>    The value type of the {@link ObservableMap}.
@@ -431,7 +430,7 @@ public final class FxFlux
      * it has been changed. The initial {@link ObservableIntegerArray} will be emitted as the first emission of this
      * {@link Flux}.
      *
-     * @param source - The {@link ObservableIntegerArray} to listen to for changes.
+     * @param source The {@link ObservableIntegerArray} to listen to for changes.
      * @return A {@link Flux} that emits the argument {@link ObservableIntegerArray} whenever it has been updated.
      */
     public static Flux<ObservableIntegerArray> from(ObservableIntegerArray source)
@@ -444,7 +443,7 @@ public final class FxFlux
      * has been changed. The initial {@link ObservableFloatArray} will be emitted as the first emission of this {@link
      * Flux}.
      *
-     * @param source - The {@link ObservableFloatArray} to listen to for changes.
+     * @param source The {@link ObservableFloatArray} to listen to for changes.
      * @return A {@link Flux} that emits the argument {@link ObservableFloatArray} whenever it has been updated.
      */
     public static Flux<ObservableFloatArray> from(ObservableFloatArray source)
@@ -456,7 +455,7 @@ public final class FxFlux
      * Creates a Flux that listens for changes to a {@link ObservableIntegerArray} and emits the changed sub-array of
      * the array whenever it has been changed.
      *
-     * @param source - The ObservableIntegerArray to listen to for changes.
+     * @param source The ObservableIntegerArray to listen to for changes.
      * @return A {@link Flux} that emits the changed sub-array of the argument {@link ObservableIntegerArray} whenever
      * it has been updated.
      */
@@ -469,7 +468,7 @@ public final class FxFlux
      * Creates a Flux that listens for changes to a {@link ObservableIntegerArray} and emits the {@link ArrayChange} of
      * the array whenever it has been changed.
      *
-     * @param source - The ObservableIntegerArray to listen to for changes.
+     * @param source The ObservableIntegerArray to listen to for changes.
      * @return A {@link Flux} that emits the changes to the underlying array whenever it has been updated.
      */
     public static Flux<ArrayChange<ObservableIntegerArray>> fromChangesOf(ObservableIntegerArray source)
@@ -481,7 +480,7 @@ public final class FxFlux
      * Creates a Flux that listens for changes to a {@link ObservableFloatArray} and emits the changed sub-array of the
      * array whenever it has been changed.
      *
-     * @param source - The ObservableFloatArray to listen to for changes.
+     * @param source The ObservableFloatArray to listen to for changes.
      * @return A {@link Flux} that emits the changed sub-array of the argument {@link ObservableFloatArray} whenever it
      * has been updated.
      */
@@ -494,7 +493,7 @@ public final class FxFlux
      * Creates a Flux that listens for changes to a {@link ObservableFloatArray} and emits the {@link ArrayChange} of
      * the array whenever it has been changed.
      *
-     * @param source - The ObservableFloatArray to listen to for changes.
+     * @param source The ObservableFloatArray to listen to for changes.
      * @return A {@link Flux} that emits the changes to the underlying array whenever it has been updated.
      */
     public static Flux<ArrayChange<ObservableFloatArray>> fromChangesOf(ObservableFloatArray source)

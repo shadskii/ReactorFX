@@ -19,7 +19,7 @@ package freetimelabs.io.reactorfx.flux;
 import javafx.collections.ObservableArray;
 
 /**
- * This class represent a change emitted from a JavaFX {@link ObservableArray}
+ * This class represents a change emitted from a JavaFX {@link ObservableArray}
  *
  * @param <T> The type of object held by this ObservableArray
  */
@@ -30,7 +30,8 @@ public class ArrayChange<T extends ObservableArray<T>>
     private final int from;
     private final int to;
 
-    ArrayChange(T observableArray, boolean sizeChanged, int from, int to) {
+    ArrayChange(T observableArray, boolean sizeChanged, int from, int to)
+    {
         this.observableArray = observableArray;
         this.sizeChanged = sizeChanged;
         this.from = from;
@@ -38,30 +39,42 @@ public class ArrayChange<T extends ObservableArray<T>>
     }
 
     /**
+     * Provides access to the {@link ObservableArray} that this change is from.
+     *
      * @return underlying {@link ObservableArray}
      */
-    public T getObservableArray() {
+    public T getObservableArray()
+    {
         return observableArray;
     }
 
     /**
-     * indicates if the size of array has changed
+     * Indicates if the size of the array has changed.
+     *
+     * @return true if the size of the array was modified by this change.
      */
-    public boolean isSizeChanged() {
+    public boolean isSizeChanged()
+    {
         return sizeChanged;
     }
 
     /**
-     * A beginning (inclusive) of an interval related to the change
+     * The first index of the change in the {@link ObservableArray}.
+     *
+     * @returns Beginning index(inclusive) of an interval related to the change
      */
-    public int getFrom() {
+    public int getFrom()
+    {
         return from;
     }
 
     /**
-     * An end (exclusive) of an interval related to the change.
+     * The end index of this change in the {@link ObservableArray}.
+     *
+     * @returns End index(exclusive) of an interval related to the change.
      */
-    public int getTo() {
+    public int getTo()
+    {
         return to;
     }
 }
