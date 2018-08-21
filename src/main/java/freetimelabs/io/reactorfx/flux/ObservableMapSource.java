@@ -73,4 +73,14 @@ class ObservableMapSource
         });
     }
 
+    static <T, V> Flux<MapChangeListener.Change<? extends T, ? extends V>> changes(ObservableMap<T, V> source)
+    {
+        return Flux.create(emitter ->
+        {
+            final MapChangeListener<T, V> listener = emitter::next;
+            source.addListener(listener);
+            emitter.onDispose(onFx(() -> source.removeListener(listener)));
+        });
+    }
+
 }

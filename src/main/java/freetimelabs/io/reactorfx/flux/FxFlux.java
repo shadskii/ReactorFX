@@ -307,6 +307,19 @@ public final class FxFlux
     }
 
     /**
+     * Creates a {@link Flux} that listens for changes to the argument {@link ObservableList} and emits all of the
+     * changes to the list whenever it has been updated.
+     *
+     * @param <T>    The type of the {@link ObservableList}.
+     * @param source The {@link ObservableList} to listen to.
+     * @return A {@link Flux} that emits the {@link ListChangeListener.Change}s to the list whenever it has been changed
+     */
+    public static <T> Flux<ListChangeListener.Change<? extends T>> fromChangesOf(ObservableList<T> source)
+    {
+        return ObservableListSource.changes(source);
+    }
+
+    /**
      * Creates a {@link Flux} that listens for changes to am {@link ObservableMap} and emits the argument {@link
      * ObservableMap} whenever it has been updated. The initial {@link ObservableMap} will be emitted as the first
      * emission of this {@link Flux}.
@@ -350,6 +363,20 @@ public final class FxFlux
     }
 
     /**
+     * Creates a {@link Flux} that listens for changes to an {@link ObservableMap} and emits any changes to the
+     * argument {@link ObservableMap}.
+     *
+     * @param <T>    The key type of the {@link ObservableMap}.
+     * @param <V>    The value type of the {@link ObservableMap}.
+     * @param source The {@link ObservableMap} to listen to for removals.
+     * @return A {@link Flux} that emits the {@link ListChangeListener.Change}s to underlying {@link ObservableMap}.
+     */
+    public static <T, V> Flux<MapChangeListener.Change<? extends T, ? extends V>> fromChangesOf(ObservableMap<T, V> source)
+    {
+        return ObservableMapSource.changes(source);
+    }
+
+    /**
      * Creates a {@link Flux} that listens for changes to an {@link ObservableSet} and emits the set whenever there is a
      * change to it. The initial {@link ObservableSet} will be emitted as the first emission of this {@link Flux}.
      *
@@ -387,6 +414,19 @@ public final class FxFlux
     }
 
     /**
+     * Creates a {@link Flux} that listens for changes to the argument {@link ObservableSet} and emits all of the
+     * changes to the set whenever it has been updated.
+     *
+     * @param source The {@link ObservableSet} to listen to for removals.
+     * @param <T>    Type contained by the {@link ObservableSet}
+     * @return A {@link Flux} that emits the {@link SetChangeListener.Change}s to the set whenever it has been changed
+     */
+    public static <T> Flux<SetChangeListener.Change<? extends T>> fromChangesOf(ObservableSet<T> source)
+    {
+        return ObservableSetSource.changes(source);
+    }
+
+    /**
      * Creates a Flux that listens for changes to a {@link ObservableIntegerArray} and emits the entire array whenever
      * it has been changed. The initial {@link ObservableIntegerArray} will be emitted as the first emission of this
      * {@link Flux}.
@@ -420,9 +460,21 @@ public final class FxFlux
      * @return A {@link Flux} that emits the changed sub-array of the argument {@link ObservableIntegerArray} whenever
      * it has been updated.
      */
-    public static Flux<ObservableIntegerArray> fromChangesOf(ObservableIntegerArray source)
+    public static Flux<ObservableIntegerArray> fromChangedSubArrayOf(ObservableIntegerArray source)
     {
         return ObservableArraySource.observableIntegerSubArray(source);
+    }
+
+    /**
+     * Creates a Flux that listens for changes to a {@link ObservableIntegerArray} and emits the {@link ArrayChange} of
+     * the array whenever it has been changed.
+     *
+     * @param source - The ObservableIntegerArray to listen to for changes.
+     * @return A {@link Flux} that emits the changes to the underlying array whenever it has been updated.
+     */
+    public static Flux<ArrayChange<ObservableIntegerArray>> fromChangesOf(ObservableIntegerArray source)
+    {
+        return ObservableArraySource.observableIntegerChanges(source);
     }
 
     /**
@@ -433,8 +485,21 @@ public final class FxFlux
      * @return A {@link Flux} that emits the changed sub-array of the argument {@link ObservableFloatArray} whenever it
      * has been updated.
      */
-    public static Flux<ObservableFloatArray> fromChangesOf(ObservableFloatArray source)
+    public static Flux<ObservableFloatArray> fromChangedSubArrayOf(ObservableFloatArray source)
     {
         return ObservableArraySource.observableFloatSubArray(source);
     }
+
+    /**
+     * Creates a Flux that listens for changes to a {@link ObservableFloatArray} and emits the {@link ArrayChange} of
+     * the array whenever it has been changed.
+     *
+     * @param source - The ObservableFloatArray to listen to for changes.
+     * @return A {@link Flux} that emits the changes to the underlying array whenever it has been updated.
+     */
+    public static Flux<ArrayChange<ObservableFloatArray>> fromChangesOf(ObservableFloatArray source)
+    {
+        return ObservableArraySource.observableFloatChanges(source);
+    }
+
 }

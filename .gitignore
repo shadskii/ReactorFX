@@ -1,1 +1,26 @@
-gradle.properties
+# Gradle
+.gradle/
+
+# IntelliJ
+.idea/*
+.idea/*/
+# Required for code settings & persisting copyright settings
+!.idea/codeStyleSettings.xml
+!.idea/copyright/
+out/
+build/
+*.iml
+**/*.iml
+*.ipl
+**/*.ipl
+*.iwl
+**/*.iwl
+
+# Eclipse
+target/
+.project
+.classpath
+
+# Misc
+*.log
+*.*~

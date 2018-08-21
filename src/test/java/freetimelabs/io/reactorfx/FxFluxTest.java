@@ -16,6 +16,7 @@
 
 package freetimelabs.io.reactorfx;
 
+import freetimelabs.io.reactorfx.flux.ArrayChange;
 import freetimelabs.io.reactorfx.flux.Change;
 import freetimelabs.io.reactorfx.flux.FxFlux;
 import freetimelabs.io.reactorfx.schedulers.FxSchedulers;
@@ -48,6 +49,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Sets.newHashSet;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 public class FxFluxTest
 {
@@ -315,6 +319,44 @@ public class FxFluxTest
     }
 
     @Test
+    public void testObservableListChanges()
+    {
+        ObservableList<Integer> list = FXCollections.observableArrayList(1, 2, 3);
+        AtomicReference<ListChangeListener.Change<? extends Integer>> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromChangesOf(list)
+                .publishOn(thread)
+                .subscribe(actual::set);
+
+        list.add(4);
+        assertThat(actual.get().wasAdded()).isEqualTo(true);
+        assertThat(actual.get().getAddedSize()).isEqualTo(1);
+        assertThat(actual.get().getFrom()).isEqualTo(3);
+        assertThat(actual.get().getTo()).isEqualTo(4);
+        assertThat(actual.get().getAddedSubList()).isEqualTo(newArrayList(4));
+
+        list.remove(2);
+        assertThat(actual.get().wasRemoved()).isEqualTo(true);
+        assertThat(actual.get().getRemovedSize()).isEqualTo(1);
+        assertThat(actual.get().getFrom()).isEqualTo(2);
+        assertThat(actual.get().getTo()).isEqualTo(2);
+        assertThat(actual.get().getRemoved()).isEqualTo(newArrayList(3));
+
+        list.set(2, 3);
+        assertThat(actual.get().wasReplaced()).isEqualTo(true);
+        assertThat(actual.get().getFrom()).isEqualTo(2);
+        assertThat(actual.get().getTo()).isEqualTo(3);
+        assertThat(list).isEqualTo(newArrayList(1, 2, 3));
+
+        list.setAll(10, 20, 30);
+        assertThat(actual.get().wasReplaced()).isEqualTo(true);
+        assertThat(actual.get().getFrom()).isEqualTo(0);
+        assertThat(actual.get().getTo()).isEqualTo(3);
+        assertThat(list).isEqualTo(newArrayList(10, 20, 30));
+
+        disposable.dispose();
+    }
+
+    @Test
     public void testSceneEvent() throws TimeoutException, InterruptedException
     {
         AtomicReference<Scene> actual = new AtomicReference<>();
@@ -458,6 +500,36 @@ public class FxFluxTest
     }
 
     @Test
+    public void testObservableMapChanges()
+    {
+        ObservableMap<String, Integer> map = FXCollections.observableHashMap();
+        map.put(KEY0, 0);
+        AtomicReference<MapChangeListener.Change<? extends String, ? extends Integer>> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromChangesOf(map)
+                .publishOn(thread)
+                .subscribe(actual::set);
+
+        map.put(KEY1, 1);
+        assertThat(actual.get().wasAdded()).isEqualTo(true);
+        assertThat(actual.get().getKey()).isEqualTo(KEY1);
+        assertThat(actual.get().getValueAdded()).isEqualTo(1);
+        assertThat(actual.get().getMap()).isEqualTo(map);
+
+        map.put(KEY1, 2);
+        assertThat(actual.get().wasAdded()).isEqualTo(true);
+        assertThat(actual.get().wasRemoved()).isEqualTo(true);
+        assertThat(actual.get().getKey()).isEqualTo(KEY1);
+        assertThat(actual.get().getValueAdded()).isEqualTo(2);
+
+        map.remove(KEY1);
+        assertThat(actual.get().wasRemoved()).isEqualTo(true);
+        assertThat(actual.get().getKey()).isEqualTo(KEY1);
+        assertThat(actual.get().getValueRemoved()).isEqualTo(2);
+
+        disposable.dispose();
+    }
+
+    @Test
     public void testObservableSet()
     {
         ObservableSet<Integer> set = FXCollections.observableSet();
@@ -525,6 +597,33 @@ public class FxFluxTest
     }
 
     @Test
+    public void testObservableSetChanges()
+    {
+        ObservableSet<Integer> set = FXCollections.observableSet();
+        AtomicReference<SetChangeListener.Change<? extends Integer>> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromChangesOf(set)
+                .publishOn(thread)
+                .subscribe(actual::set);
+
+        set.add(1);
+        assertThat(actual.get().wasAdded()).isEqualTo(true);
+        assertThat(actual.get().getElementAdded()).isEqualTo(1);
+        assertThat(actual.get().getSet()).isEqualTo(newLinkedHashSet(1));
+
+        // add again. expect no event
+        actual.set(null);
+        set.add(1);
+        assertThat(actual.get()).isNull();
+
+        set.remove(1);
+        assertThat(actual.get().wasRemoved()).isEqualTo(true);
+        assertThat(actual.get().getElementRemoved()).isEqualTo(1);
+        assertThat(actual.get().getSet()).isEqualTo(newHashSet());
+
+        disposable.dispose();
+    }
+
+    @Test
     public void testObservableIntegerArray()
     {
         ObservableIntegerArray array = FXCollections.observableIntegerArray();
@@ -583,11 +682,11 @@ public class FxFluxTest
     }
 
     @Test
-    public void testObservableIntegerArrayChanges()
+    public void testObservableIntegerSubArrayChanges()
     {
         ObservableIntegerArray array = FXCollections.observableIntegerArray();
         AtomicReference<ObservableIntegerArray> actual = new AtomicReference<>();
-        Disposable disposable = FxFlux.fromChangesOf(array)
+        Disposable disposable = FxFlux.fromChangedSubArrayOf(array)
                                       .publishOn(thread)
                                       .subscribe(actual::set);
         array.addAll(1);
@@ -606,11 +705,56 @@ public class FxFluxTest
     }
 
     @Test
-    public void testObservableFloatArrayChanges()
+    public void testObservableIntegerArrayChanges()
+    {
+        ObservableIntegerArray array = FXCollections.observableIntegerArray();
+        AtomicReference<ArrayChange<ObservableIntegerArray>> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromChangesOf(array)
+                .publishOn(thread)
+                .subscribe(actual::set);
+
+        array.addAll(1);
+        assertThat(actual.get().isSizeChanged()).isEqualTo(true);
+        assertThat(actual.get().getFrom()).isEqualTo(0);
+        assertThat(actual.get().getTo()).isEqualTo(1);
+        assertThat(actual.get().getObservableArray().size()).isEqualTo(1);
+        assertThat(actual.get().getObservableArray().get(0)).isEqualTo(1);
+
+        array.addAll(2, 3);
+        assertThat(actual.get().isSizeChanged()).isEqualTo(true);
+        assertThat(actual.get().getFrom()).isEqualTo(1);
+        assertThat(actual.get().getTo()).isEqualTo(3);
+        assertThat(actual.get().getObservableArray().size()).isEqualTo(3);
+        assertThat(actual.get().getObservableArray().get(0)).isEqualTo(1);
+        assertThat(actual.get().getObservableArray().get(1)).isEqualTo(2);
+        assertThat(actual.get().getObservableArray().get(2)).isEqualTo(3);
+
+        array.set(2, 4);
+        assertThat(actual.get().isSizeChanged()).isEqualTo(false);
+        assertThat(actual.get().getFrom()).isEqualTo(2);
+        assertThat(actual.get().getTo()).isEqualTo(3);
+        assertThat(actual.get().getObservableArray().size()).isEqualTo(3);
+        assertThat(actual.get().getObservableArray().get(2)).isEqualTo(4);
+
+        array.resize(5);
+        array.set(2, new int [] {3, 4, 5}, 0, 3);
+        assertThat(actual.get().isSizeChanged()).isEqualTo(false);
+        assertThat(actual.get().getFrom()).isEqualTo(2);
+        assertThat(actual.get().getTo()).isEqualTo(5);
+        assertThat(actual.get().getObservableArray().size()).isEqualTo(5);
+        assertThat(actual.get().getObservableArray().get(2)).isEqualTo(3);
+        assertThat(actual.get().getObservableArray().get(3)).isEqualTo(4);
+        assertThat(actual.get().getObservableArray().get(4)).isEqualTo(5);
+
+        disposable.dispose();
+    }
+
+    @Test
+    public void testObservableFloatSubArrayChanges()
     {
         ObservableFloatArray array = FXCollections.observableFloatArray();
         AtomicReference<ObservableFloatArray> actual = new AtomicReference<>();
-        Disposable disposable = FxFlux.fromChangesOf(array)
+        Disposable disposable = FxFlux.fromChangedSubArrayOf(array)
                                       .publishOn(thread)
                                       .subscribe(actual::set);
         array.addAll(1.0f);
@@ -624,6 +768,53 @@ public class FxFluxTest
         actual.get()
               .toArray(dest2);
         assertThat(dest2).containsExactly(2.0f, 3.0f);
+
+        disposable.dispose();
+    }
+
+    @Test
+    public void testObservableFloatArrayChanges()
+    {
+        ObservableFloatArray array = FXCollections.observableFloatArray();
+        AtomicReference<ArrayChange<ObservableFloatArray>> actual = new AtomicReference<>();
+        Disposable disposable = FxFlux.fromChangesOf(array)
+                .publishOn(thread)
+                .subscribe(actual::set);
+
+        array.addAll(1.0f);
+        assertThat(actual.get().isSizeChanged()).isEqualTo(true);
+        assertThat(actual.get().getFrom()).isEqualTo(0);
+        assertThat(actual.get().getTo()).isEqualTo(1);
+        assertThat(actual.get().getObservableArray().size()).isEqualTo(1);
+        assertThat(actual.get().getObservableArray().get(0)).isEqualTo(1.0f);
+
+        array.addAll(2.0f, 3.0f);
+        assertThat(actual.get().isSizeChanged()).isEqualTo(true);
+        assertThat(actual.get().getFrom()).isEqualTo(1);
+        assertThat(actual.get().getTo()).isEqualTo(3);
+        assertThat(actual.get().getObservableArray().size()).isEqualTo(3);
+        assertThat(actual.get().getObservableArray().get(0)).isEqualTo(1.0f);
+        assertThat(actual.get().getObservableArray().get(1)).isEqualTo(2.0f);
+        assertThat(actual.get().getObservableArray().get(2)).isEqualTo(3.0f);
+
+        array.set(2, 4.0f);
+        assertThat(actual.get().isSizeChanged()).isEqualTo(false);
+        assertThat(actual.get().getFrom()).isEqualTo(2);
+        assertThat(actual.get().getTo()).isEqualTo(3);
+        assertThat(actual.get().getObservableArray().size()).isEqualTo(3);
+        assertThat(actual.get().getObservableArray().get(2)).isEqualTo(4.0f);
+
+        array.resize(5);
+        array.set(2, new float [] {3.0f, 4.0f, 5.0f}, 0, 3);
+        assertThat(actual.get().isSizeChanged()).isEqualTo(false);
+        assertThat(actual.get().getFrom()).isEqualTo(2);
+        assertThat(actual.get().getTo()).isEqualTo(5);
+        assertThat(actual.get().getObservableArray().size()).isEqualTo(5);
+        assertThat(actual.get().getObservableArray().get(0)).isEqualTo(1.0f);
+        assertThat(actual.get().getObservableArray().get(1)).isEqualTo(2.0f);
+        assertThat(actual.get().getObservableArray().get(2)).isEqualTo(3.0f);
+        assertThat(actual.get().getObservableArray().get(3)).isEqualTo(4.0f);
+        assertThat(actual.get().getObservableArray().get(4)).isEqualTo(5.0f);
 
         disposable.dispose();
     }
