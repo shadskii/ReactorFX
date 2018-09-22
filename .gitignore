@@ -9,6 +9,7 @@
 !.idea/copyright/
 out/
 build/
+bin/
 *.iml
 **/*.iml
 *.ipl
