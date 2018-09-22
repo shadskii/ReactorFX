@@ -38,21 +38,25 @@ public class ArrayChange<T extends ObservableArray<T>>
     }
 
     /**
-     * @return underlying {@link ObservableArray}
+     * @return underlying {@link ObservableArray}.
      */
     public T getObservableArray() {
         return observableArray;
     }
 
     /**
-     * indicates if the size of array has changed
+     * Indicates if the size of array has changed.
+     * 
+     * @return True if the size of the Array was changed, false otherwise.
      */
     public boolean isSizeChanged() {
         return sizeChanged;
     }
 
     /**
-     * A beginning (inclusive) of an interval related to the change
+     * A beginning (inclusive) of an interval related to the change.
+     * 
+     * @return The start index (inclusive) of this change.
      */
     public int getFrom() {
         return from;
@@ -60,6 +64,8 @@ public class ArrayChange<T extends ObservableArray<T>>
 
     /**
      * An end (exclusive) of an interval related to the change.
+     * 
+     * @return The end index (inclusive) of this change.
      */
     public int getTo() {
         return to;
