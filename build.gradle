@@ -64,9 +64,7 @@ modifyPom {
                 name 'Jake Hassel'
                 email 'jakehasssel@gmail.com'
             }
-        }
-        contributors {
-            contributor {
+            developer {
                 id 'thekalinga'
                 name 'Ashok Koyi'
                 url 'https://thekalinga.in'
