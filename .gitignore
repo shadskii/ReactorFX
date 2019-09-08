@@ -21,6 +21,7 @@ bin/
 target/
 .project
 .classpath
+.settings
 
 # Misc
 *.log
