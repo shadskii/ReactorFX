@@ -1,8 +1,9 @@
 group 'com.github.shadskii'
-version '2.0.0'
+version '2.1.8.RELEASE'
 
-apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'jacoco'
+apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.8
@@ -25,10 +26,14 @@ jacocoTestReport {
 }
 
 dependencies {
-    compile group: 'io.projectreactor', name: 'reactor-core', version: '3.1.1.RELEASE'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
+    implementation platform("org.springframework.boot:spring-boot-dependencies:${version}")
+
+    api "io.projectreactor:reactor-core"
+
+    testImplementation "junit:junit"
+    testImplementation "org.assertj:assertj-core"
 }
+
 check.dependsOn jacocoTestReport
 buildscript {
     repositories {
