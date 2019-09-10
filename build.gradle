@@ -1,5 +1,5 @@
 group 'com.github.shadskii'
-version '2.1.8'
+version '2.1.8.RELEASE'
 
 apply plugin: 'java-library'
 apply plugin: 'jacoco'
@@ -26,7 +26,7 @@ jacocoTestReport {
 }
 
 dependencies {
-    implementation platform("org.springframework.boot:spring-boot-dependencies:${version}.RELEASE")
+    implementation platform("org.springframework.boot:spring-boot-dependencies:${version}")
 
     api "io.projectreactor:reactor-core"
 
